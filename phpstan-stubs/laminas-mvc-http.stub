@@ -1,0 +1,69 @@
+<?php
+
+// Phpstan stubs narrow Laminas MVC / View / FlashMessenger types down to
+// the concrete flavours the module actually uses at runtime, so the plugin
+// manager + ServiceLocator __call magic resolves cleanly in static
+// analysis. Pure static-analysis hints — never loaded by PHP.
+
+namespace Laminas\Mvc\Controller;
+
+/**
+ * Laminas controllers expose plugins via __call. Declare the ones this
+ * module uses directly on the base class so calls type-check. Also
+ * narrow getRequest() / getResponse() to the HTTP concrete types — in
+ * this app every controller is HTTP.
+ *
+ * @method string translate(string $message, ?string $textDomain = null, ?string $locale = null)
+ * @method \Omeka\Settings\Settings settings()
+ * @method \Laminas\Mvc\Plugin\FlashMessenger\FlashMessenger messenger()
+ * @method \Laminas\Form\Form getForm(string $name)
+ * @method \Omeka\Mvc\Controller\Plugin\Api api()
+ * @method \Omeka\Job\Dispatcher jobDispatcher()
+ * @method \Laminas\View\Model\ViewModel|null layout(string|false|null $template = null)
+ * @method mixed params(?string $param = null, mixed $default = null)
+ * @method \Laminas\Mvc\Controller\Plugin\Redirect redirect()
+ * @method \Laminas\Mvc\Controller\Plugin\Url url()
+ * @method void paginator(int $totalCount, ?int $currentPage = null, ?int $perPage = null, ?string $name = null)
+ * @method \Laminas\Http\Request getRequest()
+ * @method \Laminas\Http\Response getResponse()
+ */
+abstract class AbstractController
+{
+}
+
+namespace Laminas\Mvc\Plugin\FlashMessenger;
+
+/**
+ * FlashMessenger's addSuccess / addError / addWarning / addInfo /
+ * addFormErrors are dispatched via __call in a mixin-like pattern.
+ *
+ * @method self addSuccess(string $message)
+ * @method self addError(string $message)
+ * @method self addWarning(string $message)
+ * @method self addInfo(string $message)
+ * @method self addFormErrors(\Laminas\Form\Form $form)
+ */
+class FlashMessenger
+{
+}
+
+namespace Laminas\View\Renderer;
+
+/**
+ * View helpers dispatched via __call on the renderer. Declare the ones
+ * actually used by module views + helpers.
+ *
+ * @method \Laminas\View\HelperPluginManager|\Laminas\View\Helper\HelperInterface plugin(string $name, ?array $options = null)
+ * @method string partial(string $template, ?array $values = null)
+ * @method string formRow(\Laminas\Form\ElementInterface $element, ?string $labelPosition = null, bool $renderErrors = true, ?string $partial = null)
+ * @method \Omeka\View\Helper\HtmlElement htmlElement(?string $tag = null)
+ * @method \Laminas\View\Helper\HeadLink headLink(?array $attributes = null, string $placement = 'APPEND')
+ * @method \Laminas\View\Helper\HeadScript headScript(?string $mode = null, ?string $spec = null, string $placement = 'APPEND', array $attrs = [], string $type = 'text/javascript')
+ * @method string escapeHtml(string $value, string $recurse = 'none')
+ * @method string escapeHtmlAttr(string $value, string $recurse = 'none')
+ */
+class PhpRenderer
+{
+}
+
+

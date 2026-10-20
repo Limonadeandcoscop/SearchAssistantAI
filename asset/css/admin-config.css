@@ -1,0 +1,655 @@
+/**
+ * Admin Config Styles for Search Assistant AI Module
+ *
+ * Provides CSS for the accordion-style property selector used in
+ * the Indexing Field Selection section of the search assistant configuration.
+ * Follows Omeka S design patterns for consistent admin interface styling.
+ */
+
+/* ==================== Accordion Container ==================== */
+
+.search-assistant-accordion {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    margin-top: 1em;
+}
+
+.search-assistant-accordion:empty::after {
+    content: 'No vocabularies found.';
+    display: block;
+    padding: 1em;
+    color: #666;
+    font-style: italic;
+}
+
+/* ==================== Vocabulary Header ==================== */
+
+.search-assistant-vocabulary-header {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: #f8f8f8;
+    border-bottom: 1px solid #e0e0e0;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.2s ease;
+}
+
+.search-assistant-vocabulary-header:hover {
+    background: #f0f0f0;
+}
+
+.search-assistant-vocabulary-header:last-child,
+.search-assistant-vocabulary-item:last-child .search-assistant-vocabulary-header {
+    border-bottom: none;
+}
+
+.search-assistant-vocabulary-item:last-child .search-assistant-property-list {
+    border-bottom: none;
+}
+
+/* Expand/Collapse Arrow Indicator */
+.search-assistant-vocabulary-header::before {
+    content: '';
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 5px 0 5px 8px;
+    border-color: transparent transparent transparent #666;
+    margin-right: 12px;
+    transition: transform 0.2s ease;
+}
+
+.search-assistant-vocabulary-header.expanded::before {
+    transform: rotate(90deg);
+}
+
+.search-assistant-vocabulary-header .vocabulary-label {
+    flex: 1;
+    font-weight: 600;
+    color: #333;
+    font-size: 14px;
+}
+
+.search-assistant-vocabulary-header .vocabulary-count {
+    color: #666;
+    font-size: 13px;
+    margin-left: 8px;
+}
+
+.search-assistant-vocabulary-header .vocabulary-selected-count {
+    color: #2e7d32;
+    font-size: 12px;
+    margin-left: 8px;
+    font-weight: 500;
+}
+
+.search-assistant-vocabulary-header .vocabulary-selected-count:empty {
+    display: none;
+}
+
+/* ==================== Property List ==================== */
+
+.search-assistant-property-list {
+    max-height: 0;
+    overflow: hidden;
+    background: #fff;
+    border-bottom: 1px solid #e0e0e0;
+    transition: max-height 0.3s ease-out;
+}
+
+.search-assistant-property-list.expanded {
+    max-height: 2000px;
+    transition: max-height 0.5s ease-in;
+}
+
+.search-assistant-property-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* ==================== Property Item ==================== */
+
+.search-assistant-property-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 16px 10px 36px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.15s ease;
+}
+
+.search-assistant-property-item:last-child {
+    border-bottom: none;
+}
+
+.search-assistant-property-item:hover {
+    background: #fafafa;
+}
+
+.search-assistant-property-item input[type="checkbox"] {
+    margin-right: 10px;
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.search-assistant-property-item label {
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-assistant-property-item .property-label {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.search-assistant-property-item .property-term {
+    font-size: 12px;
+    color: #888;
+    font-family: monospace;
+    margin-top: 2px;
+}
+
+.search-assistant-property-item .property-comment {
+    font-size: 12px;
+    color: #666;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ==================== Select All / Deselect All Buttons ==================== */
+
+.search-assistant-property-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.search-assistant-property-actions button {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.search-assistant-property-actions button:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.search-assistant-property-actions button:active {
+    background: #e0e0e0;
+}
+
+.search-assistant-property-actions button:focus {
+    outline: 2px solid #2196f3;
+    outline-offset: 1px;
+}
+
+/* Expand All / Collapse All */
+.search-assistant-property-actions .expand-all-btn,
+.search-assistant-property-actions .collapse-all-btn {
+    margin-left: auto;
+}
+
+.search-assistant-property-actions .collapse-all-btn {
+    margin-left: 0;
+}
+
+/* ==================== Selection Summary ==================== */
+
+.search-assistant-selection-summary {
+    padding: 10px 16px;
+    background: #e8f5e9;
+    border-bottom: 1px solid #c8e6c9;
+    font-size: 13px;
+    color: #2e7d32;
+}
+
+.search-assistant-selection-summary.empty-selection {
+    background: #fff8e1;
+    border-bottom: 1px solid #ffecb3;
+    color: #f57c00;
+}
+
+.search-assistant-selection-summary .selection-count {
+    font-weight: 600;
+}
+
+/* ==================== Filter Input ==================== */
+
+.search-assistant-property-filter {
+    margin-bottom: 12px;
+}
+
+.search-assistant-property-filter input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.search-assistant-property-filter input:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.search-assistant-property-filter input::placeholder {
+    color: #999;
+}
+
+/* Hidden state for filtered items */
+.search-assistant-vocabulary-item.filtered-out {
+    display: none;
+}
+
+.search-assistant-property-item.filtered-out {
+    display: none;
+}
+
+/* ==================== Vocabulary Item Container ==================== */
+
+.search-assistant-vocabulary-item {
+    /* Container for each vocabulary section */
+}
+
+.search-assistant-vocabulary-item:first-child .search-assistant-vocabulary-header {
+    border-radius: 2px 2px 0 0;
+}
+
+.search-assistant-vocabulary-item:last-child .search-assistant-vocabulary-header:not(.expanded) {
+    border-radius: 0 0 2px 2px;
+    border-bottom: none;
+}
+
+/* ==================== Responsive Design ==================== */
+
+@media (max-width: 768px) {
+    #section-interface .field {
+        flex-direction: column;
+    }
+    #section-interface .field-meta {
+        flex: none;
+        padding-right: 0;
+        margin-bottom: 6px;
+    }
+
+    .search-assistant-vocabulary-header {
+        padding: 10px 12px;
+    }
+
+    .search-assistant-property-item {
+        padding: 8px 12px 8px 28px;
+    }
+
+    .search-assistant-property-actions {
+        flex-direction: column;
+    }
+
+    .search-assistant-property-actions button {
+        width: 100%;
+    }
+
+    .search-assistant-property-actions .expand-all-btn,
+    .search-assistant-property-actions .collapse-all-btn {
+        margin-left: 0;
+    }
+}
+
+/* ==================== Print Styles ==================== */
+
+@media print {
+    .search-assistant-property-actions {
+        display: none;
+    }
+
+    .search-assistant-property-filter {
+        display: none;
+    }
+
+    .search-assistant-property-list {
+        max-height: none !important;
+        overflow: visible;
+    }
+
+    .search-assistant-vocabulary-header::before {
+        display: none;
+    }
+}
+
+/* ==================== Configuration Form Layout ==================== */
+
+.search_assistant.config fieldset {
+    margin-bottom: 2em;
+    padding: 1.5em;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.search_assistant.config fieldset legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 0.5em;
+    color: #333;
+}
+
+/* Standard Omeka S two-column field layout */
+#section-interface .field {
+    display: flex;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+#section-interface .field:last-child {
+    border-bottom: none;
+}
+
+#section-interface .field-meta {
+    flex: 0 0 30%;
+    padding-right: 20px;
+    margin-left: 16px;
+}
+
+#section-interface .field-meta label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+#section-interface .field-meta .field-description {
+    color: #aaa;
+    font-size: 0.8em;
+    line-height: 1.4;
+    margin-top: 4px;
+    font-style: italic;
+}
+
+#section-interface .inputs {
+    flex: 1;
+}
+
+#section-interface .inputs select,
+#section-interface .inputs input[type="text"],
+#section-interface .inputs input[type="url"],
+#section-interface .inputs input[type="color"] {
+    width: 100%;
+    max-width: 300px;
+}
+
+#section-interface .inputs textarea {
+    width: 100%;
+    max-width: 500px;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+#section-interface .inputs textarea:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+#section-interface .inputs input[type="color"] {
+    width: 60px;
+    height: 36px;
+    padding: 2px;
+    cursor: pointer;
+}
+
+.section-description {
+    color: #666;
+    font-size: 0.9em;
+    margin: 0 0 1em 0;
+}
+
+.character-count {
+    font-size: 0.8em;
+    color: #999;
+    margin-top: 4px;
+}
+
+.search_assistant.config button.button {
+    margin-top: 0.5em;
+}
+
+.search_assistant.config button.button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* ==================== Accessibility ==================== */
+
+/* Focus states for keyboard navigation */
+.search-assistant-vocabulary-header:focus {
+    outline: 2px solid #2196f3;
+    outline-offset: -2px;
+}
+
+.search-assistant-property-item:focus-within {
+    background: #e3f2fd;
+}
+
+/* Screen reader only class */
+.search-assistant-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ==================== Collection Selection ==================== */
+
+/* Collection Filter Input */
+.search-assistant-collection-filter {
+    margin-bottom: 12px;
+}
+
+.search-assistant-collection-filter input {
+    width: 100%;
+    max-width: 400px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: 14px;
+}
+
+.search-assistant-collection-filter input:focus {
+    outline: none;
+    border-color: #2196f3;
+    box-shadow: 0 0 0 2px rgba(33, 150, 243, 0.2);
+}
+
+.search-assistant-collection-filter input::placeholder {
+    color: #999;
+}
+
+/* Collection Action Buttons */
+.search-assistant-collection-actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.search-assistant-collection-actions button {
+    padding: 6px 12px;
+    font-size: 13px;
+    border-radius: 2px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    background: #fff;
+    color: #333;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.search-assistant-collection-actions button:hover {
+    background: #f0f0f0;
+    border-color: #999;
+}
+
+.search-assistant-collection-actions button:active {
+    background: #e0e0e0;
+}
+
+.search-assistant-collection-actions button:focus {
+    outline: 2px solid #2196f3;
+    outline-offset: 1px;
+}
+
+/* Collection Selection Summary */
+.search-assistant-collection-summary {
+    padding: 10px 16px;
+    background: #e8f5e9;
+    border: 1px solid #c8e6c9;
+    border-radius: 2px;
+    margin-bottom: 12px;
+    font-size: 13px;
+    color: #2e7d32;
+}
+
+.search-assistant-collection-summary.empty-selection {
+    background: #fff8e1;
+    border-color: #ffecb3;
+    color: #f57c00;
+}
+
+.search-assistant-collection-summary .collection-selection-count {
+    font-weight: 600;
+}
+
+/* Collection List Container */
+.search-assistant-collection-list {
+    border: 1px solid #ddd;
+    border-radius: 2px;
+    background: #fff;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-assistant-collection-list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Collection Item */
+.search-assistant-collection-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    transition: background-color 0.15s ease;
+}
+
+.search-assistant-collection-item:last-child {
+    border-bottom: none;
+}
+
+.search-assistant-collection-item:hover {
+    background: #fafafa;
+}
+
+.search-assistant-collection-item input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.search-assistant-collection-item label {
+    cursor: pointer;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.search-assistant-collection-item .collection-title {
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.search-assistant-collection-item .collection-item-count {
+    font-size: 12px;
+    color: #666;
+}
+
+/* Hidden state for filtered items */
+.search-assistant-collection-item.filtered-out {
+    display: none;
+}
+
+/* No Collections Message */
+.search-assistant-no-collections {
+    padding: 1em 16px;
+    color: #666;
+    font-style: italic;
+    margin: 0;
+}
+
+/* Collection Item Focus State */
+.search-assistant-collection-item:focus-within {
+    background: #e3f2fd;
+}
+
+/* ==================== Collection Selection Responsive Design ==================== */
+
+@media (max-width: 768px) {
+    .search-assistant-collection-item {
+        padding: 8px 12px;
+    }
+
+    .search-assistant-collection-actions {
+        flex-direction: column;
+    }
+
+    .search-assistant-collection-actions button {
+        width: 100%;
+    }
+
+    .search-assistant-collection-list {
+        max-height: 300px;
+    }
+}
+
+/* ==================== Collection Selection Print Styles ==================== */
+
+@media print {
+    .search-assistant-collection-actions {
+        display: none;
+    }
+
+    .search-assistant-collection-filter {
+        display: none;
+    }
+
+    .search-assistant-collection-list {
+        max-height: none;
+        overflow: visible;
+    }
+}

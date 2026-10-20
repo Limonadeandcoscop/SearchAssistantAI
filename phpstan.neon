@@ -1,0 +1,31 @@
+parameters:
+    level: 6
+    paths:
+        - src
+        - Module.php
+    excludePaths:
+        - vendor/*
+        - test/scripts/*
+        - data/scripts/*
+        - data/migrations/*
+        - phpstan-stubs/*
+    # Autoload the host Omeka install so phpstan can resolve
+    # Omeka\*, Laminas\*, Doctrine\* without flooding output.
+    bootstrapFiles:
+        - ../../vendor/autoload.php
+    scanDirectories:
+        - ../../vendor
+        - ../../application/src
+    stubFiles:
+        # Narrow AbstractController::getRequest()/getResponse() to the
+        # Laminas\Http concrete types so HTTP-only methods resolve cleanly
+        # at every controller call site.
+        - phpstan-stubs/laminas-mvc-http.stub
+
+includes:
+    # Pre-existing findings frozen here so the CI gate enforces
+    # "no new errors from now on". Chip away at these over time by
+    # removing entries (re-run `composer stan:baseline` to regenerate).
+    - phpstan-baseline.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/phpstan/phpstan-phpunit/rules.neon

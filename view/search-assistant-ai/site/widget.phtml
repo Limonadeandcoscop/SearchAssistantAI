@@ -1,0 +1,124 @@
+<?php
+/**
+ * Search Assistant AI Widget Template for Public Site
+ *
+ * This template renders the floating search assistant widget with two states:
+ * 1. Closed State - Floating button with chat icon and notification badge
+ * 2. Open State - Chat window with header, message area, and input zone
+ *
+ * The widget uses responsive design:
+ * - Mobile (< 768px): Fullscreen modal
+ * - Tablet (768-1023px): Adaptive widget
+ * - Desktop (1024px+): Floating 350x500px window
+ *
+ * Features semantic HTML5 markup with ARIA attributes for WCAG AA accessibility.
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ */
+
+// Add search-assistant-widget class to body for potential style scoping
+$this->htmlElement('body')->appendAttribute('class', 'search-assistant-widget-active');
+
+// Load search assistant widget stylesheet
+$this->headLink()->appendStylesheet($this->assetUrl('css/search-assistant-widget.css', 'SearchAssistantAI'));
+
+// Load required JavaScript libraries
+$this->headScript()->appendFile($this->assetUrl('vendor/marked.min.js', 'SearchAssistantAI'), 'text/javascript', ['defer' => 'defer']);
+$this->headScript()->appendFile($this->assetUrl('vendor/purify.min.js', 'SearchAssistantAI'), 'text/javascript', ['defer' => 'defer']);
+$this->headScript()->appendFile($this->assetUrl('js/search-assistant-widget.js', 'SearchAssistantAI'), 'text/javascript', ['defer' => 'defer']);
+?>
+
+<!-- Search Assistant AI Widget Container -->
+<aside class="search-assistant-widget"
+       role="complementary"
+       aria-label="<?php echo $this->translate('Chat Assistant'); ?>"
+       data-position="<?php echo $this->escapeHtmlAttr($position ?? 'bottom-right'); ?>"
+       data-color="<?php echo $this->escapeHtmlAttr($color ?? '#920B0B'); ?>"
+       data-api-url="<?php echo $this->escapeHtmlAttr($apiUrl ?? '/search-assistant/api/query'); ?>"
+       data-welcome-message="<?php echo $this->escapeHtmlAttr($welcomeMessage ?? 'Bonjour ! Comment puis-je vous aider ?'); ?>">
+
+    <!-- Closed State: Floating Toggle Button -->
+    <button type="button"
+            class="search-assistant-toggle"
+            id="search-assistant-toggle"
+            aria-expanded="false"
+            aria-label="<?php echo $this->translate('Open chat assistant'); ?>"
+            aria-controls="search-assistant-window">
+        <svg class="search-assistant-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
+    <!-- Open State: Chat Window (initially hidden) -->
+    <div class="search-assistant-window"
+         id="search-assistant-window"
+         hidden
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="search-assistant-title">
+
+        <!-- Header: Title and Close Button -->
+        <header class="search-assistant-header">
+            <h2 id="search-assistant-title" class="search-assistant-header-title">
+                <?php echo $this->translate('Chat Assistant'); ?>
+            </h2>
+            <div class="search-assistant-header-actions">
+                <button type="button"
+                        class="search-assistant-header-button"
+                        id="search-assistant-clear-button"
+                        aria-label="<?php echo $this->translate('Clear conversation'); ?>">
+                    <svg class="search-assistant-header-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+                <button type="button"
+                        class="search-assistant-header-button"
+                        id="search-assistant-close"
+                        aria-label="<?php echo $this->translate('Close chat assistant'); ?>">
+                    <svg class="search-assistant-header-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Messages Area: Conversation History -->
+        <div class="search-assistant-messages"
+             id="search-assistant-messages"
+             role="log"
+             aria-live="polite"
+             aria-relevant="additions"
+             aria-label="<?php echo $this->translate('Chat conversation'); ?>">
+            <!-- Messages will be added dynamically by JavaScript -->
+        </div>
+
+        <!-- Input Zone: Message Input and Send Button -->
+        <div class="search-assistant-input-zone" id="search-assistant-input">
+            <div class="search-assistant-input-container">
+                <label for="search-assistant-input-field" class="search-assistant-sr-only">
+                    <?php echo $this->translate('Type your message'); ?>
+                </label>
+                <textarea id="search-assistant-input-field"
+                          class="search-assistant-input-textarea"
+                          name="message"
+                          rows="1"
+                          placeholder="<?php echo $this->translate('Type your message...'); ?>"
+                          aria-label="<?php echo $this->translate('Message input'); ?>"
+                          required></textarea>
+                <button type="submit"
+                        class="search-assistant-send-button"
+                        id="search-assistant-send"
+                        aria-label="<?php echo $this->translate('Send message'); ?>">
+                    <svg class="search-assistant-send-button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+</aside>

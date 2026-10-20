@@ -1,0 +1,1127 @@
+/**
+ * Search Assistant AI Widget Styles for Omeka S
+ *
+ * Provides responsive, accessible chat interface for the public site.
+ * Implements mobile-first design with floating widget on desktop and
+ * fullscreen modal on mobile. All themeable values exposed as CSS custom
+ * properties for easy customization.
+ *
+ * Accessibility: WCAG AA compliant with proper focus states, color contrast,
+ * and reduced motion support.
+ */
+
+/* ==================== CSS Custom Properties (Theme Variables) ==================== */
+
+:root {
+    /* Primary Theme Colors */
+    --search-assistant-primary: #b74420;
+    --search-assistant-primary-hover: #963717;
+    --search-assistant-primary-active: #7a2d13;
+    --search-assistant-primary-light: rgba(183, 68, 32, 0.08);
+    --search-assistant-secondary: #6c757d;
+    --search-assistant-secondary-hover: #5a6268;
+
+    /* Background Colors */
+    --search-assistant-bg-primary: #ffffff;
+    --search-assistant-bg-secondary: #f5f3f1;
+    --search-assistant-bg-header: #b74420;
+    --search-assistant-bg-overlay: rgba(0, 0, 0, 0.4);
+
+    /* Text Colors */
+    --search-assistant-text-primary: #2c2c2c;
+    --search-assistant-text-secondary: #555555;
+    --search-assistant-text-light: #ffffff;
+    --search-assistant-text-muted: #8c8c8c;
+
+    /* Message Bubble Colors */
+    --search-assistant-message-user-bg: #b74420;
+    --search-assistant-message-user-text: #ffffff;
+    --search-assistant-message-bot-bg: #ffffff;
+    --search-assistant-message-bot-text: #2c2c2c;
+
+    /* Border Colors */
+    --search-assistant-border: #e5e0dc;
+    --search-assistant-border-light: #ede9e5;
+    --search-assistant-border-focus: rgba(183, 68, 32, 0.4);
+
+    /* Status Colors */
+    --search-assistant-success: #2e7d4f;
+    --search-assistant-warning: #d4a017;
+    --search-assistant-error: #c53030;
+    --search-assistant-info: #2b7a9b;
+
+    /* Positioning (Closed State) */
+    --search-assistant-position-bottom: 24px;
+    --search-assistant-position-right: 24px;
+    --search-assistant-position-left: auto;
+
+    /* Sizing (Desktop Floating Widget) */
+    --search-assistant-window-width: 380px;
+    --search-assistant-window-height: 540px;
+    --search-assistant-window-max-width: 90vw;
+    --search-assistant-window-max-height: 85vh;
+    --search-assistant-toggle-size: 56px;
+
+    /* Header Sizing */
+    --search-assistant-header-height: 56px;
+    --search-assistant-header-padding: 16px;
+
+    /* Input Zone Sizing */
+    --search-assistant-input-height: auto;
+    --search-assistant-input-min-height: 44px;
+    --search-assistant-input-max-height: 120px;
+    --search-assistant-input-padding: 12px;
+
+    /* Spacing */
+    --search-assistant-spacing-xs: 4px;
+    --search-assistant-spacing-sm: 8px;
+    --search-assistant-spacing-md: 16px;
+    --search-assistant-spacing-lg: 24px;
+    --search-assistant-spacing-xl: 32px;
+
+    /* Border Radius */
+    --search-assistant-radius-sm: 4px;
+    --search-assistant-radius-md: 12px;
+    --search-assistant-radius-lg: 16px;
+    --search-assistant-radius-xl: 20px;
+    --search-assistant-radius-full: 50%;
+
+    /* Shadows */
+    --search-assistant-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+    --search-assistant-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --search-assistant-shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --search-assistant-shadow-xl: 0 12px 40px rgba(0, 0, 0, 0.16);
+    --search-assistant-shadow-focus: 0 0 0 3px rgba(183, 68, 32, 0.25);
+
+    /* Typography — use px instead of rem to avoid theme's html { font-size: 62.5% } */
+    --search-assistant-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --search-assistant-font-size-xs: 11px;
+    --search-assistant-font-size-sm: 13px;
+    --search-assistant-font-size-base: 14px;
+    --search-assistant-font-size-lg: 16px;
+    --search-assistant-font-size-xl: 18px;
+    --search-assistant-font-weight-normal: 400;
+    --search-assistant-font-weight-medium: 500;
+    --search-assistant-font-weight-semibold: 600;
+    --search-assistant-font-weight-bold: 700;
+    --search-assistant-line-height-tight: 1.3;
+    --search-assistant-line-height-normal: 1.5;
+    --search-assistant-line-height-relaxed: 1.75;
+
+    /* Z-Index Layering */
+    --search-assistant-z-index-base: 1000;
+    --search-assistant-z-index-toggle: 1001;
+    --search-assistant-z-index-window: 1002;
+    --search-assistant-z-index-overlay: 999;
+
+    /* Transitions */
+    --search-assistant-transition-fast: 150ms ease-in-out;
+    --search-assistant-transition-base: 200ms ease-in-out;
+    --search-assistant-transition-slow: 300ms ease-in-out;
+
+    /* Animation Durations */
+    --search-assistant-animation-pulse: 2s;
+    --search-assistant-animation-slide: 300ms;
+
+    /* Avatar */
+    --search-assistant-avatar-size: 32px;
+    --search-assistant-avatar-bg: #6c757d;
+}
+
+/* ==================== Base Widget Container ==================== */
+
+/*
+ * Theme Isolation Layer
+ *
+ * Some site themes include aggressive CSS resets that zero out
+ * margin/padding/border/font on nearly every HTML element, set
+ * html { font-size: 62.5% } (breaking rem units), apply large heading sizes,
+ * strip button styles, and add dialog { border: solid; padding: 1em }.
+ * This isolation block overrides all of that inside the search assistant widget.
+ */
+.search-assistant-widget *,
+.search-assistant-widget *::before,
+.search-assistant-widget *::after {
+    box-sizing: border-box;
+    /* Undo the theme's global reset: font: inherit; vertical-align: baseline; */
+    vertical-align: baseline;
+}
+
+/*
+ * Use :where() to zero out specificity so component styles always win.
+ * This counters the theme's global reset without fighting our own rules.
+ */
+
+/* Re-establish sane defaults for all elements the theme reset zeroes */
+.search-assistant-widget :where(div, span, p, a, strong, em, small, label,
+    header, footer, article, section, nav) {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: inherit;
+    font-family: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    color: inherit;
+}
+
+/* Override theme heading styles (theme sets h1: 3.5rem, h2: 3rem, serif font, uppercase) */
+.search-assistant-widget :where(h1, h2, h3, h4, h5, h6) {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-family: var(--search-assistant-font-family);
+    font-size: inherit;
+    font-weight: var(--search-assistant-font-weight-semibold);
+    line-height: var(--search-assistant-line-height-tight);
+    color: inherit;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
+/* Override theme list styles */
+.search-assistant-widget :where(ul, ol) {
+    margin: 0;
+    padding: 0;
+    list-style: disc;
+}
+
+.search-assistant-widget :where(ol) {
+    list-style: decimal;
+}
+
+.search-assistant-widget :where(li) {
+    margin: 0;
+    padding: 0;
+}
+
+/* Override theme button styles (theme sets: transparent bg, no padding, font-weight: 700, font-size: 1.6rem) */
+.search-assistant-widget :where(button) {
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font-family: var(--search-assistant-font-family);
+    font-size: var(--search-assistant-font-size-base);
+    font-weight: var(--search-assistant-font-weight-normal);
+    line-height: var(--search-assistant-line-height-normal);
+    color: inherit;
+    cursor: pointer;
+    text-transform: none;
+}
+
+/* Override theme link styles. Themes color `a:link`/`a:visited`
+   (specificity 0,1,1), so the pseudo-class variants are required to win.
+   Components recolor links by setting --search-assistant-link-color instead of
+   `color`, which sidesteps the specificity contest entirely. */
+.search-assistant-widget a,
+.search-assistant-widget a:link,
+.search-assistant-widget a:visited,
+.search-assistant-widget a:hover,
+.search-assistant-widget a:active {
+    color: var(--search-assistant-link-color, inherit);
+    text-decoration: none;
+    background-color: transparent;
+}
+
+/* Override theme input/textarea styles */
+.search-assistant-widget :where(input, textarea) {
+    margin: 0;
+    padding: 0;
+    border: none;
+    font-family: var(--search-assistant-font-family);
+    font-size: var(--search-assistant-font-size-base);
+    line-height: var(--search-assistant-line-height-normal);
+    color: var(--search-assistant-text-primary);
+    resize: none;
+    overflow: visible;
+}
+
+.search-assistant-widget :where(textarea) {
+    overflow: auto;
+}
+
+/* Override theme dialog styles (theme sets: border: solid; padding: 1em; position: absolute) */
+.search-assistant-widget :where(.search-assistant-window) {
+    border: none;
+    padding: 0;
+}
+
+/* Override theme img styles */
+.search-assistant-widget :where(img, svg) {
+    border: 0;
+    vertical-align: middle;
+}
+
+.search-assistant-widget {
+    position: fixed;
+    z-index: var(--search-assistant-z-index-base);
+    font-family: var(--search-assistant-font-family);
+    font-size: var(--search-assistant-font-size-base);
+    line-height: var(--search-assistant-line-height-normal);
+    color: var(--search-assistant-text-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Widget position (Interface page setting): bottom-right is the default. */
+.search-assistant-widget[data-position="bottom-left"] {
+    --search-assistant-position-right: auto;
+    --search-assistant-position-left: 24px;
+}
+
+/* ==================== Closed State (Toggle Button) ==================== */
+
+.search-assistant-toggle {
+    position: fixed;
+    bottom: var(--search-assistant-position-bottom);
+    right: var(--search-assistant-position-right);
+    left: var(--search-assistant-position-left);
+    width: var(--search-assistant-toggle-size);
+    height: var(--search-assistant-toggle-size);
+    background: var(--search-assistant-primary);
+    color: var(--search-assistant-text-light);
+    border: none;
+    border-radius: var(--search-assistant-radius-full);
+    box-shadow: var(--search-assistant-shadow-lg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: var(--search-assistant-z-index-toggle);
+    transition: transform var(--search-assistant-transition-base),
+                background-color var(--search-assistant-transition-base),
+                box-shadow var(--search-assistant-transition-base);
+}
+
+.search-assistant-toggle:hover {
+    background: var(--search-assistant-primary-hover);
+    transform: scale(1.08);
+    box-shadow: var(--search-assistant-shadow-xl);
+}
+
+.search-assistant-toggle:active {
+    background: var(--search-assistant-primary-active);
+    transform: scale(0.95);
+}
+
+.search-assistant-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--search-assistant-shadow-lg), var(--search-assistant-shadow-focus);
+}
+
+/* Pulse animation for toggle button */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: var(--search-assistant-shadow-lg), 0 0 0 0 rgba(183, 68, 32, 0.5);
+    }
+    50% {
+        box-shadow: var(--search-assistant-shadow-lg), 0 0 0 10px rgba(183, 68, 32, 0);
+    }
+}
+
+.search-assistant-toggle.has-notification {
+    animation: pulse var(--search-assistant-animation-pulse) infinite;
+}
+
+/* Toggle button icon */
+.search-assistant-toggle-icon {
+    width: 26px;
+    height: 26px;
+    fill: currentColor;
+}
+
+/* ==================== Open State (Chat Window) ==================== */
+
+/* Mobile-first: fullscreen modal by default */
+.search-assistant-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: var(--search-assistant-bg-primary);
+    z-index: var(--search-assistant-z-index-window);
+    display: grid;
+    grid-template-rows: var(--search-assistant-header-height) 1fr auto;
+    grid-template-areas:
+        "header"
+        "messages"
+        "input";
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--search-assistant-animation-slide) ease,
+                transform var(--search-assistant-animation-slide) ease;
+}
+
+.search-assistant-window[hidden] {
+    display: none;
+}
+
+.search-assistant-window:not([hidden]) {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Tablet and up: floating widget */
+@media (min-width: 768px) {
+    .search-assistant-window {
+        top: auto;
+        left: var(--search-assistant-position-left);
+        bottom: calc(var(--search-assistant-position-bottom) + var(--search-assistant-toggle-size) + 12px);
+        right: var(--search-assistant-position-right);
+        width: var(--search-assistant-window-width);
+        height: var(--search-assistant-window-height);
+        max-width: var(--search-assistant-window-max-width);
+        max-height: var(--search-assistant-window-max-height);
+        border-radius: var(--search-assistant-radius-xl);
+        box-shadow: var(--search-assistant-shadow-xl);
+        border: 1px solid var(--search-assistant-border-light);
+        transform: translateY(10px) scale(0.96);
+    }
+
+    .search-assistant-window:not([hidden]) {
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Desktop: refined floating widget */
+@media (min-width: 1024px) {
+    .search-assistant-window {
+        width: 400px;
+        height: 560px;
+    }
+}
+
+/* Ultra-wide: maintain optimal width */
+@media (min-width: 1440px) {
+    .search-assistant-window {
+        width: 420px;
+        height: 600px;
+    }
+}
+
+/* ==================== Header Section ==================== */
+
+.search-assistant-header {
+    grid-area: header;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--search-assistant-header-padding);
+    background: var(--search-assistant-bg-header);
+    color: var(--search-assistant-text-light);
+    border-bottom: none;
+    /* Reset theme overrides on <header> elements */
+    margin: 0;
+    min-height: var(--search-assistant-header-height);
+    max-height: var(--search-assistant-header-height);
+}
+
+@media (min-width: 768px) {
+    .search-assistant-header {
+        border-top-left-radius: var(--search-assistant-radius-xl);
+        border-top-right-radius: var(--search-assistant-radius-xl);
+    }
+}
+
+.search-assistant-header-title {
+    font-size: var(--search-assistant-font-size-lg);
+    font-weight: var(--search-assistant-font-weight-semibold);
+    margin: 0;
+    padding: 0;
+    flex: 1;
+    letter-spacing: 0.01em;
+    line-height: var(--search-assistant-header-height);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.search-assistant-header-actions {
+    display: flex;
+    gap: var(--search-assistant-spacing-xs);
+    align-items: center;
+}
+
+.search-assistant-header-button {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    color: var(--search-assistant-text-light);
+    cursor: pointer;
+    border-radius: var(--search-assistant-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color var(--search-assistant-transition-fast),
+                opacity var(--search-assistant-transition-fast);
+    opacity: 0.8;
+}
+
+.search-assistant-header-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    opacity: 1;
+}
+
+.search-assistant-header-button:active {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.search-assistant-header-button:focus-visible {
+    outline: 2px solid var(--search-assistant-text-light);
+    outline-offset: 2px;
+    opacity: 1;
+}
+
+.search-assistant-header-button-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* ==================== Message Display Zone ==================== */
+
+.search-assistant-messages {
+    grid-area: messages;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 20px;
+    background: var(--search-assistant-bg-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    scroll-behavior: smooth;
+}
+
+.search-assistant-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.search-assistant-messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.search-assistant-messages::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 3px;
+}
+
+.search-assistant-messages::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.25);
+}
+
+/* Message container */
+.search-assistant-message {
+    display: flex;
+    flex-direction: column;
+    max-width: 88%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.search-assistant-message.user {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.search-assistant-message.bot {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+/* Message avatar */
+.search-assistant-message-avatar {
+    width: var(--search-assistant-avatar-size);
+    height: var(--search-assistant-avatar-size);
+    border-radius: var(--search-assistant-radius-full);
+    background: var(--search-assistant-avatar-bg);
+    color: var(--search-assistant-text-light);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--search-assistant-font-size-sm);
+    font-weight: var(--search-assistant-font-weight-medium);
+    flex-shrink: 0;
+}
+
+.search-assistant-message.user .search-assistant-message-avatar {
+    background: var(--search-assistant-primary);
+}
+
+/* Message bubble */
+.search-assistant-message-bubble {
+    padding: 20px;
+    border-radius: var(--search-assistant-radius-md);
+    font-size: var(--search-assistant-font-size-base);
+    line-height: 1.5;
+}
+
+.search-assistant-message.user .search-assistant-message-bubble {
+    background: var(--search-assistant-message-user-bg);
+    color: var(--search-assistant-message-user-text);
+    border-bottom-right-radius: var(--search-assistant-spacing-xs);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble {
+    background: var(--search-assistant-message-bot-bg);
+    color: var(--search-assistant-message-bot-text);
+    border-bottom-left-radius: var(--search-assistant-spacing-xs);
+    box-shadow: var(--search-assistant-shadow-sm);
+    border: 1px solid var(--search-assistant-border-light);
+}
+
+/* Markdown content styling inside bot bubbles */
+.search-assistant-message.bot .search-assistant-message-bubble h1,
+.search-assistant-message.bot .search-assistant-message-bubble h2,
+.search-assistant-message.bot .search-assistant-message-bubble h3,
+.search-assistant-message.bot .search-assistant-message-bubble h4,
+.search-assistant-message.bot .search-assistant-message-bubble h5,
+.search-assistant-message.bot .search-assistant-message-bubble h6 {
+    margin: 0;
+    padding: 0;
+    line-height: 1.3;
+    font-weight: var(--search-assistant-font-weight-semibold);
+    color: var(--search-assistant-text-primary);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble h1 {
+    font-size: 1.05em;
+    margin: 0 0 8px 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble h2 {
+    font-size: 0.95em;
+    margin: 12px 0 6px 0;
+    color: var(--search-assistant-primary);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble h3 {
+    font-size: 0.9em;
+    margin: 10px 0 4px 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble hr {
+    border: none;
+    border-top: 1px solid var(--search-assistant-border-light);
+    margin: 10px 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble p {
+    margin: 0 0 8px 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble p:last-child {
+    margin-bottom: 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble ul,
+.search-assistant-message.bot .search-assistant-message-bubble ol {
+    margin: 4px 0 8px 0;
+    padding-left: 20px;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble li {
+    margin-bottom: 3px;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble li:last-child {
+    margin-bottom: 0;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble strong {
+    font-weight: var(--search-assistant-font-weight-semibold);
+    color: var(--search-assistant-text-primary);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble a {
+    color: var(--search-assistant-primary);
+    text-decoration: none;
+    font-weight: var(--search-assistant-font-weight-medium);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--search-assistant-transition-fast);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble a:hover {
+    border-bottom-color: var(--search-assistant-primary);
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble code {
+    background: var(--search-assistant-bg-secondary);
+    padding: 1px 4px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.search-assistant-message.bot .search-assistant-message-bubble blockquote {
+    border-left: 3px solid var(--search-assistant-primary);
+    margin: 8px 0;
+    padding: 4px 12px;
+    color: var(--search-assistant-text-secondary);
+    background: var(--search-assistant-bg-secondary);
+    border-radius: 0 var(--search-assistant-radius-sm) var(--search-assistant-radius-sm) 0;
+}
+
+/* Message timestamp — temporarily hidden */
+.search-assistant-message-time,
+.search-assistant-message-timestamp {
+    display: none;
+}
+
+/* Feedback buttons — temporarily hidden */
+.search-assistant-feedback-buttons {
+    display: none;
+}
+
+/* Typing indicator */
+.search-assistant-typing-indicator {
+    display: flex;
+    gap: 5px;
+    padding: 12px 16px;
+    background: var(--search-assistant-message-bot-bg);
+    border-radius: var(--search-assistant-radius-md);
+    border-bottom-left-radius: var(--search-assistant-spacing-xs);
+    width: fit-content;
+    box-shadow: var(--search-assistant-shadow-sm);
+    border: 1px solid var(--search-assistant-border-light);
+}
+
+.search-assistant-typing-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--search-assistant-text-muted);
+    border-radius: var(--search-assistant-radius-full);
+    animation: typing 1.4s infinite ease-in-out;
+}
+
+.search-assistant-typing-dot:nth-child(1) { animation-delay: 0s; }
+.search-assistant-typing-dot:nth-child(2) { animation-delay: 0.2s; }
+.search-assistant-typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+    0%, 60%, 100% {
+        transform: translateY(0);
+        opacity: 0.4;
+    }
+    30% {
+        transform: translateY(-6px);
+        opacity: 1;
+    }
+}
+
+/* ==================== Input Zone ==================== */
+
+.search-assistant-input-zone {
+    grid-area: input;
+    padding: var(--search-assistant-input-padding);
+    background: var(--search-assistant-bg-primary);
+    border-top: 1px solid var(--search-assistant-border-light);
+    display: flex;
+    flex-direction: column;
+    gap: var(--search-assistant-spacing-sm);
+}
+
+@media (min-width: 768px) {
+    .search-assistant-input-zone {
+        border-bottom-left-radius: var(--search-assistant-radius-xl);
+        border-bottom-right-radius: var(--search-assistant-radius-xl);
+    }
+}
+
+/* Input container */
+.search-assistant-input-container {
+    display: flex;
+    gap: var(--search-assistant-spacing-sm);
+    align-items: flex-end;
+}
+
+/* Textarea */
+.search-assistant-input-textarea {
+    flex: 1;
+    min-height: var(--search-assistant-input-min-height);
+    max-height: var(--search-assistant-input-max-height);
+    padding: 10px 14px;
+    font-family: var(--search-assistant-font-family);
+    font-size: var(--search-assistant-font-size-base);
+    line-height: var(--search-assistant-line-height-normal);
+    color: var(--search-assistant-text-primary);
+    background: var(--search-assistant-bg-secondary);
+    border: 1px solid var(--search-assistant-border);
+    border-radius: var(--search-assistant-radius-md);
+    resize: none;
+    overflow-y: auto;
+    transition: border-color var(--search-assistant-transition-fast),
+                box-shadow var(--search-assistant-transition-fast);
+}
+
+.search-assistant-input-textarea:hover {
+    border-color: var(--search-assistant-secondary);
+}
+
+.search-assistant-input-textarea:focus {
+    outline: none;
+    border-color: var(--search-assistant-primary);
+    box-shadow: 0 0 0 3px rgba(183, 68, 32, 0.08);
+    background: var(--search-assistant-bg-primary);
+}
+
+.search-assistant-input-textarea::placeholder {
+    color: var(--search-assistant-text-muted);
+}
+
+/* Send button */
+.search-assistant-send-button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    background: var(--search-assistant-primary);
+    color: var(--search-assistant-text-light);
+    border: none;
+    border-radius: var(--search-assistant-radius-full);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 0;
+    transition: background-color var(--search-assistant-transition-fast),
+                transform var(--search-assistant-transition-fast),
+                box-shadow var(--search-assistant-transition-fast);
+}
+
+.search-assistant-send-button:hover:not(:disabled) {
+    background: var(--search-assistant-primary-hover);
+    transform: scale(1.05);
+    box-shadow: var(--search-assistant-shadow-md);
+}
+
+.search-assistant-send-button:active:not(:disabled) {
+    background: var(--search-assistant-primary-active);
+    transform: scale(0.95);
+}
+
+.search-assistant-send-button:disabled {
+    background: var(--search-assistant-border);
+    color: var(--search-assistant-text-muted);
+    cursor: not-allowed;
+}
+
+.search-assistant-send-button:focus-visible {
+    outline: none;
+    box-shadow: var(--search-assistant-shadow-focus);
+}
+
+.search-assistant-send-button-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* Quick reply buttons */
+.search-assistant-quick-replies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--search-assistant-spacing-sm);
+}
+
+.search-assistant-quick-reply-button {
+    padding: 6px 14px;
+    background: var(--search-assistant-bg-primary);
+    color: var(--search-assistant-primary);
+    border: 1px solid var(--search-assistant-primary);
+    border-radius: var(--search-assistant-radius-full);
+    font-size: var(--search-assistant-font-size-sm);
+    font-weight: var(--search-assistant-font-weight-medium);
+    cursor: pointer;
+    transition: background-color var(--search-assistant-transition-fast),
+                color var(--search-assistant-transition-fast),
+                transform var(--search-assistant-transition-fast);
+    white-space: nowrap;
+}
+
+.search-assistant-quick-reply-button:hover {
+    background: var(--search-assistant-primary);
+    color: var(--search-assistant-text-light);
+}
+
+.search-assistant-quick-reply-button:active {
+    transform: scale(0.97);
+}
+
+.search-assistant-quick-reply-button:focus-visible {
+    outline: 2px solid var(--search-assistant-primary);
+    outline-offset: 2px;
+}
+
+/* ==================== Collection Item Links ==================== */
+
+.search-assistant-collection-links {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.search-assistant-collection-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--search-assistant-bg-primary);
+    --search-assistant-link-color: var(--search-assistant-text-primary);
+    border: 1px solid var(--search-assistant-border);
+    border-radius: var(--search-assistant-radius-sm);
+    font-size: var(--search-assistant-font-size-sm);
+    font-weight: var(--search-assistant-font-weight-normal);
+    text-decoration: none;
+    line-height: var(--search-assistant-line-height-tight);
+    transition: background-color var(--search-assistant-transition-fast),
+                border-color var(--search-assistant-transition-fast),
+                box-shadow var(--search-assistant-transition-fast);
+}
+
+.search-assistant-collection-link::before {
+    content: '';
+    display: block;
+    width: 6px;
+    height: 6px;
+    background: var(--search-assistant-primary);
+    border-radius: var(--search-assistant-radius-full);
+    flex-shrink: 0;
+    opacity: 0.6;
+    transition: opacity var(--search-assistant-transition-fast);
+}
+
+.search-assistant-collection-link:hover {
+    background: var(--search-assistant-primary-light);
+    border-color: var(--search-assistant-primary);
+    text-decoration: none;
+    --search-assistant-link-color: var(--search-assistant-primary);
+    box-shadow: var(--search-assistant-shadow-sm);
+}
+
+.search-assistant-collection-link:hover::before {
+    opacity: 1;
+}
+
+.search-assistant-collection-link:active {
+    transform: scale(0.99);
+}
+
+.search-assistant-collection-link:focus-visible {
+    outline: 2px solid var(--search-assistant-primary);
+    outline-offset: 2px;
+}
+
+/* ==================== Feedback Buttons ==================== */
+
+.search-assistant-feedback {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+    padding: 0 4px;
+}
+
+.search-assistant-feedback button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 2px 6px;
+    font-size: var(--search-assistant-font-size-sm);
+    border-radius: var(--search-assistant-radius-sm);
+    opacity: 0.4;
+    transition: opacity var(--search-assistant-transition-fast),
+                background-color var(--search-assistant-transition-fast);
+}
+
+.search-assistant-feedback button:hover {
+    opacity: 1;
+    background: var(--search-assistant-primary-light);
+}
+
+.search-assistant-feedback button.active {
+    opacity: 1;
+}
+
+/* ==================== Responsive Breakpoints (Mobile-First) ==================== */
+
+/* Small Mobile (320px and up) */
+@media (min-width: 320px) {
+    .search-assistant-message {
+        max-width: 92%;
+    }
+
+    .search-assistant-toggle {
+        width: 52px;
+        height: 52px;
+    }
+
+    .search-assistant-header-title {
+        font-size: var(--search-assistant-font-size-base);
+    }
+}
+
+/* Tablet (768px and up) */
+@media (min-width: 768px) {
+    .search-assistant-message {
+        max-width: 85%;
+    }
+
+    .search-assistant-toggle {
+        width: var(--search-assistant-toggle-size);
+        height: var(--search-assistant-toggle-size);
+    }
+
+    .search-assistant-header-title {
+        font-size: var(--search-assistant-font-size-lg);
+    }
+
+    .search-assistant-messages {
+        padding: 20px;
+        gap: 12px;
+    }
+
+    .search-assistant-input-zone {
+        padding: var(--search-assistant-spacing-md);
+    }
+}
+
+/* Desktop (1024px and up) */
+@media (min-width: 1024px) {
+    .search-assistant-message-bubble {
+        padding: 20px;
+    }
+}
+
+/* Large Desktop (1440px and up) */
+@media (min-width: 1440px) {
+    .search-assistant-input-container {
+        gap: var(--search-assistant-spacing-md);
+    }
+
+    .search-assistant-send-button {
+        width: 44px;
+        height: 44px;
+    }
+}
+
+/* ==================== Accessibility & Motion Preferences ==================== */
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+    .search-assistant-toggle,
+    .search-assistant-send-button,
+    .search-assistant-header-button {
+        border: 2px solid currentColor;
+    }
+
+    .search-assistant-window {
+        border: 2px solid var(--search-assistant-text-primary);
+    }
+
+    .search-assistant-message-bubble {
+        border: 1px solid currentColor;
+    }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .search-assistant-toggle.has-notification {
+        animation: none;
+    }
+}
+
+/* ==================== Focus States & Keyboard Navigation ==================== */
+
+.search-assistant-input-textarea:focus-visible {
+    outline: 2px solid var(--search-assistant-primary);
+    outline-offset: 2px;
+    border-color: var(--search-assistant-primary);
+}
+
+.search-assistant-message-bubble a:focus-visible {
+    outline: 2px solid var(--search-assistant-primary);
+    outline-offset: 2px;
+    border-radius: var(--search-assistant-radius-sm);
+}
+
+.search-assistant-window:focus {
+    outline: none;
+}
+
+.search-assistant-window:focus-visible {
+    box-shadow: var(--search-assistant-shadow-xl), 0 0 0 4px var(--search-assistant-border-focus);
+}
+
+.search-assistant-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--search-assistant-shadow-lg), var(--search-assistant-shadow-focus);
+}
+
+/* Ensure disabled elements don't show focus */
+.search-assistant-send-button:disabled:focus-visible,
+.search-assistant-header-button:disabled:focus-visible {
+    outline: none;
+    box-shadow: none;
+}
+
+/* Focus trap indicator for modal state on mobile */
+@media (max-width: 767px) {
+    .search-assistant-window:not([hidden])::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: var(--search-assistant-primary);
+        z-index: 1;
+        opacity: 0;
+        transition: opacity var(--search-assistant-transition-base);
+    }
+
+    .search-assistant-window:focus-within::before {
+        opacity: 1;
+    }
+}
+
+/* ==================== Utility Classes ==================== */
+
+.search-assistant-hidden {
+    display: none !important;
+}
+
+.search-assistant-sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+/* ==================== Print Styles ==================== */
+
+@media print {
+    .search-assistant-widget,
+    .search-assistant-toggle,
+    .search-assistant-window {
+        display: none !important;
+    }
+}

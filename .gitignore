@@ -1,0 +1,8 @@
+.DS_Store
+/.phpunit.cache/
+/logs/
+/vendor/
+/cache/
+phpunit.txt
+/build/
+/CLAUDE.md

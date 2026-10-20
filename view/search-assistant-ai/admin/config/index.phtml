@@ -1,0 +1,99 @@
+<?php
+/**
+ * Admin interface-customisation view for Search Assistant AI module.
+ *
+ * Renders every field tagged for the Interface page, in form order
+ * (widget visibility, position, primary colour, welcome message, then the
+ * fields other modules' sections add).
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var \SearchAssistantAI\Form\ConfigForm $form
+ */
+
+$this->htmlElement('body')->appendAttribute('class', 'search assistant config');
+
+$translate = $this->plugin('translate');
+$escape = $this->plugin('escapeHtml');
+
+$this->headTitle($translate('Search Assistant AI Interface'));
+$this->headLink()->appendStylesheet($this->assetUrl('css/admin-config.css', 'SearchAssistantAI'));
+?>
+
+<?= $this->pageTitle($translate('Search Assistant AI Interface')); ?>
+
+<div id="page-actions">
+    <?= $this->hyperlink($translate('Back to Admin'), $this->url('admin'), ['class' => 'button']); ?>
+</div>
+
+<?= $this->form()->openTag($form); ?>
+
+<fieldset id="section-interface">
+    <legend><?= $translate('Interface Customization'); ?></legend>
+    <p class="section-description">
+        <?= $translate('Customize the appearance and behavior of the search assistant widget on your site.'); ?>
+    </p>
+
+    <?php
+    $renderField = function ($el) use ($translate) {
+        ?>
+        <div class="field">
+            <div class="field-meta">
+                <?= $this->formLabel($el); ?>
+                <?php if ($el->getOption('info')): ?>
+                    <div class="field-description"><?= $translate($el->getOption('info')); ?></div>
+                <?php endif; ?>
+            </div>
+            <div class="inputs">
+                <?= $this->formElement($el); ?>
+                <?= $this->formElementErrors($el); ?>
+            </div>
+        </div>
+        <?php
+    };
+
+    foreach ($form->getElements() as $el) {
+        if ($el instanceof \Laminas\Form\Element\Csrf) {
+            continue;
+        }
+        if ($el->getName() !== 'search_assistant_welcome_message') {
+            $renderField($el);
+            continue;
+        }
+        ?>
+        <div class="field">
+            <div class="field-meta">
+                <?= $this->formLabel($el); ?>
+                <?php if ($el->getOption('info')): ?>
+                    <div class="field-description"><?= $translate($el->getOption('info')); ?></div>
+                <?php endif; ?>
+            </div>
+            <div class="inputs">
+                <?= $this->formElement($el); ?>
+                <div class="character-count">
+                    <span id="welcome-message-count">0</span> / 500 <?= $translate('characters'); ?>
+                </div>
+                <?= $this->formElementErrors($el); ?>
+            </div>
+        </div>
+        <?php
+    }
+    ?>
+</fieldset>
+
+<?= $this->formElement($form->get('configform_csrf')); ?>
+
+<div class="field">
+    <input type="submit" value="<?= $escape($translate('Save Configuration')); ?>" class="button" />
+</div>
+
+<?= $this->form()->closeTag(); ?>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var field = document.getElementById('search_assistant_welcome_message');
+    var count = document.getElementById('welcome-message-count');
+    if (!field || !count) return;
+    count.textContent = field.value.length;
+    field.addEventListener('input', function () { count.textContent = this.value.length; });
+});
+</script>

@@ -1,0 +1,41 @@
+{
+    "name": "limonade/search-assistant",
+    "description": "Search Assistant AI module for Omeka S: RAG-based natural-language search with Qdrant and a self-hosted LLM (Ollama or OpenAI-compatible)",
+    "type": "omeka-s-module",
+    "license": "GPL-3.0-or-later",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "guzzlehttp/guzzle": "^7.5",
+        "psr/http-message": "^2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.6",
+        "phpstan/phpstan": "^1.12",
+        "phpstan/phpstan-phpunit": "^1.4"
+    },
+    "config": {
+        "platform": {
+            "php": "7.4.33"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SearchAssistantAI\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SearchAssistantAITest\\": "test/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:unit": "phpunit --testsuite SearchAssistantAI",
+        "stan": "phpstan analyse --memory-limit=1G",
+        "stan:baseline": "phpstan analyse --memory-limit=1G --generate-baseline phpstan-baseline.neon",
+        "ci": [
+            "@stan",
+            "@test"
+        ]
+    }
+}

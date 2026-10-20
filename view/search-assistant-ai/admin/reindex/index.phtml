@@ -1,0 +1,596 @@
+<?php
+/**
+ * Admin reindex interface view template for Search Assistant AI module
+ *
+ * This template provides an administrative interface for manual reindexing operations with:
+ * - Resource type selection (Items, Media, Item Sets, All)
+ * - Scope configuration (Complete, Incremental, Specific)
+ * - Execution mode selection (Async, Sync)
+ * - Preview functionality to count affected resources
+ * - Real-time progress tracking via AJAX
+ * - Job cancellation support
+ * - Live log streaming
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ * @var array $resourceTypes Available resource types
+ * @var array $scopes Scope options with labels and descriptions
+ * @var array $executionModes Execution mode options
+ * @var string $qdrantUrl Qdrant URL from settings
+ * @var string $collectionName Collection name in Qdrant
+ * @var string|null $lastIndexation Last indexation timestamp
+ * @var string $csrfToken CSRF token validated by the AJAX endpoints
+ */
+
+$this->htmlElement('body')->appendAttribute('class', 'search assistant reindex');
+$this->headTitle('Manual Reindex');
+
+?>
+
+<?php echo $this->pageTitle('Manual Reindex'); ?>
+
+<!-- CSRF Token for JavaScript (hidden) -->
+<input type="hidden" name="csrf" id="csrf-token" value="<?php echo $this->escapeHtml($csrfToken); ?>">
+
+<p class="explanation">
+    <?php echo $this->translate('Configure and launch manual reindexing operations for the vector database. Choose resource types, scope, and execution mode below.'); ?>
+</p>
+
+<!-- Current Indexation Status -->
+<fieldset id="section-status" class="dashboard-section">
+    <legend><?php echo $this->translate('Current Indexation Status'); ?></legend>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Vector Database'); ?></label>
+        </div>
+        <div class="inputs">
+            <span class="value"><?php echo $this->escapeHtml($qdrantUrl ?: 'Not configured'); ?></span>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Collection Name'); ?></label>
+        </div>
+        <div class="inputs">
+            <span class="value"><?php echo $this->escapeHtml($collectionName); ?></span>
+        </div>
+    </div>
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Last Full Indexation'); ?></label>
+        </div>
+        <div class="inputs">
+            <span class="value"><?php echo $lastIndexation ? $this->escapeHtml($lastIndexation) : $this->translate('Never'); ?></span>
+        </div>
+    </div>
+</fieldset>
+
+<!-- Reindex Configuration Form -->
+<form id="reindex-form" method="post">
+    <fieldset id="section-configuration">
+        <legend><?php echo $this->translate('Reindex Configuration'); ?></legend>
+
+        <!-- Resource Type Selection -->
+        <div class="field">
+            <div class="field-meta">
+                <label for="resource-type"><?php echo $this->translate('Resource Type'); ?></label>
+                <div class="field-description">
+                    <?php echo $this->translate('Select which type of resources to reindex.'); ?>
+                </div>
+            </div>
+            <div class="inputs">
+                <select id="resource-type" name="type" required>
+                    <?php foreach ($resourceTypes as $value => $label): ?>
+                        <option value="<?php echo $this->escapeHtml($value); ?>">
+                            <?php echo $this->escapeHtml($this->translate($label)); ?>
+                        </option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+        </div>
+
+        <!-- Scope Selection -->
+        <div class="field">
+            <div class="field-meta">
+                <label><?php echo $this->translate('Reindex Scope'); ?></label>
+                <div class="field-description">
+                    <?php echo $this->translate('Choose the scope of the reindexing operation.'); ?>
+                </div>
+            </div>
+            <div class="inputs">
+                <?php foreach ($scopes as $value => $scopeData): ?>
+                    <div class="field-option">
+                        <label>
+                            <input type="radio"
+                                   name="scope"
+                                   value="<?php echo $this->escapeHtml($value); ?>"
+                                   <?php echo $value === 'incremental' ? 'checked' : ''; ?>
+                                   required>
+                            <strong><?php echo $this->escapeHtml($this->translate($scopeData['label'])); ?></strong>
+                            <p class="option-description">
+                                <?php echo $this->escapeHtml($this->translate($scopeData['description'])); ?>
+                            </p>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+
+        <!-- Specific Resource IDs (shown only when scope is "specific") -->
+        <div class="field" id="field-resource-ids" style="display: none;">
+            <div class="field-meta">
+                <label for="resource-ids"><?php echo $this->translate('Resource IDs'); ?></label>
+                <div class="field-description">
+                    <?php echo $this->translate('Enter comma-separated resource IDs to reindex (e.g., 1, 5, 12, 45).'); ?>
+                </div>
+            </div>
+            <div class="inputs">
+                <input type="text"
+                       id="resource-ids"
+                       name="resource_ids"
+                       placeholder="<?php echo $this->escapeHtml('1, 5, 12, 45'); ?>">
+            </div>
+        </div>
+
+        <!-- Execution Mode Selection -->
+        <div class="field">
+            <div class="field-meta">
+                <label><?php echo $this->translate('Execution Mode'); ?></label>
+                <div class="field-description">
+                    <?php echo $this->translate('Choose how the reindexing job should be executed.'); ?>
+                </div>
+            </div>
+            <div class="inputs">
+                <?php foreach ($executionModes as $value => $modeData): ?>
+                    <div class="field-option">
+                        <label>
+                            <input type="radio"
+                                   name="execution_mode"
+                                   value="<?php echo $this->escapeHtml($value); ?>"
+                                   <?php echo $value === 'async' ? 'checked' : ''; ?>
+                                   required>
+                            <strong><?php echo $this->escapeHtml($this->translate($modeData['label'])); ?></strong>
+                            <p class="option-description">
+                                <?php echo $this->escapeHtml($this->translate($modeData['description'])); ?>
+                            </p>
+                        </label>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </fieldset>
+
+    <!-- Form Actions -->
+    <div id="page-actions">
+        <button type="button" id="action-preview" class="button">
+            <?php echo $this->translate('Preview'); ?>
+        </button>
+        <button type="button" id="action-launch" class="button" disabled>
+            <?php echo $this->translate('Launch Reindex'); ?>
+        </button>
+    </div>
+</form>
+
+<!-- Preview Results (hidden by default) -->
+<div id="preview-results" style="display: none; margin-top: 20px; padding: 15px; background: #f5f5f5; border-left: 4px solid #0073aa;">
+    <h3><?php echo $this->translate('Preview Results'); ?></h3>
+    <p id="preview-message"></p>
+</div>
+
+<!-- Progress Section (hidden by default) -->
+<fieldset id="section-progress" class="dashboard-section" style="display: none;">
+    <legend><?php echo $this->translate('Reindex Progress'); ?></legend>
+
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Status'); ?></label>
+        </div>
+        <div class="inputs">
+            <span id="job-status" class="value">-</span>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Progress'); ?></label>
+        </div>
+        <div class="inputs">
+            <div style="width: 100%; background: #e0e0e0; height: 30px; border-radius: 4px; overflow: hidden;">
+                <div id="progress-bar"
+                     style="width: 0%; height: 100%; background: #0073aa; transition: width 0.3s ease; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                    <span id="progress-percentage">0%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="field">
+        <div class="field-meta">
+            <label><?php echo $this->translate('Job ID'); ?></label>
+        </div>
+        <div class="inputs">
+            <span id="job-id" class="value">-</span>
+        </div>
+    </div>
+
+    <div id="progress-actions" style="margin-top: 10px;">
+        <button type="button" id="action-cancel" class="button delete">
+            <?php echo $this->translate('Cancel Job'); ?>
+        </button>
+    </div>
+</fieldset>
+
+<!-- Log Viewer (hidden by default) -->
+<fieldset id="section-logs" class="dashboard-section" style="display: none;">
+    <legend><?php echo $this->translate('Job Logs'); ?></legend>
+    <div id="log-viewer" style="background: #1e1e1e; color: #d4d4d4; padding: 15px; font-family: 'Courier New', monospace; font-size: 12px; max-height: 400px; overflow-y: auto; border-radius: 4px;">
+        <!-- Logs will be inserted here via JavaScript -->
+    </div>
+</fieldset>
+
+<!-- Status Messages Container -->
+<div id="status-messages" class="messages"></div>
+
+<!-- Inline CSS for reindex-specific styles -->
+<style>
+.field-option {
+    margin-bottom: 15px;
+}
+
+.field-option label {
+    display: block;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.field-option label:hover {
+    background-color: #f9f9f9;
+}
+
+.field-option input[type="radio"] {
+    margin-right: 8px;
+}
+
+.option-description {
+    margin: 5px 0 0 24px;
+    color: #666;
+    font-size: 0.95em;
+}
+
+#preview-results {
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.value {
+    font-weight: 500;
+}
+
+#log-viewer {
+    line-height: 1.5;
+}
+
+#log-viewer .log-line {
+    padding: 2px 0;
+    border-bottom: 1px solid #2d2d2d;
+}
+
+#log-viewer .log-line:last-child {
+    border-bottom: none;
+}
+</style>
+
+<!-- Inline JavaScript for form interactions and AJAX -->
+<script>
+(function() {
+    'use strict';
+
+    // Get CSRF token
+    const csrfToken = document.getElementById('csrf-token').value;
+
+    // Get form elements
+    const form = document.getElementById('reindex-form');
+    const resourceTypeSelect = document.getElementById('resource-type');
+    const scopeRadios = document.querySelectorAll('input[name="scope"]');
+    const resourceIdsField = document.getElementById('field-resource-ids');
+    const resourceIdsInput = document.getElementById('resource-ids');
+    const executionModeRadios = document.querySelectorAll('input[name="execution_mode"]');
+
+    // Get action buttons
+    const previewButton = document.getElementById('action-preview');
+    const launchButton = document.getElementById('action-launch');
+    const cancelButton = document.getElementById('action-cancel');
+
+    // Get preview and progress elements
+    const previewResults = document.getElementById('preview-results');
+    const previewMessage = document.getElementById('preview-message');
+    const progressSection = document.getElementById('section-progress');
+    const logsSection = document.getElementById('section-logs');
+    const progressBar = document.getElementById('progress-bar');
+    const progressPercentage = document.getElementById('progress-percentage');
+    const jobStatus = document.getElementById('job-status');
+    const jobIdDisplay = document.getElementById('job-id');
+    const logViewer = document.getElementById('log-viewer');
+
+    // State
+    let currentJobId = null;
+    let pollingInterval = null;
+
+    // Show/hide resource IDs field based on scope selection
+    scopeRadios.forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            if (this.value === 'specific') {
+                resourceIdsField.style.display = 'block';
+                resourceIdsInput.required = true;
+            } else {
+                resourceIdsField.style.display = 'none';
+                resourceIdsInput.required = false;
+            }
+        });
+    });
+
+    // Preview button click handler
+    previewButton.addEventListener('click', function() {
+        const formData = getFormData();
+
+        // Validate specific resource IDs if needed
+        if (formData.scope === 'specific' && !formData.resource_ids) {
+            showMessage('Please enter resource IDs for specific scope.', 'error');
+            return;
+        }
+
+        // Disable button and show loading
+        previewButton.disabled = true;
+        previewButton.textContent = <?php echo json_encode($this->translate('Loading...'), JSON_UNESCAPED_UNICODE); ?>;
+
+        // Make AJAX request to preview endpoint
+        fetch('<?php echo $this->url('admin/search-assistant/reindex', ['action' => 'preview'], true); ?>', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams(formData)
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                const count = data.data.count;
+                previewMessage.textContent = <?php echo json_encode($this->translate('Resources to be reindexed:') . ' ', JSON_UNESCAPED_UNICODE); ?> + count;
+                previewResults.style.display = 'block';
+
+                // Enable launch button if count > 0
+                if (count > 0) {
+                    launchButton.disabled = false;
+                } else {
+                    launchButton.disabled = true;
+                    showMessage(<?php echo json_encode($this->translate('No resources found with the selected criteria.'), JSON_UNESCAPED_UNICODE); ?>, 'warning');
+                }
+            } else {
+                showMessage(data.message || <?php echo json_encode($this->translate('Preview failed.'), JSON_UNESCAPED_UNICODE); ?>, 'error');
+            }
+        })
+        .catch(function(error) {
+            showMessage(<?php echo json_encode($this->translate('Error during preview:') . ' ', JSON_UNESCAPED_UNICODE); ?> + error.message, 'error');
+        })
+        .finally(function() {
+            previewButton.disabled = false;
+            previewButton.textContent = <?php echo json_encode($this->translate('Preview'), JSON_UNESCAPED_UNICODE); ?>;
+        });
+    });
+
+    // Launch button click handler
+    launchButton.addEventListener('click', function() {
+        const formData = getFormData();
+
+        // Show confirmation for complete scope (deletion warning)
+        if (formData.scope === 'complete') {
+            if (!confirm(<?php echo json_encode($this->translate('Complete reindex will delete all existing index entries. Are you sure?'), JSON_UNESCAPED_UNICODE); ?>)) {
+                return;
+            }
+        }
+
+        // Disable buttons
+        launchButton.disabled = true;
+        previewButton.disabled = true;
+        launchButton.textContent = <?php echo json_encode($this->translate('Launching...'), JSON_UNESCAPED_UNICODE); ?>;
+
+        // Make AJAX request to launch endpoint
+        fetch('<?php echo $this->url('admin/search-assistant/reindex', ['action' => 'launch'], true); ?>', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams(formData)
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                currentJobId = data.data.job_id;
+                jobIdDisplay.textContent = currentJobId;
+
+                // Show progress section
+                progressSection.style.display = 'block';
+                logsSection.style.display = 'block';
+
+                // Hide preview results
+                previewResults.style.display = 'none';
+
+                // Start polling for progress
+                startProgressPolling();
+
+                showMessage(<?php echo json_encode($this->translate('Reindex job started successfully.'), JSON_UNESCAPED_UNICODE); ?>, 'success');
+            } else {
+                showMessage(data.message || <?php echo json_encode($this->translate('Failed to launch reindex job.'), JSON_UNESCAPED_UNICODE); ?>, 'error');
+                launchButton.disabled = false;
+                previewButton.disabled = false;
+            }
+        })
+        .catch(function(error) {
+            showMessage(<?php echo json_encode($this->translate('Error launching job:') . ' ', JSON_UNESCAPED_UNICODE); ?> + error.message, 'error');
+            launchButton.disabled = false;
+            previewButton.disabled = false;
+        })
+        .finally(function() {
+            launchButton.textContent = <?php echo json_encode($this->translate('Launch Reindex'), JSON_UNESCAPED_UNICODE); ?>;
+        });
+    });
+
+    // Cancel button click handler
+    cancelButton.addEventListener('click', function() {
+        if (!currentJobId) return;
+
+        if (!confirm(<?php echo json_encode($this->translate('Are you sure you want to cancel the reindex job?'), JSON_UNESCAPED_UNICODE); ?>)) {
+            return;
+        }
+
+        cancelButton.disabled = true;
+
+        fetch('<?php echo $this->url('admin/search-assistant/reindex', ['action' => 'cancel'], true); ?>', {
+            method: 'POST',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: new URLSearchParams({ csrf: csrfToken, job_id: currentJobId })
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                showMessage(<?php echo json_encode($this->translate('Job cancellation requested.'), JSON_UNESCAPED_UNICODE); ?>, 'success');
+            } else {
+                showMessage(data.message || <?php echo json_encode($this->translate('Failed to cancel job.'), JSON_UNESCAPED_UNICODE); ?>, 'error');
+                cancelButton.disabled = false;
+            }
+        })
+        .catch(function(error) {
+            showMessage(<?php echo json_encode($this->translate('Error canceling job:') . ' ', JSON_UNESCAPED_UNICODE); ?> + error.message, 'error');
+            cancelButton.disabled = false;
+        });
+    });
+
+    // Get form data as object
+    function getFormData() {
+        const scope = document.querySelector('input[name="scope"]:checked').value;
+        const executionMode = document.querySelector('input[name="execution_mode"]:checked').value;
+
+        return {
+            type: resourceTypeSelect.value,
+            scope: scope,
+            resource_ids: scope === 'specific' ? resourceIdsInput.value : '',
+            execution_mode: executionMode,
+            csrf: csrfToken
+        };
+    }
+
+    // Start polling for job progress
+    function startProgressPolling() {
+        // Poll every 2 seconds
+        pollingInterval = setInterval(updateProgress, 2000);
+
+        // Immediate first update
+        updateProgress();
+    }
+
+    // Update progress from API
+    function updateProgress() {
+        if (!currentJobId) return;
+
+        fetch('<?php echo $this->url('admin/search-assistant/reindex', ['action' => 'progress'], true); ?>?job_id=' + currentJobId, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(data) {
+            if (data.success) {
+                const status = data.data.status;
+                const percentage = data.data.percentage || 0;
+                const logs = data.data.logs || [];
+
+                // Update status
+                jobStatus.textContent = status;
+
+                // Update progress bar
+                progressBar.style.width = percentage + '%';
+                progressPercentage.textContent = percentage + '%';
+
+                // Replace logs: the endpoint returns the job's latest lines
+                logViewer.textContent = '';
+                if (logs.length > 0) {
+                    logs.forEach(function(log) {
+                        const logLine = document.createElement('div');
+                        logLine.className = 'log-line';
+                        logLine.textContent = log;
+                        logViewer.appendChild(logLine);
+                    });
+
+                    // Auto-scroll to bottom
+                    logViewer.scrollTop = logViewer.scrollHeight;
+                }
+
+                // Check if job is complete
+                if (status === 'completed' || status === 'error' || status === 'stopped') {
+                    stopProgressPolling();
+
+                    if (status === 'completed') {
+                        showMessage(<?php echo json_encode($this->translate('Reindex completed successfully!'), JSON_UNESCAPED_UNICODE); ?>, 'success');
+                    } else if (status === 'error') {
+                        showMessage(<?php echo json_encode($this->translate('Reindex job failed. Check logs for details.'), JSON_UNESCAPED_UNICODE); ?>, 'error');
+                    } else {
+                        showMessage(<?php echo json_encode($this->translate('Reindex job was cancelled.'), JSON_UNESCAPED_UNICODE); ?>, 'warning');
+                    }
+
+                    // Re-enable form
+                    previewButton.disabled = false;
+                    launchButton.disabled = true;
+                }
+            }
+        })
+        .catch(function(error) {
+            // Silently fail to avoid breaking polling loop
+        });
+    }
+
+    // Stop polling
+    function stopProgressPolling() {
+        if (pollingInterval) {
+            clearInterval(pollingInterval);
+            pollingInterval = null;
+        }
+    }
+
+    // Show message to user
+    function showMessage(message, type) {
+        const messagesContainer = document.getElementById('status-messages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = type; // 'success', 'error', 'warning'
+        messageDiv.textContent = message;
+
+        messagesContainer.appendChild(messageDiv);
+
+        // Auto-remove after 5 seconds
+        setTimeout(function() {
+            messageDiv.remove();
+        }, 5000);
+    }
+})();
+</script>

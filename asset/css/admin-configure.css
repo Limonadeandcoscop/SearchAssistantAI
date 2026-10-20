@@ -1,0 +1,34 @@
+/*
+ * Search Assistant AI module — /admin/module/configure?id=SearchAssistantAI page styling.
+ *
+ * Rendered by SearchAssistantAI\Form\ConfigFormRenderer. Distinct from
+ * admin-config.css which styles the dedicated /admin/search-assistant/config
+ * admin page (property selector, indexing UI).
+ */
+
+.search-assistant-config-section {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 1em 1.25em;
+    margin: 0 0 1.5em;
+    background: #fafafa;
+}
+
+.search-assistant-config-section > legend {
+    font-weight: 600;
+    font-size: 1.05em;
+    padding: 0 0.5em;
+    color: #333;
+}
+
+.search-assistant-config-subgroup {
+    border-top: 1px dashed #ccc;
+    margin-top: 1em;
+    padding-top: 0.5em;
+}
+
+.search-assistant-config-subgroup-title {
+    font-weight: 600;
+    margin: 0.25em 0 0.5em;
+    color: #555;
+}

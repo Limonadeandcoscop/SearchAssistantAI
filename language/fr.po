@@ -1,0 +1,1267 @@
+# Search Assistant AI Module for Omeka S
+# Copyright (C) 2024 LimonadeAndCo
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: SearchAssistantAI\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-27 00:00+0000\n"
+"PO-Revision-Date: 2026-03-27 00:00+0000\n"
+"Last-Translator: Ralph <noreply@anthropic.com>\n"
+"Language-Team: fr\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "%d résultats de recherche"
+msgstr "%d résultats de recherche"
+
+msgid "%d résultats trouvés"
+msgstr "%d résultats trouvés"
+
+msgid "Accueil"
+msgstr "Accueil"
+
+msgid "Actions"
+msgstr "Actions"
+
+msgid "Active Users by Hour"
+msgstr "Utilisateurs actifs par heure"
+
+msgid "Aide"
+msgstr "Aide"
+
+msgid "All Time"
+msgstr "Tout le temps"
+
+msgid "Aller au contenu principal"
+msgstr "Aller au contenu principal"
+
+msgid "Aller directement aux résultats"
+msgstr "Aller directement aux résultats"
+
+msgid "Anonymous"
+msgstr "Anonyme"
+
+msgid "Aperçu du résultat"
+msgstr "Aperçu du résultat"
+
+msgid "Are you sure you want to cancel the reindex job?"
+msgstr "Êtes-vous sûr de vouloir annuler la tâche de réindexation ?"
+
+msgid "Assistant de recherche"
+msgstr "Assistant de recherche"
+
+msgid "Aucun résultat"
+msgstr "Aucun résultat"
+
+msgid "Aucun résultat trouvé"
+msgstr "Aucun résultat trouvé"
+
+msgid "Aucune description disponible"
+msgstr "Aucune description disponible"
+
+msgid "Aucune question récente"
+msgstr "Aucune question récente"
+
+msgid "Audio"
+msgstr "Audio"
+
+msgid "Audio player for %s"
+msgstr "Lecteur audio pour %s"
+
+msgid "Author:"
+msgstr "Auteur :"
+
+msgid "Avg Messages/Conversation"
+msgstr "Moy. messages/conversation"
+
+msgid "Avg Relevance Score"
+msgstr "Score de pertinence moyen"
+
+msgid "Avg Response Time"
+msgstr "Temps de réponse moyen"
+
+msgid "Avg Session Duration"
+msgstr "Durée moyenne de session"
+
+msgid "Avg Tokens/Response"
+msgstr "Moy. tokens/réponse"
+
+msgid "Bar chart showing active users by hour of day"
+msgstr "Graphique montrant les utilisateurs actifs par heure du jour"
+
+msgid "Breadcrumb navigation"
+msgstr "Fil d'Ariane"
+
+msgid "Cancel Job"
+msgstr "Annuler la tâche"
+
+msgid "Chargement du média..."
+msgstr "Chargement du média..."
+
+msgid "Chat Assistant"
+msgstr "Assistant de chat"
+
+msgid "Chat conversation"
+msgstr "Conversation du chat"
+
+msgid "Chat messages"
+msgstr "Messages du chat"
+
+msgid "SearchAssistantAI"
+msgstr "SearchAssistantAI"
+
+msgid "Search Assistant AI usage statistics and performance analytics."
+msgstr "Statistiques d'utilisation de l'assistant et analyses de performance."
+
+msgid "Checking..."
+msgstr "Vérification..."
+
+msgid "Choose how the reindexing job should be executed."
+msgstr "Choisissez comment la tâche de réindexation doit être exécutée."
+
+msgid "Choose the scope of the reindexing operation."
+msgstr "Choisissez la portée de l'opération de réindexation."
+
+msgid "Claude API"
+msgstr "API Claude"
+
+msgid "Clear %s Data"
+msgstr "Effacer les données %s"
+
+msgid "Clear Cache"
+msgstr "Vider le cache"
+
+msgid "Clear Filters"
+msgstr "Effacer les filtres"
+
+msgid "Clear all conversation history"
+msgstr "Effacer tout l'historique des conversations"
+
+msgid "Clear conversation"
+msgstr "Effacer la conversation"
+
+msgid "Cliquez sur les collections populaires pour des suggestions thématiques"
+msgstr "Cliquez sur les collections populaires pour des suggestions thématiques"
+
+msgid "Close chat assistant"
+msgstr "Fermer l'assistant de chat"
+
+msgid "Close help modal"
+msgstr "Fermer l'aide"
+
+msgid "Collapse All"
+msgstr "Tout replier"
+
+msgid "Collection"
+msgstr "Collection"
+
+msgid "Collection Indexing"
+msgstr "Indexation des collections"
+
+msgid "Collection Name"
+msgstr "Nom de la collection"
+
+msgid "Collection explorer and filters"
+msgstr "Explorateur de collections et filtres"
+
+msgid "Collections"
+msgstr "Collections"
+
+msgid "Collections populaires"
+msgstr "Collections populaires"
+
+msgid "Complete reindex will delete all existing index entries. Are you sure?"
+msgstr "La réindexation complète supprimera toutes les entrées existantes. Êtes-vous sûr ?"
+
+msgid "Configure and launch manual reindexing operations for the vector database. Choose resource types, scope, and execution mode below."
+msgstr "Configurez et lancez des opérations de réindexation manuelle pour la base vectorielle. Choisissez les types de ressources, la portée et le mode d'exécution ci-dessous."
+
+msgid "Connection status and health monitoring for all integrated services."
+msgstr "État de connexion et surveillance de tous les services intégrés."
+
+msgid "Content type filter"
+msgstr "Filtre par type de contenu"
+
+msgid "Conversation History"
+msgstr "Historique des conversations"
+
+msgid "Conversation ID"
+msgstr "ID de conversation"
+
+msgid "Conversation Messages"
+msgstr "Messages de la conversation"
+
+msgid "Conversations Over Time"
+msgstr "Conversations au fil du temps"
+
+msgid "Current Indexation Status"
+msgstr "État actuel de l'indexation"
+
+msgid "Customize the appearance and behavior of the search assistant widget on your site."
+msgstr "Personnalisez l'apparence et le comportement du widget de l'assistant sur votre site."
+
+msgid "Date"
+msgstr "Date"
+
+msgid "Date From"
+msgstr "Date de début"
+
+msgid "Date To"
+msgstr "Date de fin"
+
+msgid "Date:"
+msgstr "Date :"
+
+msgid "Deselect All"
+msgstr "Tout désélectionner"
+
+msgid "Documents"
+msgstr "Documents"
+
+msgid "Effacer tout"
+msgstr "Effacer tout"
+
+msgid "Embeddings Service"
+msgstr "Service d'embeddings"
+
+msgid "End date (inclusive)"
+msgstr "Date de fin (incluse)"
+
+msgid "Ended At"
+msgstr "Terminé le"
+
+msgid "Engagement Rate"
+msgstr "Taux d'engagement"
+
+msgid "Ensemble"
+msgstr "Ensemble"
+
+msgid "Enter comma-separated resource IDs to reindex (e.g., 1, 5, 12, 45)."
+msgstr "Entrez les IDs de ressources séparés par des virgules (ex. : 1, 5, 12, 45)."
+
+msgid "Error canceling job:"
+msgstr "Erreur lors de l'annulation de la tâche :"
+
+msgid "Error during preview:"
+msgstr "Erreur pendant l'aperçu :"
+
+msgid "Error launching job:"
+msgstr "Erreur au lancement de la tâche :"
+
+msgid "Error:"
+msgstr "Erreur :"
+
+msgid "Essayez de modifier vos filtres ou votre requête de recherche."
+msgstr "Essayez de modifier vos filtres ou votre requête de recherche."
+
+msgid "Exact session identifier"
+msgstr "Identifiant de session exact"
+
+msgid "Execution Mode"
+msgstr "Mode d'exécution"
+
+msgid "Expand All"
+msgstr "Tout déplier"
+
+msgid "Explorer les collections"
+msgstr "Explorer les collections"
+
+msgid "Export CSV"
+msgstr "Exporter en CSV"
+
+msgid "Export JSON"
+msgstr "Exporter en JSON"
+
+msgid "Failed Queries"
+msgstr "Requêtes échouées"
+
+msgid "Failed to cancel job."
+msgstr "Échec de l'annulation de la tâche."
+
+msgid "Failed to launch reindex job."
+msgstr "Échec du lancement de la tâche de réindexation."
+
+msgid "Filter by content type"
+msgstr "Filtrer par type de contenu"
+
+msgid "Filter by media type"
+msgstr "Filtrer par type de média"
+
+msgid "Filter by time period"
+msgstr "Filtrer par période"
+
+msgid "Filter collections..."
+msgstr "Filtrer les collections..."
+
+msgid "Filter properties..."
+msgstr "Filtrer les propriétés..."
+
+msgid "Filtrer les résultats"
+msgstr "Filtrer les résultats"
+
+msgid "Filtrez par type de contenu ou période pour affiner vos résultats"
+msgstr "Filtrez par type de contenu ou période pour affiner vos résultats"
+
+msgid "First"
+msgstr "Premier"
+
+msgid "First page"
+msgstr "Première page"
+
+msgid "Force Sync"
+msgstr "Forcer la synchronisation"
+
+msgid "Found %d conversation(s) matching your search criteria."
+msgstr "%d conversation(s) trouvée(s) correspondant à vos critères de recherche."
+
+msgid "Grid view"
+msgstr "Vue en grille"
+
+msgid "Grille"
+msgstr "Grille"
+
+msgid "Histogram showing distribution of response times"
+msgstr "Histogramme montrant la distribution des temps de réponse"
+
+msgid "Historique récent"
+msgstr "Historique récent"
+
+msgid "Images"
+msgstr "Images"
+
+msgid "Indexation State"
+msgstr "État de l'indexation"
+
+msgid "Indexed Documents"
+msgstr "Documents indexés"
+
+msgid "Indexed Items"
+msgstr "Items indexés"
+
+msgid "Indexing Field Selection"
+msgstr "Sélection des champs d'indexation"
+
+msgid "Interface Customization"
+msgstr "Personnalisation de l'interface"
+
+msgid "Item"
+msgstr "Item"
+
+msgid "Items"
+msgstr "Items"
+
+msgid "Job ID"
+msgstr "ID de la tâche"
+
+msgid "Job Logs"
+msgstr "Journaux de la tâche"
+
+msgid "Job cancellation requested."
+msgstr "Annulation de la tâche demandée."
+
+msgid "Keyword"
+msgstr "Mot-clé"
+
+msgid "Last"
+msgstr "Dernier"
+
+msgid "Last 30 Days"
+msgstr "30 derniers jours"
+
+msgid "Last 7 Days"
+msgstr "7 derniers jours"
+
+msgid "Last 90 Days"
+msgstr "90 derniers jours"
+
+msgid "Last Full Indexation"
+msgstr "Dernière indexation complète"
+
+msgid "Last Year"
+msgstr "Année dernière"
+
+msgid "Last page"
+msgstr "Dernière page"
+
+msgid "Launch Reindex"
+msgstr "Lancer la réindexation"
+
+msgid "Launching..."
+msgstr "Lancement..."
+
+msgid "Le musée est ouvert du mardi au dimanche de 10h00 à 18h00. Nous sommes fermés le lundi et les jours fériés. Puis-je vous aider avec autre chose ?"
+msgstr "Le musée est ouvert du mardi au dimanche de 10h00 à 18h00. Nous sommes fermés le lundi et les jours fériés. Puis-je vous aider avec autre chose ?"
+
+msgid "Line chart showing search assistant question volume over time"
+msgstr "Graphique montrant le volume de questions de l'assistant au fil du temps"
+
+msgid "Line chart showing conversation volume over time"
+msgstr "Graphique montrant le volume de conversations au fil du temps"
+
+msgid "List view"
+msgstr "Vue en liste"
+
+msgid "Liste"
+msgstr "Liste"
+
+msgid "Loading analytics..."
+msgstr "Chargement des analyses..."
+
+msgid "Loading data..."
+msgstr "Chargement des données..."
+
+msgid "Loading..."
+msgstr "Chargement..."
+
+msgid "Maintenant"
+msgstr "Maintenant"
+
+msgid "Manuscrits"
+msgstr "Manuscrits"
+
+msgid "Maximum results to display (max: 1000)"
+msgstr "Nombre maximal de résultats à afficher (max : 1000)"
+
+msgid "Merci !"
+msgstr "Merci !"
+
+msgid "Message input"
+msgstr "Saisie du message"
+
+msgid "Messages"
+msgstr "Messages"
+
+msgid "Messages for conversation %s"
+msgstr "Messages de la conversation %s"
+
+msgid "Metadata"
+msgstr "Métadonnées"
+
+msgid "Most frequently asked questions and trending topics."
+msgstr "Questions les plus fréquemment posées et sujets tendance."
+
+msgid "Média"
+msgstr "Média"
+
+msgid "Médias"
+msgstr "Médias"
+
+msgid "Never"
+msgstr "Jamais"
+
+msgid "Next"
+msgstr "Suivant"
+
+msgid "Next page"
+msgstr "Page suivante"
+
+msgid "No Results"
+msgstr "Aucun résultat"
+
+msgid "No collections found. Items will be indexed regardless of collection membership."
+msgstr "Aucune collection trouvée. Les items seront indexés quel que soit leur appartenance à une collection."
+
+msgid "No collections selected"
+msgstr "Aucune collection sélectionnée"
+
+msgid "No conversations match your search criteria. Try adjusting your filters or search terms."
+msgstr "Aucune conversation ne correspond à vos critères de recherche. Essayez d'ajuster vos filtres ou vos termes de recherche."
+
+msgid "No image available"
+msgstr "Aucune image disponible"
+
+msgid "No messages in this conversation."
+msgstr "Aucun message dans cette conversation."
+
+msgid "No properties selected"
+msgstr "Aucune propriété sélectionnée"
+
+msgid "No resources found with the selected criteria."
+msgstr "Aucune ressource trouvée avec les critères sélectionnés."
+
+msgid "Nouvelle conversation"
+msgstr "Nouvelle conversation"
+
+msgid "Numeric user identifier (leave empty for anonymous)"
+msgstr "Identifiant numérique de l'utilisateur (laisser vide pour anonyme)"
+
+msgid "Open chat assistant"
+msgstr "Ouvrir l'assistant de chat"
+
+msgid "Open help modal"
+msgstr "Ouvrir l'aide"
+
+msgid "Overview of stored conversations and interaction history."
+msgstr "Aperçu des conversations enregistrées et de l'historique des interactions."
+
+msgid "Page %d"
+msgstr "Page %d"
+
+msgid "Page %d of %d (%d total results)"
+msgstr "Page %d sur %d (%d résultats au total)"
+
+msgid "Page %d sur %d"
+msgstr "Page %d sur %d"
+
+msgid "Peintures"
+msgstr "Peintures"
+
+msgid "Pending Indexation"
+msgstr "En attente d'indexation"
+
+msgid "Pertinence"
+msgstr "Pertinence"
+
+msgid "Photographies"
+msgstr "Photographies"
+
+msgid "Pie chart showing distribution of questions by topic"
+msgstr "Graphique montrant la distribution des questions par sujet"
+
+msgid "Popular Topics"
+msgstr "Sujets populaires"
+
+msgid "Posez votre question..."
+msgstr "Posez votre question..."
+
+msgid "Preview"
+msgstr "Aperçu"
+
+msgid "Preview Results"
+msgstr "Résultats de l'aperçu"
+
+msgid "Preview failed."
+msgstr "L'aperçu a échoué."
+
+msgid "Previous"
+msgstr "Précédent"
+
+msgid "Previous page"
+msgstr "Page précédente"
+
+msgid "Processing..."
+msgstr "Traitement en cours..."
+
+msgid "Progress"
+msgstr "Progression"
+
+msgid "Précédent"
+msgstr "Précédent"
+
+msgid "Période"
+msgstr "Période"
+
+msgid "Query Performance"
+msgstr "Performance des requêtes"
+
+msgid "Questions Over Time"
+msgstr "Questions au fil du temps"
+
+msgid "Questions suggérées"
+msgstr "Questions suggérées"
+
+msgid "Refresh Data"
+msgstr "Actualiser les données"
+
+msgid "Reindex All"
+msgstr "Tout réindexer"
+
+msgid "Reindex Configuration"
+msgstr "Configuration de la réindexation"
+
+msgid "Reindex Progress"
+msgstr "Progression de la réindexation"
+
+msgid "Reindex Scope"
+msgstr "Portée de la réindexation"
+
+msgid "Reindex completed successfully!"
+msgstr "Réindexation terminée avec succès !"
+
+msgid "Reindex job failed. Check logs for details."
+msgstr "La tâche de réindexation a échoué. Consultez les journaux pour plus de détails."
+
+msgid "Reindex job started successfully."
+msgstr "La tâche de réindexation a démarré avec succès."
+
+msgid "Reindex job was cancelled."
+msgstr "La tâche de réindexation a été annulée."
+
+msgid "Relevance: %d%%"
+msgstr "Pertinence : %d%%"
+
+msgid "Reset all filters"
+msgstr "Réinitialiser tous les filtres"
+
+msgid "Resource IDs"
+msgstr "IDs de ressources"
+
+msgid "Resource Type"
+msgstr "Type de ressource"
+
+msgid "Resources to be reindexed:"
+msgstr "Ressources à réindexer :"
+
+msgid "Response Time Distribution"
+msgstr "Distribution des temps de réponse"
+
+msgid "Response quality and performance metrics."
+msgstr "Qualité des réponses et métriques de performance."
+
+msgid "Ressource"
+msgstr "Ressource"
+
+msgid "Results Per Page"
+msgstr "Résultats par page"
+
+msgid "Results controls"
+msgstr "Contrôles des résultats"
+
+msgid "Retour au search assistant"
+msgstr "Retour à l'assistant"
+
+msgid "Returning Users"
+msgstr "Utilisateurs récurrents"
+
+msgid "Réinitialiser les filtres"
+msgstr "Réinitialiser les filtres"
+
+msgid "Résultat précédent (Flèche gauche)"
+msgstr "Résultat précédent (Flèche gauche)"
+
+msgid "Résultat suivant (Flèche droite)"
+msgstr "Résultat suivant (Flèche droite)"
+
+msgid "Résultats"
+msgstr "Résultats"
+
+msgid "Sans titre"
+msgstr "Sans titre"
+
+msgid "Satisfaction Rate"
+msgstr "Taux de satisfaction"
+
+msgid "Save Configuration"
+msgstr "Enregistrer la configuration"
+
+msgid "Score de pertinence: %d%%"
+msgstr "Score de pertinence: %d%%"
+
+msgid "Sculptures"
+msgstr "Sculptures"
+
+msgid "Search Conversations"
+msgstr "Rechercher des conversations"
+
+msgid "Search Results"
+msgstr "Résultats de recherche"
+
+msgid "Search conversation history by session ID, user ID, keyword, or date range. Results include full message history and metadata."
+msgstr "Recherchez l'historique des conversations par ID de session, ID utilisateur, mot-clé ou plage de dates. Les résultats incluent l'historique complet des messages et les métadonnées."
+
+msgid "Search filters"
+msgstr "Filtres de recherche"
+
+msgid "Search for text within messages"
+msgstr "Rechercher du texte dans les messages"
+
+msgid "Search in message content..."
+msgstr "Rechercher dans le contenu des messages..."
+
+msgid "Search results"
+msgstr "Résultats de recherche"
+
+msgid "Search results pagination"
+msgstr "Pagination des résultats"
+
+msgid "Searching conversations..."
+msgstr "Recherche de conversations..."
+
+msgid "Select All"
+msgstr "Tout sélectionner"
+
+msgid "Select content type"
+msgstr "Sélectionner le type de contenu"
+
+msgid "Select time period"
+msgstr "Sélectionner la période"
+
+msgid "Select which collections (Item Sets) to include in vector indexing. If no collections are selected, all items will be indexed regardless of collection membership (default behavior). Items belonging to at least one selected collection will be indexed."
+msgstr "Sélectionnez les collections (ensembles d'items) à inclure dans l'indexation vectorielle. Si aucune collection n'est sélectionnée, tous les items seront indexés quel que soit leur appartenance (comportement par défaut). Les items appartenant à au moins une collection sélectionnée seront indexés."
+
+msgid "Select which properties to include in vector indexing. If no properties are selected, all properties will be indexed (default behavior)."
+msgstr "Sélectionnez les propriétés à inclure dans l'indexation vectorielle. Si aucune propriété n'est sélectionnée, toutes les propriétés seront indexées (comportement par défaut)."
+
+msgid "Select which type of resources to reindex."
+msgstr "Sélectionnez le type de ressources à réindexer."
+
+msgid "Send message"
+msgstr "Envoyer le message"
+
+msgid "Session ID"
+msgstr "ID de session"
+
+msgid "Session controls"
+msgstr "Session controls"
+
+msgid "Some items have been pending indexation for an extended period."
+msgstr "Certains items sont en attente d'indexation depuis longtemps."
+
+msgid "Sort results by"
+msgstr "Trier les résultats par"
+
+msgid "Start a new conversation"
+msgstr "Démarrer une nouvelle conversation"
+
+msgid "Start date (inclusive)"
+msgstr "Date de début (incluse)"
+
+msgid "Started At"
+msgstr "Démarré le"
+
+msgid "Status"
+msgstr "Statut"
+
+msgid "Storage Used"
+msgstr "Stockage utilisé"
+
+msgid "Success Rate"
+msgstr "Taux de réussite"
+
+msgid "Successful Queries"
+msgstr "Requêtes réussies"
+
+msgid "Suivant"
+msgstr "Suivant"
+
+msgid "Table view"
+msgstr "Vue en tableau"
+
+msgid "Tableau"
+msgstr "Tableau"
+
+msgid "Technical Health"
+msgstr "État technique"
+
+msgid "Test Configuration"
+msgstr "Tester la configuration"
+
+msgid "This Month"
+msgstr "Ce mois-ci"
+
+msgid "This Week"
+msgstr "Cette semaine"
+
+msgid "Time period filter"
+msgstr "Filtre par période"
+
+msgid "Titre"
+msgstr "Titre"
+
+msgid "Today"
+msgstr "Aujourd'hui"
+
+msgid "Top 10 Questions"
+msgstr "Top 10 des questions"
+
+msgid "Topic Distribution"
+msgstr "Distribution des sujets"
+
+msgid "Total Conversations"
+msgstr "Total des conversations"
+
+msgid "Total Messages"
+msgstr "Total des messages"
+
+msgid "Total Questions"
+msgstr "Total des questions"
+
+msgid "Total Tokens Used"
+msgstr "Total tokens utilisés"
+
+msgid "Tous"
+msgstr "Tous"
+
+msgid "Toutes les périodes"
+msgstr "Toutes les périodes"
+
+msgid "Trending Queries (Last 7 Days)"
+msgstr "Requêtes tendance (7 derniers jours)"
+
+msgid "Trier par:"
+msgstr "Trier par:"
+
+msgid "Type de contenu"
+msgstr "Type de contenu"
+
+msgid "Type de média"
+msgstr "Type de média"
+
+msgid "Type your message"
+msgstr "Tapez votre message"
+
+msgid "Type your message..."
+msgstr "Tapez votre message..."
+
+msgid "Type: %s"
+msgstr "Type : %s"
+
+msgid "Unique Users"
+msgstr "Utilisateurs uniques"
+
+msgid "Usage Metrics"
+msgstr "Métriques d'utilisation"
+
+msgid "User Engagement"
+msgstr "Engagement utilisateur"
+
+msgid "User ID"
+msgstr "ID utilisateur"
+
+msgid "User Satisfaction"
+msgstr "Satisfaction utilisateur"
+
+msgid "User interaction patterns and engagement metrics."
+msgstr "Schémas d'interaction des utilisateurs et métriques d'engagement."
+
+msgid "Utilisez les questions suggérées pour commencer"
+msgstr "Utilisez les questions suggérées pour commencer"
+
+msgid "Vector Database"
+msgstr "Base de données vectorielle"
+
+msgid "Vector database statistics and indexation status from %s."
+msgstr "Statistiques de la base vectorielle et état de l'indexation depuis %s."
+
+msgid "Video"
+msgstr "Vidéo"
+
+msgid "Video player for %s"
+msgstr "Lecteur vidéo pour %s"
+
+msgid "Vidéos"
+msgstr "Vidéos"
+
+msgid "View Messages"
+msgstr "Voir les messages"
+
+msgid "View details for %s"
+msgstr "Voir les détails de %s"
+
+msgid "View mode"
+msgstr "Mode d'affichage"
+
+msgid "Voir les détails"
+msgstr "Voir les détails"
+
+msgid "Votre historique est conservé localement pour faciliter la navigation"
+msgstr "Votre historique est conservé localement pour faciliter la navigation"
+
+msgid "Warning:"
+msgstr "Attention :"
+
+msgid "XIXe siècle"
+msgstr "XIXe siècle"
+
+msgid "XVIIIe siècle"
+msgstr "XVIIIe siècle"
+
+msgid "XVIIe siècle"
+msgstr "XVIIe siècle"
+
+msgid "XVIe siècle"
+msgstr "XVIe siècle"
+
+msgid "XVe siècle"
+msgstr "XVe siècle"
+
+msgid "XXIe siècle"
+msgstr "XXIe siècle"
+
+msgid "XXe siècle"
+msgstr "XXe siècle"
+
+msgid "Your browser does not support the audio element."
+msgstr "Votre navigateur ne supporte pas l'élément audio."
+
+msgid "Your browser does not support the video element."
+msgstr "Votre navigateur ne supporte pas l'élément vidéo."
+
+msgid "all items will be indexed (default behavior)"
+msgstr "tous les items seront indexés (comportement par défaut)"
+
+msgid "all properties will be indexed (default behavior)"
+msgstr "toutes les propriétés seront indexées (comportement par défaut)"
+
+msgid "characters"
+msgstr "caractères"
+
+msgid "e.g., 123"
+msgstr "ex. : 123"
+
+msgid "e.g., sess_abc123xyz"
+msgstr "ex. : sess_abc123xyz"
+
+
+# /admin/search-assistant/config — Interface Customization section
+msgid "Search Assistant AI Configuration"
+msgstr "Configuration de Search Assistant AI"
+
+msgid "Back to Admin"
+msgstr "Retour à l'administration"
+
+msgid "Enable Floating Widget"
+msgstr "Activer le widget flottant"
+
+msgid "Display a floating search assistant widget on public pages"
+msgstr "Afficher un widget d'assistant flottant sur les pages publiques"
+
+msgid "Enable Dedicated Page"
+msgstr "Activer la page dédiée"
+
+msgid "Create a dedicated search assistant page accessible via direct URL"
+msgstr "Créer une page dédiée à l'assistant accessible via une URL directe"
+
+msgid "Display On"
+msgstr "Afficher sur"
+
+msgid "Pages where the floating widget is shown"
+msgstr "Pages sur lesquelles le widget flottant est affiché"
+
+msgid "Homepage only"
+msgstr "Page d'accueil uniquement"
+
+msgid "All site pages"
+msgstr "Toutes les pages du site"
+
+msgid "Widget Position"
+msgstr "Position du widget"
+
+msgid "Position of the floating widget on the page"
+msgstr "Position du widget flottant sur la page"
+
+msgid "Bottom Right"
+msgstr "En bas à droite"
+
+msgid "Bottom Left"
+msgstr "En bas à gauche"
+
+msgid "Primary Color"
+msgstr "Couleur principale"
+
+msgid "Primary color for the search assistant interface (hex color code)"
+msgstr "Couleur principale de l'interface de l'assistant (code couleur hexadécimal)"
+
+msgid "Welcome Message"
+msgstr "Message de bienvenue"
+
+msgid "Initial greeting message displayed to users (max 500 characters)"
+msgstr "Message d'accueil initial affiché aux utilisateurs (500 caractères maximum)"
+
+msgid "Enter a friendly welcome message..."
+msgstr "Saisissez un message de bienvenue chaleureux..."
+
+msgid "(%d properties)"
+msgstr "(%d propriétés)"
+
+msgid "(%d items)"
+msgstr "(%d éléments)"
+
+# /admin/module/configure?id=SearchAssistantAI — section titles + subgroup titles
+msgid "Vector Store"
+msgstr "Magasin vectoriel"
+
+msgid "Qdrant"
+msgstr "Qdrant"
+
+msgid "Elasticsearch"
+msgstr "Elasticsearch"
+
+msgid "Embeddings"
+msgstr "Embeddings"
+
+msgid "LLM Provider"
+msgstr "Fournisseur LLM"
+
+msgid "Claude (Anthropic)"
+msgstr "Claude (Anthropic)"
+
+msgid "Ollama"
+msgstr "Ollama"
+
+msgid "Advanced Settings"
+msgstr "Paramètres avancés"
+
+# VectorStoreSection labels + info
+msgid "Vector Store Backend"
+msgstr "Backend du magasin vectoriel"
+
+msgid "Select the vector database backend for storing embeddings. Switching backends requires a full reindex."
+msgstr "Sélectionner le backend de base de données vectorielle pour stocker les embeddings. Changer de backend nécessite une réindexation complète."
+
+msgid "Qdrant URL"
+msgstr "URL Qdrant"
+
+msgid "URL of the Qdrant vector database (e.g., http://localhost:6333)"
+msgstr "URL de la base de données vectorielle Qdrant (ex. : http://localhost:6333)"
+
+msgid "Name of the Qdrant collection for storing embeddings (alphanumeric and underscores only)"
+msgstr "Nom de la collection Qdrant pour stocker les embeddings (caractères alphanumériques et underscores uniquement)"
+
+msgid "API Key (Optional)"
+msgstr "Clé API (optionnelle)"
+
+msgid "API key for Qdrant cloud deployments (leave empty for local development)"
+msgstr "Clé API pour les déploiements Qdrant cloud (laisser vide pour le développement local)"
+
+msgid "Elasticsearch URL"
+msgstr "URL Elasticsearch"
+
+msgid "URL of the Elasticsearch server. Use http://elasticsearch:9200 for Docker deployments or https://localhost:9200 for local development with security enabled."
+msgstr "URL du serveur Elasticsearch. Utilisez http://elasticsearch:9200 pour les déploiements Docker ou https://localhost:9200 pour un développement local avec la sécurité activée."
+
+msgid "Elasticsearch Index Name"
+msgstr "Nom de l'index Elasticsearch"
+
+msgid "Name of the Elasticsearch index for storing embeddings (lowercase, alphanumeric, hyphens, and underscores only)"
+msgstr "Nom de l'index Elasticsearch pour stocker les embeddings (minuscules, caractères alphanumériques, tirets et underscores uniquement)"
+
+msgid "Elasticsearch API Key (Optional)"
+msgstr "Clé API Elasticsearch (optionnelle)"
+
+msgid "API key for Elasticsearch authentication (leave empty if security is disabled)"
+msgstr "Clé API pour l'authentification Elasticsearch (laisser vide si la sécurité est désactivée)"
+
+msgid "Verify SSL Certificate"
+msgstr "Vérifier le certificat SSL"
+
+msgid "Whether to verify SSL certificates for Elasticsearch connections. Disable for Docker deployments with xpack.security.enabled=false or self-signed certificates."
+msgstr "Vérifier les certificats SSL pour les connexions Elasticsearch. À désactiver pour les déploiements Docker avec xpack.security.enabled=false ou des certificats auto-signés."
+
+# EmbeddingSection
+msgid "Embeddings Service URL"
+msgstr "URL du service d'embeddings"
+
+msgid "URL of the embeddings generation service (e.g., http://localhost:8000)"
+msgstr "URL du service de génération d'embeddings (ex. : http://localhost:8000)"
+
+msgid "Embedding Vector Dimension"
+msgstr "Dimension du vecteur d'embedding"
+
+msgid "Size of the embedding vectors produced by the embeddings service. Must match the model in use (e.g., 384 for all-MiniLM-L6-v2, 768 for all-mpnet-base-v2, 1024 for BAAI/bge-m3 or bge-large, 1536 for text-embedding-3-small). Changing this value requires clearing the vector store collection and running a full reindex."
+msgstr "Taille des vecteurs d'embedding produits par le service d'embeddings. Doit correspondre au modèle utilisé (ex. : 384 pour all-MiniLM-L6-v2, 768 pour all-mpnet-base-v2, 1024 pour BAAI/bge-m3 ou bge-large, 1536 pour text-embedding-3-small). Changer cette valeur nécessite de vider la collection du magasin vectoriel et d'effectuer une réindexation complète."
+
+# LlmSection
+msgid "Select the LLM provider for generating search assistant responses"
+msgstr "Sélectionner le fournisseur LLM pour générer les réponses de l'assistant"
+
+msgid "Claude API Key"
+msgstr "Clé API Claude"
+
+msgid "Anthropic Claude API key for search assistant responses (required when Claude provider is selected, format: sk-ant-...)"
+msgstr "Clé API Anthropic Claude pour les réponses de l'assistant (requise quand le fournisseur Claude est sélectionné, format : sk-ant-...)"
+
+msgid "Claude Model"
+msgstr "Modèle Claude"
+
+msgid "Select the Claude model to use for generating responses"
+msgstr "Sélectionner le modèle Claude à utiliser pour générer les réponses"
+
+msgid "Max Tokens"
+msgstr "Tokens maximum"
+
+msgid "Maximum number of tokens in the response (1-4096)"
+msgstr "Nombre maximum de tokens dans la réponse (1-4096)"
+
+msgid "Temperature"
+msgstr "Température"
+
+msgid "Sampling temperature for response generation (0.0 = deterministic, 1.0 = creative)"
+msgstr "Température d'échantillonnage pour la génération (0.0 = déterministe, 1.0 = créatif)"
+
+msgid "Self-hosted LLM URL"
+msgstr "URL du LLM auto-hébergé"
+
+msgid "URL of your self-hosted LLM. Ollama: http://localhost:11434 when it runs natively on the host (macOS/Linux), http://ollama:11434 when it runs in Docker on the same compose network. OpenAI-compatible: the server base URL, with or without /v1 (e.g. http://vllm:8000)."
+msgstr "URL de votre LLM auto-hébergé. Ollama : http://localhost:11434 lorsqu'il s'exécute en natif sur la machine hôte (macOS/Linux), http://ollama:11434 lorsqu'il s'exécute dans Docker sur le même réseau compose. Compatible OpenAI : l'URL de base du serveur, avec ou sans /v1 (ex. : http://vllm:8000)."
+
+msgid "Self-hosted LLM Model"
+msgstr "Modèle du LLM auto-hébergé"
+
+msgid "Name of the model served by your self-hosted LLM (e.g., llama3.2, mistral for Ollama; google/gemma-3-12b-it for vLLM)."
+msgstr "Nom du modèle servi par votre LLM auto-hébergé (ex. : llama3.2, mistral pour Ollama ; google/gemma-3-12b-it pour vLLM)."
+
+msgid "Self-hosted (Ollama or OpenAI-compatible)"
+msgstr "Auto-hébergé (Ollama ou compatible OpenAI)"
+
+msgid "Self-hosted LLM"
+msgstr "LLM auto-hébergé"
+
+msgid "Self-hosted LLM API format"
+msgstr "Format d'API du LLM auto-hébergé"
+
+msgid "API spoken by the server. \"Ollama\" uses /api/chat and /api/tags. \"OpenAI-compatible\" uses /v1/chat/completions and /v1/models (vLLM, TGI, LiteLLM, Ollama)."
+msgstr "API utilisée par le serveur. « Ollama » utilise /api/chat et /api/tags. « Compatible OpenAI » utilise /v1/chat/completions et /v1/models (vLLM, TGI, LiteLLM, Ollama)."
+
+msgid "Ollama (native API)"
+msgstr "Ollama (API native)"
+
+msgid "OpenAI-compatible (vLLM, TGI...)"
+msgstr "Compatible OpenAI (vLLM, TGI...)"
+
+msgid "Embeddings API format"
+msgstr "Format d'API des embeddings"
+
+msgid "\"Native\" posts {\"text\": [...]} to /embed. \"OpenAI-compatible\" posts {\"model\", \"input\"} to /v1/embeddings (vLLM, TEI, Ollama...)."
+msgstr "« Natif » envoie {\"text\": [...]} à /embed. « Compatible OpenAI » envoie {\"model\", \"input\"} à /v1/embeddings (vLLM, TEI, Ollama...)."
+
+msgid "Native (/embed)"
+msgstr "Natif (/embed)"
+
+msgid "OpenAI-compatible (/v1/embeddings)"
+msgstr "Compatible OpenAI (/v1/embeddings)"
+
+msgid "Embeddings Model"
+msgstr "Modèle d'embeddings"
+
+msgid "Model name sent to the server (required for the OpenAI-compatible format, e.g. BAAI/bge-multilingual-gemma2). Ignored by the native format."
+msgstr "Nom du modèle envoyé au serveur (obligatoire pour le format compatible OpenAI, ex. : BAAI/bge-multilingual-gemma2). Ignoré par le format natif."
+
+# AdvancedSection
+msgid "Search Result Limit"
+msgstr "Nombre max. de résultats"
+
+msgid "Maximum number of search results to retrieve from the vector store (1-50)"
+msgstr "Nombre maximum de résultats à récupérer depuis le magasin vectoriel (1-50)"
+
+msgid "Enable Question Caching"
+msgstr "Activer la mise en cache des questions"
+
+msgid "Cache frequently asked questions to improve response time"
+msgstr "Mettre en cache les questions fréquentes pour améliorer le temps de réponse"
+
+msgid "Enable Verbose Logging"
+msgstr "Activer les logs détaillés"
+
+msgid "Log detailed debugging information (useful for troubleshooting)"
+msgstr "Enregistrer les informations de débogage détaillées (utile pour le dépannage)"
+
+msgid "Auto-process Indexing Queue"
+msgstr "Traiter automatiquement la file d'indexation"
+
+msgid "Automatically process the indexing queue when items are created or updated"
+msgstr "Traiter automatiquement la file d'indexation lors de la création ou mise à jour d'items"
+
+msgid "Per-IP Request Limit"
+msgstr "Limite de requêtes par IP"
+
+msgid "Maximum search assistant API requests allowed from a single client IP per window (default: 10). Set higher for shared networks or if sitting behind a reverse proxy."
+msgstr "Nombre maximum de requêtes à l'API de l'assistant autorisées depuis une adresse IP par fenêtre (par défaut : 10). Augmenter cette valeur pour les réseaux partagés ou derrière un reverse proxy."
+
+msgid "Per-IP Window (seconds)"
+msgstr "Fenêtre par IP (secondes)"
+
+msgid "Sliding window duration in seconds for the per-IP request limit (default: 60)."
+msgstr "Durée de la fenêtre glissante en secondes pour la limite par IP (par défaut : 60)."
+
+msgid "LLM Token Budget (per window)"
+msgstr "Budget de tokens LLM (par fenêtre)"
+
+msgid "Organization-wide input-token ceiling for the configured LLM provider, shared across all clients (default: 30000 = Anthropic tier-1 limit). Adjust to match your provider plan."
+msgstr "Plafond de tokens d'entrée à l'échelle de l'organisation pour le fournisseur LLM configuré, partagé entre tous les clients (par défaut : 30000 = limite Anthropic tier-1). À ajuster selon votre plan."
+
+msgid "LLM Token Window (seconds)"
+msgstr "Fenêtre de tokens LLM (secondes)"
+
+msgid "Sliding window duration in seconds for the organization-wide token budget (default: 60)."
+msgstr "Durée de la fenêtre glissante en secondes pour le budget de tokens (par défaut : 60)."
+
+msgid "Response Generation Instruction"
+msgstr "Instruction de génération de réponse"
+
+msgid "Instruction appended to the response generation prompt sent to the LLM. Tells the model how to use the search results to answer the user."
+msgstr "Instruction ajoutée au prompt de génération de réponse envoyé au LLM. Indique au modèle comment utiliser les résultats de recherche pour répondre à l'utilisateur."
+
+# ConfigFormRenderer messenger warning
+msgid "Vector store backend changed. A full reindex is required for the new backend."
+msgstr "Le backend du magasin vectoriel a été modifié. Une réindexation complète est requise pour le nouveau backend."
+
+# /admin/search-assistant/prompts — PromptsController / view / form / nav
+msgid "Prompts"
+msgstr "Prompts"
+
+msgid "Search Assistant AI Prompts"
+msgstr "Prompts de Search Assistant AI"
+
+msgid "Edit the prompts the search assistant uses. Values are stored in the Omeka settings table and take effect on the next chat request. The reference examples under config/prompts/ are copied into the settings the first time the module boots; edits after that point are preserved."
+msgstr "Modifiez les prompts utilisés par le search_assistant. Les valeurs sont stockées dans la table de paramètres Omeka et prennent effet à la prochaine requête de chat. Les exemples de référence sous config/prompts/ sont copiés dans les paramètres au premier démarrage du module ; les modifications effectuées ensuite sont conservées."
+
+msgid "Search Assistant AI instructions"
+msgstr "Instructions de l'assistant"
+
+msgid "Search Assistant AI instructions (plain text)"
+msgstr "Instructions de l'assistant (texte)"
+
+msgid "Plain-text system instructions passed to the LLM before every user turn."
+msgstr "Instructions système en texte brut transmises au LLM avant chaque tour de l'utilisateur."
+
+msgid "Criteria extraction template"
+msgstr "Modèle d'extraction des critères"
+
+msgid "Criteria extraction template (YAML)"
+msgstr "Modèle d'extraction des critères (YAML)"
+
+msgid "YAML template used to extract search criteria from a user question."
+msgstr "Modèle YAML utilisé pour extraire les critères de recherche à partir d'une question utilisateur."
+
+msgid "Response generation template"
+msgstr "Modèle de génération de réponse"
+
+msgid "Response generation template (YAML)"
+msgstr "Modèle de génération de réponse (YAML)"
+
+msgid "YAML template used to build the final LLM response from search results."
+msgstr "Modèle YAML utilisé pour construire la réponse finale du LLM à partir des résultats de recherche."
+
+msgid "Show shipped example — %s (%d characters)"
+msgstr "Afficher l'exemple fourni — %s (%d caractères)"
+
+msgid "Save prompts"
+msgstr "Enregistrer les prompts"
+
+msgid "Prompts saved."
+msgstr "Prompts enregistrés."
+
+msgid "Please fix the validation errors below."
+msgstr "Veuillez corriger les erreurs de validation ci-dessous."
+
+# /admin/search-assistant/indexing — nav + page
+msgid "Indexing"
+msgstr "Indexation"
+
+msgid "Search Assistant AI Indexing"
+msgstr "Indexation de Search Assistant AI"
+
+# /admin/search-assistant/config — renamed from "Configuration" to "Interface"
+msgid "Interface"
+msgstr "Interface"
+
+msgid "Search Assistant AI Interface"
+msgstr "Interface de Search Assistant AI"
+
+# Auth-only widget gate
+msgid "Restrict to authenticated users"
+msgstr "Restreindre aux utilisateurs authentifiés"
+
+msgid "When enabled, the search assistant widget and chat API are only available to signed-in Omeka users. Useful for testing the module before enabling it for public visitors."
+msgstr "Lorsque cette option est activée, le widget et l'API de chat ne sont disponibles qu'aux utilisateurs connectés à Omeka. Pratique pour tester le module avant de l'ouvrir aux visiteurs du site."
+
+msgid "Authentication required."
+msgstr "Authentification requise."
+
+msgid "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
+msgstr "Désactivez d'abord le module %s : Search Assistant AI le remplace et importe ses réglages et ses données."

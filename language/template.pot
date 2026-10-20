@@ -1,0 +1,911 @@
+# Chatbot Module for Omeka S
+# Copyright (C) 2024 LimonadeAndCo
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Chatbot\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-03-27 00:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "%d résultats de recherche"
+msgstr ""
+
+msgid "%d résultats trouvés"
+msgstr ""
+
+msgid "Accueil"
+msgstr ""
+
+msgid "Actions"
+msgstr ""
+
+msgid "Active Users by Hour"
+msgstr ""
+
+msgid "Aide"
+msgstr ""
+
+msgid "All Time"
+msgstr ""
+
+msgid "Aller au contenu principal"
+msgstr ""
+
+msgid "Aller directement aux résultats"
+msgstr ""
+
+msgid "Anonymous"
+msgstr ""
+
+msgid "Aperçu du résultat"
+msgstr ""
+
+msgid "Are you sure you want to cancel the reindex job?"
+msgstr ""
+
+msgid "Assistant de recherche"
+msgstr ""
+
+msgid "Aucun résultat"
+msgstr ""
+
+msgid "Aucun résultat trouvé"
+msgstr ""
+
+msgid "Aucune description disponible"
+msgstr ""
+
+msgid "Aucune question récente"
+msgstr ""
+
+msgid "Audio"
+msgstr ""
+
+msgid "Audio player for %s"
+msgstr ""
+
+msgid "Author:"
+msgstr ""
+
+msgid "Avg Messages/Conversation"
+msgstr ""
+
+msgid "Avg Relevance Score"
+msgstr ""
+
+msgid "Avg Response Time"
+msgstr ""
+
+msgid "Avg Session Duration"
+msgstr ""
+
+msgid "Avg Tokens/Response"
+msgstr ""
+
+msgid "Bar chart showing active users by hour of day"
+msgstr ""
+
+msgid "Breadcrumb navigation"
+msgstr ""
+
+msgid "Cancel Job"
+msgstr ""
+
+msgid "Chargement du média..."
+msgstr ""
+
+msgid "Chat Assistant"
+msgstr ""
+
+msgid "Chat conversation"
+msgstr ""
+
+msgid "Chat messages"
+msgstr ""
+
+msgid "Chatbot"
+msgstr ""
+
+msgid "Chatbot usage statistics and performance analytics."
+msgstr ""
+
+msgid "Checking..."
+msgstr ""
+
+msgid "Choose how the reindexing job should be executed."
+msgstr ""
+
+msgid "Choose the scope of the reindexing operation."
+msgstr ""
+
+msgid "Claude API"
+msgstr ""
+
+msgid "Clear %s Data"
+msgstr ""
+
+msgid "Clear Cache"
+msgstr ""
+
+msgid "Clear Filters"
+msgstr ""
+
+msgid "Clear all conversation history"
+msgstr ""
+
+msgid "Clear conversation"
+msgstr ""
+
+msgid "Cliquez sur les collections populaires pour des suggestions thématiques"
+msgstr ""
+
+msgid "Close chat assistant"
+msgstr ""
+
+msgid "Close help modal"
+msgstr ""
+
+msgid "Collapse All"
+msgstr ""
+
+msgid "Collection"
+msgstr ""
+
+msgid "Collection Indexing"
+msgstr ""
+
+msgid "Collection Name"
+msgstr ""
+
+msgid "Collection explorer and filters"
+msgstr ""
+
+msgid "Collections"
+msgstr ""
+
+msgid "Collections populaires"
+msgstr ""
+
+msgid "Complete reindex will delete all existing index entries. Are you sure?"
+msgstr ""
+
+msgid "Configure and launch manual reindexing operations for the vector database. Choose resource types, scope, and execution mode below."
+msgstr ""
+
+msgid "Connection status and health monitoring for all integrated services."
+msgstr ""
+
+msgid "Content type filter"
+msgstr ""
+
+msgid "Conversation History"
+msgstr ""
+
+msgid "Conversation ID"
+msgstr ""
+
+msgid "Conversation Messages"
+msgstr ""
+
+msgid "Conversations Over Time"
+msgstr ""
+
+msgid "Current Indexation Status"
+msgstr ""
+
+msgid "Customize the appearance and behavior of the chatbot widget on your site."
+msgstr ""
+
+msgid "Date"
+msgstr ""
+
+msgid "Date From"
+msgstr ""
+
+msgid "Date To"
+msgstr ""
+
+msgid "Date:"
+msgstr ""
+
+msgid "Deselect All"
+msgstr ""
+
+msgid "Documents"
+msgstr ""
+
+msgid "Effacer tout"
+msgstr ""
+
+msgid "Embeddings Service"
+msgstr ""
+
+msgid "End date (inclusive)"
+msgstr ""
+
+msgid "Ended At"
+msgstr ""
+
+msgid "Engagement Rate"
+msgstr ""
+
+msgid "Ensemble"
+msgstr ""
+
+msgid "Enter comma-separated resource IDs to reindex (e.g., 1, 5, 12, 45)."
+msgstr ""
+
+msgid "Error canceling job:"
+msgstr ""
+
+msgid "Error during preview:"
+msgstr ""
+
+msgid "Error launching job:"
+msgstr ""
+
+msgid "Error:"
+msgstr ""
+
+msgid "Essayez de modifier vos filtres ou votre requête de recherche."
+msgstr ""
+
+msgid "Exact session identifier"
+msgstr ""
+
+msgid "Execution Mode"
+msgstr ""
+
+msgid "Expand All"
+msgstr ""
+
+msgid "Explorer les collections"
+msgstr ""
+
+msgid "Export CSV"
+msgstr ""
+
+msgid "Export JSON"
+msgstr ""
+
+msgid "Failed Queries"
+msgstr ""
+
+msgid "Failed to cancel job."
+msgstr ""
+
+msgid "Failed to launch reindex job."
+msgstr ""
+
+msgid "Filter by content type"
+msgstr ""
+
+msgid "Filter by media type"
+msgstr ""
+
+msgid "Filter by time period"
+msgstr ""
+
+msgid "Filter collections..."
+msgstr ""
+
+msgid "Filter properties..."
+msgstr ""
+
+msgid "Filtrer les résultats"
+msgstr ""
+
+msgid "Filtrez par type de contenu ou période pour affiner vos résultats"
+msgstr ""
+
+msgid "First"
+msgstr ""
+
+msgid "First page"
+msgstr ""
+
+msgid "Force Sync"
+msgstr ""
+
+msgid "Found %d conversation(s) matching your search criteria."
+msgstr ""
+
+msgid "Grid view"
+msgstr ""
+
+msgid "Grille"
+msgstr ""
+
+msgid "Histogram showing distribution of response times"
+msgstr ""
+
+msgid "Historique récent"
+msgstr ""
+
+msgid "Images"
+msgstr ""
+
+msgid "Indexation State"
+msgstr ""
+
+msgid "Indexed Documents"
+msgstr ""
+
+msgid "Indexed Items"
+msgstr ""
+
+msgid "Indexing Field Selection"
+msgstr ""
+
+msgid "Interface Customization"
+msgstr ""
+
+msgid "Item"
+msgstr ""
+
+msgid "Items"
+msgstr ""
+
+msgid "Job ID"
+msgstr ""
+
+msgid "Job Logs"
+msgstr ""
+
+msgid "Job cancellation requested."
+msgstr ""
+
+msgid "Keyword"
+msgstr ""
+
+msgid "Last"
+msgstr ""
+
+msgid "Last 30 Days"
+msgstr ""
+
+msgid "Last 7 Days"
+msgstr ""
+
+msgid "Last 90 Days"
+msgstr ""
+
+msgid "Last Full Indexation"
+msgstr ""
+
+msgid "Last Year"
+msgstr ""
+
+msgid "Last page"
+msgstr ""
+
+msgid "Launch Reindex"
+msgstr ""
+
+msgid "Launching..."
+msgstr ""
+
+msgid "Le musée est ouvert du mardi au dimanche de 10h00 à 18h00. Nous sommes fermés le lundi et les jours fériés. Puis-je vous aider avec autre chose ?"
+msgstr ""
+
+msgid "Line chart showing chatbot question volume over time"
+msgstr ""
+
+msgid "Line chart showing conversation volume over time"
+msgstr ""
+
+msgid "List view"
+msgstr ""
+
+msgid "Liste"
+msgstr ""
+
+msgid "Loading analytics..."
+msgstr ""
+
+msgid "Loading data..."
+msgstr ""
+
+msgid "Loading..."
+msgstr ""
+
+msgid "Maintenant"
+msgstr ""
+
+msgid "Manuscrits"
+msgstr ""
+
+msgid "Maximum results to display (max: 1000)"
+msgstr ""
+
+msgid "Merci !"
+msgstr ""
+
+msgid "Message input"
+msgstr ""
+
+msgid "Messages"
+msgstr ""
+
+msgid "Messages for conversation %s"
+msgstr ""
+
+msgid "Metadata"
+msgstr ""
+
+msgid "Most frequently asked questions and trending topics."
+msgstr ""
+
+msgid "Média"
+msgstr ""
+
+msgid "Médias"
+msgstr ""
+
+msgid "Never"
+msgstr ""
+
+msgid "Next"
+msgstr ""
+
+msgid "Next page"
+msgstr ""
+
+msgid "No Results"
+msgstr ""
+
+msgid "No collections found. Items will be indexed regardless of collection membership."
+msgstr ""
+
+msgid "No collections selected"
+msgstr ""
+
+msgid "No conversations match your search criteria. Try adjusting your filters or search terms."
+msgstr ""
+
+msgid "No image available"
+msgstr ""
+
+msgid "No messages in this conversation."
+msgstr ""
+
+msgid "No properties selected"
+msgstr ""
+
+msgid "No resources found with the selected criteria."
+msgstr ""
+
+msgid "Nouvelle conversation"
+msgstr ""
+
+msgid "Numeric user identifier (leave empty for anonymous)"
+msgstr ""
+
+msgid "Self-hosted LLM"
+msgstr ""
+
+msgid "Open chat assistant"
+msgstr ""
+
+msgid "Open help modal"
+msgstr ""
+
+msgid "Overview of stored conversations and interaction history."
+msgstr ""
+
+msgid "Page %d"
+msgstr ""
+
+msgid "Page %d of %d (%d total results)"
+msgstr ""
+
+msgid "Page %d sur %d"
+msgstr ""
+
+msgid "Peintures"
+msgstr ""
+
+msgid "Pending Indexation"
+msgstr ""
+
+msgid "Pertinence"
+msgstr ""
+
+msgid "Photographies"
+msgstr ""
+
+msgid "Pie chart showing distribution of questions by topic"
+msgstr ""
+
+msgid "Popular Topics"
+msgstr ""
+
+msgid "Posez votre question..."
+msgstr ""
+
+msgid "Preview"
+msgstr ""
+
+msgid "Preview Results"
+msgstr ""
+
+msgid "Preview failed."
+msgstr ""
+
+msgid "Previous"
+msgstr ""
+
+msgid "Previous page"
+msgstr ""
+
+msgid "Processing..."
+msgstr ""
+
+msgid "Progress"
+msgstr ""
+
+msgid "Précédent"
+msgstr ""
+
+msgid "Période"
+msgstr ""
+
+msgid "Query Performance"
+msgstr ""
+
+msgid "Questions Over Time"
+msgstr ""
+
+msgid "Questions suggérées"
+msgstr ""
+
+msgid "Refresh Data"
+msgstr ""
+
+msgid "Reindex All"
+msgstr ""
+
+msgid "Reindex Configuration"
+msgstr ""
+
+msgid "Reindex Progress"
+msgstr ""
+
+msgid "Reindex Scope"
+msgstr ""
+
+msgid "Reindex completed successfully!"
+msgstr ""
+
+msgid "Reindex job failed. Check logs for details."
+msgstr ""
+
+msgid "Reindex job started successfully."
+msgstr ""
+
+msgid "Reindex job was cancelled."
+msgstr ""
+
+msgid "Relevance: %d%%"
+msgstr ""
+
+msgid "Reset all filters"
+msgstr ""
+
+msgid "Resource IDs"
+msgstr ""
+
+msgid "Resource Type"
+msgstr ""
+
+msgid "Resources to be reindexed:"
+msgstr ""
+
+msgid "Response Time Distribution"
+msgstr ""
+
+msgid "Response quality and performance metrics."
+msgstr ""
+
+msgid "Ressource"
+msgstr ""
+
+msgid "Results Per Page"
+msgstr ""
+
+msgid "Results controls"
+msgstr ""
+
+msgid "Retour au chatbot"
+msgstr ""
+
+msgid "Returning Users"
+msgstr ""
+
+msgid "Réinitialiser les filtres"
+msgstr ""
+
+msgid "Résultat précédent (Flèche gauche)"
+msgstr ""
+
+msgid "Résultat suivant (Flèche droite)"
+msgstr ""
+
+msgid "Résultats"
+msgstr ""
+
+msgid "Sans titre"
+msgstr ""
+
+msgid "Satisfaction Rate"
+msgstr ""
+
+msgid "Save Configuration"
+msgstr ""
+
+msgid "Score de pertinence: %d%%"
+msgstr ""
+
+msgid "Sculptures"
+msgstr ""
+
+msgid "Search Conversations"
+msgstr ""
+
+msgid "Search Results"
+msgstr ""
+
+msgid "Search conversation history by session ID, user ID, keyword, or date range. Results include full message history and metadata."
+msgstr ""
+
+msgid "Search filters"
+msgstr ""
+
+msgid "Search for text within messages"
+msgstr ""
+
+msgid "Search in message content..."
+msgstr ""
+
+msgid "Search results"
+msgstr ""
+
+msgid "Search results pagination"
+msgstr ""
+
+msgid "Searching conversations..."
+msgstr ""
+
+msgid "Select All"
+msgstr ""
+
+msgid "Select content type"
+msgstr ""
+
+msgid "Select time period"
+msgstr ""
+
+msgid "Select which collections (Item Sets) to include in vector indexing. If no collections are selected, all items will be indexed regardless of collection membership (default behavior). Items belonging to at least one selected collection will be indexed."
+msgstr ""
+
+msgid "Select which properties to include in vector indexing. If no properties are selected, all properties will be indexed (default behavior)."
+msgstr ""
+
+msgid "Select which type of resources to reindex."
+msgstr ""
+
+msgid "Send message"
+msgstr ""
+
+msgid "Session ID"
+msgstr ""
+
+msgid "Session controls"
+msgstr ""
+
+msgid "Some items have been pending indexation for an extended period."
+msgstr ""
+
+msgid "Sort results by"
+msgstr ""
+
+msgid "Start a new conversation"
+msgstr ""
+
+msgid "Start date (inclusive)"
+msgstr ""
+
+msgid "Started At"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Storage Used"
+msgstr ""
+
+msgid "Success Rate"
+msgstr ""
+
+msgid "Successful Queries"
+msgstr ""
+
+msgid "Suivant"
+msgstr ""
+
+msgid "Table view"
+msgstr ""
+
+msgid "Tableau"
+msgstr ""
+
+msgid "Technical Health"
+msgstr ""
+
+msgid "Test Configuration"
+msgstr ""
+
+msgid "This Month"
+msgstr ""
+
+msgid "This Week"
+msgstr ""
+
+msgid "Time period filter"
+msgstr ""
+
+msgid "Titre"
+msgstr ""
+
+msgid "Today"
+msgstr ""
+
+msgid "Top 10 Questions"
+msgstr ""
+
+msgid "Topic Distribution"
+msgstr ""
+
+msgid "Total Conversations"
+msgstr ""
+
+msgid "Total Messages"
+msgstr ""
+
+msgid "Total Questions"
+msgstr ""
+
+msgid "Total Tokens Used"
+msgstr ""
+
+msgid "Tous"
+msgstr ""
+
+msgid "Toutes les périodes"
+msgstr ""
+
+msgid "Trending Queries (Last 7 Days)"
+msgstr ""
+
+msgid "Trier par:"
+msgstr ""
+
+msgid "Type de contenu"
+msgstr ""
+
+msgid "Type de média"
+msgstr ""
+
+msgid "Type your message"
+msgstr ""
+
+msgid "Type your message..."
+msgstr ""
+
+msgid "Type: %s"
+msgstr ""
+
+msgid "Unique Users"
+msgstr ""
+
+msgid "Usage Metrics"
+msgstr ""
+
+msgid "User Engagement"
+msgstr ""
+
+msgid "User ID"
+msgstr ""
+
+msgid "User Satisfaction"
+msgstr ""
+
+msgid "User interaction patterns and engagement metrics."
+msgstr ""
+
+msgid "Utilisez les questions suggérées pour commencer"
+msgstr ""
+
+msgid "Vector Database"
+msgstr ""
+
+msgid "Vector database statistics and indexation status from %s."
+msgstr ""
+
+msgid "Video"
+msgstr ""
+
+msgid "Video player for %s"
+msgstr ""
+
+msgid "Vidéos"
+msgstr ""
+
+msgid "View Messages"
+msgstr ""
+
+msgid "View details for %s"
+msgstr ""
+
+msgid "View mode"
+msgstr ""
+
+msgid "Voir les détails"
+msgstr ""
+
+msgid "Votre historique est conservé localement pour faciliter la navigation"
+msgstr ""
+
+msgid "Warning:"
+msgstr ""
+
+msgid "XIXe siècle"
+msgstr ""
+
+msgid "XVIIIe siècle"
+msgstr ""
+
+msgid "XVIIe siècle"
+msgstr ""
+
+msgid "XVIe siècle"
+msgstr ""
+
+msgid "XVe siècle"
+msgstr ""
+
+msgid "XXIe siècle"
+msgstr ""
+
+msgid "XXe siècle"
+msgstr ""
+
+msgid "Your browser does not support the audio element."
+msgstr ""
+
+msgid "Your browser does not support the video element."
+msgstr ""
+
+msgid "all items will be indexed (default behavior)"
+msgstr ""
+
+msgid "all properties will be indexed (default behavior)"
+msgstr ""
+
+msgid "characters"
+msgstr ""
+
+msgid "e.g., 123"
+msgstr ""
+
+msgid "e.g., sess_abc123xyz"
+msgstr ""
+

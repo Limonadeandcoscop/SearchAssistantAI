@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  PHPUnit 9.x config — kept on 9.x to match the PHPUnit bundled with
+  Omeka S core, whose autoloader wins at runtime. Upgrading the
+  module to 10.x causes a TestSuite::empty() collision between the
+  two autoloaders.
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="test/bootstrap_unit.php"
+         colors="true"
+         cacheResult="false"
+         executionOrder="random"
+         failOnWarning="true"
+         failOnRisky="true"
+         beStrictAboutOutputDuringTests="true"
+         beStrictAboutCoversAnnotation="false"
+         convertDeprecationsToExceptions="false">
+    <testsuites>
+        <testsuite name="SearchAssistantAI">
+            <directory>test/Architecture</directory>
+            <directory>test/Config</directory>
+            <directory>test/Permissions</directory>
+            <directory>test/Install</directory>
+            <directory>test/Form</directory>
+            <directory>test/Job</directory>
+            <directory>test/Service</directory>
+        </testsuite>
+    </testsuites>
+    <groups>
+        <!-- Integration tests need live services (Elasticsearch, Qdrant).
+             Run them explicitly with phpunit option group=integration. -->
+        <exclude>
+            <group>integration</group>
+        </exclude>
+    </groups>
+    <coverage>
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+    </coverage>
+</phpunit>

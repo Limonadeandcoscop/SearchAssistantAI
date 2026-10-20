@@ -1,0 +1,138 @@
+<?php
+/**
+ * Admin dashboard view template for Search Assistant AI module
+ *
+ * This template renders the administrative dashboard with 4 main sections:
+ * 1. Indexation State - Vector database statistics and indexation status
+ * 2. Synchronization Status - Real-time sync monitoring
+ * 3. Usage Metrics - Search Assistant AI usage statistics and analytics
+ * 4. Technical Health - Service health monitoring (Qdrant, Embeddings, Claude API)
+ *
+ * Features real-time AJAX updates, Charts.js visualizations, and quick action buttons
+ * for administrative tasks (reindex, sync, cache management, configuration testing).
+ *
+ * @var \Laminas\View\Renderer\PhpRenderer $this
+ */
+
+$this->htmlElement('body')->appendAttribute('class', 'search assistant dashboard');
+$this->headTitle('Search Assistant AI Dashboard');
+$this->headLink()->appendStylesheet($this->assetUrl('css/admin-dashboard.css', 'SearchAssistantAI'));
+$this->headScript()->appendFile($this->assetUrl('js/admin-dashboard.js', 'SearchAssistantAI'));
+
+// Get CSRF token from the form passed by the controller.
+// DashboardActionForm adds its CSRF element manually under the name 'csrf'
+// (Omeka's global Csrf initializer doesn't reliably fire for this form).
+$csrfToken = $this->form->get('csrf')->getValue();
+?>
+
+<?php echo $this->pageTitle('Search Assistant AI Dashboard'); ?>
+
+<!-- CSRF Token for JavaScript (hidden) -->
+<input type="hidden" id="csrf-token" name="csrf" data-csrf-name="csrf" value="<?php echo $this->escapeHtml($csrfToken); ?>">
+
+<div id="page-actions"
+     data-vector-store-backend="<?php echo $this->escapeHtml($this->dashboardData['vectorStoreBackend']); ?>"
+     data-vector-store-display-name="<?php echo $this->escapeHtml($this->dashboardData['vectorStoreDisplayName']); ?>"
+     data-llm-display-name="<?php echo $this->escapeHtml($this->translate($this->dashboardData['llmDisplayName'])); ?>">
+    <button type="button" id="action-reindex" class="button">
+        <?php echo $this->translate('Reindex All'); ?>
+    </button>
+    <button type="button" id="action-sync" class="button">
+        <?php echo $this->translate('Force Sync'); ?>
+    </button>
+    <button type="button" id="action-clear-cache" class="button">
+        <?php echo $this->translate('Clear Cache'); ?>
+    </button>
+    <button type="button" id="action-test-config" class="button">
+        <?php echo $this->translate('Test Configuration'); ?>
+    </button>
+    <button type="button" id="action-clear-vector-store" class="button">
+        <?php echo sprintf($this->translate('Clear %s Data'), $this->escapeHtml($this->dashboardData['vectorStoreDisplayName'])); ?>
+    </button>
+</div>
+
+<!-- Section 1: Indexation State -->
+<fieldset id="section-indexation" class="dashboard-section">
+    <legend><?php echo $this->translate('Indexation State'); ?></legend>
+    <p class="field-description">
+        <?php echo sprintf($this->translate('Vector database statistics and indexation status from %s.'), $this->escapeHtml($this->dashboardData['vectorStoreDisplayName'])); ?>
+    </p>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <span class="stat-value" id="stat-total-vectors" data-stat="total-vectors">-</span>
+            <span class="stat-label"><?php echo $this->translate('Indexed Documents'); ?></span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-value" id="stat-indexed-items" data-stat="indexed-items">-</span>
+            <span class="stat-label"><?php echo $this->translate('Indexed Items'); ?></span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-value" id="stat-pending-items" data-stat="pending-items">-</span>
+            <span class="stat-label"><?php echo $this->translate('Pending Indexation'); ?></span>
+        </div>
+        <div class="stat-box">
+            <span class="stat-value" id="stat-last-indexation" data-stat="last-indexation">-</span>
+            <span class="stat-label"><?php echo $this->translate('Last Full Indexation'); ?></span>
+        </div>
+    </div>
+
+    <!-- Warning Alert for Stale Pending Items -->
+    <div id="pending-warning" class="alert warning" style="display: none;">
+        <strong><?php echo $this->translate('Warning:'); ?></strong>
+        <span id="stale-pending-message">
+            <?php echo $this->translate('Some items have been pending indexation for an extended period.'); ?>
+        </span>
+        <button type="button" id="action-force-sync" class="button">
+            <?php echo $this->translate('Force Sync'); ?>
+        </button>
+    </div>
+
+</fieldset>
+
+
+<?php // Panels registered in search_assistant.dashboard.panels (e.g. usage metrics). ?>
+<?php foreach ($this->dashboardPanels ?? [] as $panel): ?>
+<?php echo $this->partial($panel['template']); ?>
+<?php endforeach; ?>
+
+<!-- Section 4: Technical Health -->
+<fieldset id="section-technical-health" class="dashboard-section">
+    <legend><?php echo $this->translate('Technical Health'); ?></legend>
+    <p class="field-description">
+        <?php echo $this->translate('Connection status and health monitoring for all integrated services.'); ?>
+    </p>
+
+    <div class="stats-grid">
+        <div class="stat-box health-check">
+            <span class="stat-label"><?php echo $this->escapeHtml($this->dashboardData['vectorStoreDisplayName']); ?> <?php echo $this->translate('Vector Database'); ?></span>
+            <span class="stat-value status-indicator" id="stat-qdrant-health" data-stat="qdrant-health">
+                <?php echo $this->translate('Checking...'); ?>
+            </span>
+            <span class="stat-detail" id="stat-qdrant-detail"></span>
+        </div>
+        <div class="stat-box health-check">
+            <span class="stat-label"><?php echo $this->translate('Embeddings Service'); ?></span>
+            <span class="stat-value status-indicator" id="stat-embeddings-health" data-stat="embeddings-health">
+                <?php echo $this->translate('Checking...'); ?>
+            </span>
+            <span class="stat-detail" id="stat-embeddings-detail"></span>
+        </div>
+        <div class="stat-box health-check">
+            <span class="stat-label"><?php echo $this->escapeHtml($this->translate($this->dashboardData['llmDisplayName'])); ?></span>
+            <span class="stat-value status-indicator" id="stat-llm-health" data-stat="llm-health">
+                <?php echo $this->translate('Checking...'); ?>
+            </span>
+            <span class="stat-detail" id="stat-llm-detail"></span>
+        </div>
+    </div>
+</fieldset>
+
+<!-- Status Messages Container -->
+<div id="status-messages" class="messages"></div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+    <p><?php echo $this->translate('Processing...'); ?></p>
+</div>
