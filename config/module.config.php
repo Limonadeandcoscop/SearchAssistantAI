@@ -73,9 +73,13 @@ return [
         'invokables' => [
             'SearchAssistantAI\Controller\Admin\Index' => \SearchAssistantAI\Controller\Admin\IndexController::class,
             'SearchAssistantAI\Controller\Admin\Config' => \SearchAssistantAI\Controller\Admin\ConfigController::class,
-            'SearchAssistantAI\Controller\Admin\Reindex' => \SearchAssistantAI\Controller\Admin\ReindexController::class,
         ],
         'factories' => [
+            'SearchAssistantAI\Controller\Admin\Reindex' => function ($serviceManager) {
+                return new \SearchAssistantAI\Controller\Admin\ReindexController(
+                    $serviceManager->get(\SearchAssistantAI\Service\VectorStore\VectorStoreRegistry::class)
+                );
+            },
             'SearchAssistantAI\Controller\Admin\Dashboard' => function ($serviceManager) {
                 $statsService = $serviceManager->get('SearchAssistantAI\Service\Analytics\StatsService');
                 $syncService = $serviceManager->get('SyncService');
@@ -361,6 +365,10 @@ return [
             // setting => default; a change flags the collection for re-check and asks for a reindex.
             'reindex_watch' => [
                 'search_assistant_vector_store_backend' => 'qdrant',
+                'search_assistant_qdrant_url' => 'http://localhost:6333',
+                'search_assistant_qdrant_collection' => \SearchAssistantAI\Settings\SearchAssistantSettings::DEFAULT_COLLECTION,
+                'search_assistant_embeddings_model' => '',
+                'search_assistant_embedding_dimension' => 1024,
             ],
         ],
         // Admin dashboard panels: a partial ('template') and the service

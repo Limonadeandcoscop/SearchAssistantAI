@@ -909,3 +909,89 @@ msgstr ""
 msgid "e.g., sess_abc123xyz"
 msgstr ""
 
+msgid "Manual Reindex"
+msgstr ""
+
+msgid "Complete Reindex"
+msgstr ""
+
+msgid "Delete existing index entries and recreate from scratch"
+msgstr ""
+
+msgid "Incremental Reindex"
+msgstr ""
+
+msgid "Only index new resources not yet in vector database"
+msgstr ""
+
+msgid "Specific Resources"
+msgstr ""
+
+msgid "Target specific resource IDs (comma-separated)"
+msgstr ""
+
+msgid "Asynchronous (Background)"
+msgstr ""
+
+msgid "Run as background job (recommended for large datasets)"
+msgstr ""
+
+msgid "Synchronous (Wait)"
+msgstr ""
+
+msgid "Wait for completion (only for small datasets)"
+msgstr ""
+
+msgid "Item Sets (Collections)"
+msgstr ""
+
+msgid "All Resource Types"
+msgstr ""
+
+msgid "Vector store settings changed. Run a full reindex so that search uses the new settings."
+msgstr ""
+
+msgid "Hello! How can I help you?"
+msgstr ""
+
+msgid "Greeting shown when the widget opens. Leave empty for the default greeting in the visitor's language (max 500 characters)."
+msgstr ""
+
+msgid "Method not allowed. Use POST."
+msgstr ""
+
+msgid "Content-Type must be application/json"
+msgstr ""
+
+msgid "Too many requests. Please try again in %d seconds."
+msgstr ""
+
+msgid "Invalid JSON: %s"
+msgstr ""
+
+msgid "Validation failed"
+msgstr ""
+
+msgid "The service is temporarily overloaded. Please try again in a few moments."
+msgstr ""
+
+msgid "The service is temporarily unavailable. Please try again later."
+msgstr ""
+
+msgid "The \"query\" field is required"
+msgstr ""
+
+msgid "The query must contain at least 1 character"
+msgstr ""
+
+msgid "The query cannot exceed 1000 characters"
+msgstr ""
+
+msgid "The sessionId must contain at least 1 character"
+msgstr ""
+
+msgid "The sessionId cannot exceed 255 characters"
+msgstr ""
+
+msgid "Configuration saved successfully."
+msgstr ""

@@ -86,7 +86,7 @@ class SearchAssistantWidget extends AbstractHelper
         $color = $this->settings->get('search_assistant_primary_color', '#b74420');
         $apiUrl = $this->settings->get('search_assistant_api_url', '/search-assistant/api/query');
         $translate = $view->plugin('translate');
-        $welcomeMessage = $this->settings->get('search_assistant_welcome_message', $translate('Bonjour ! Comment puis-je vous aider ?'));
+        $welcomeMessage = (string) $this->settings->get('search_assistant_welcome_message', '') ?: $translate('Hello! How can I help you?');
 
         // Try to get from cache if available
         if ($this->cache !== null) {

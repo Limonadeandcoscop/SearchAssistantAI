@@ -22,11 +22,11 @@
  */
 
 $this->htmlElement('body')->appendAttribute('class', 'search assistant reindex');
-$this->headTitle('Manual Reindex');
+$this->headTitle($this->translate('Manual Reindex'));
 
 ?>
 
-<?php echo $this->pageTitle('Manual Reindex'); ?>
+<?php echo $this->pageTitle($this->translate('Manual Reindex')); ?>
 
 <!-- CSRF Token for JavaScript (hidden) -->
 <input type="hidden" name="csrf" id="csrf-token" value="<?php echo $this->escapeHtml($csrfToken); ?>">

@@ -45,6 +45,22 @@ class ConfigFormTest extends TestCase
         }
     }
 
+    public function testFreshFormDefaults(): void
+    {
+        // The runtime treats unset settings as off: the form must show them off too.
+        foreach (['search_assistant_verbose_logging', 'search_assistant_widget_enabled'] as $name) {
+            $checkbox = $this->form->get($name);
+            self::assertInstanceOf(\Laminas\Form\Element\Checkbox::class, $checkbox);
+            self::assertFalse($checkbox->isChecked(), $name);
+        }
+        // Empty = the default greeting, translated for each visitor.
+        self::assertEmpty($this->form->get('search_assistant_welcome_message')->getValue());
+        self::assertSame(
+            \SearchAssistantAI\Settings\SearchAssistantSettings::DEFAULT_COLLECTION,
+            $this->form->get('search_assistant_qdrant_collection')->getValue()
+        );
+    }
+
     // ─── validation: happy path ─────────────────────────────────
 
     public function testValidDatasetPasses(): void
@@ -165,7 +181,7 @@ class ConfigFormTest extends TestCase
         $base = [
             'search_assistant_vector_store_backend' => 'qdrant',
             'search_assistant_qdrant_url' => 'http://localhost:6333',
-            'search_assistant_qdrant_collection' => 'omeka_chatbot',
+            'search_assistant_qdrant_collection' => 'omeka_resources',
             'search_assistant_qdrant_api_key' => '',
             'search_assistant_embeddings_url' => 'http://localhost:8000',
             'search_assistant_embedding_dimension' => 1024,

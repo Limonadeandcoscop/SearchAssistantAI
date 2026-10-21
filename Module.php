@@ -17,6 +17,7 @@ use SearchAssistantAI\Service\Prompt\SeedablePromptProviderInterface;
 use SearchAssistantAI\EventListener\WidgetInjector;
 use SearchAssistantAI\Form\ConfigFormRenderer;
 use SearchAssistantAI\Service\FileLogger;
+use SearchAssistantAI\Service\VectorStore\CollectionCheckGate;
 use SearchAssistantAI\Service\VectorStore\VectorStoreBootstrap;
 use SearchAssistantAI\Service\VectorStore\VectorStoreInterface;
 use Laminas\EventManager\SharedEventManagerInterface;
@@ -111,10 +112,10 @@ class Module extends AbstractModule
      * collection exists; creates it if missing. The per-request flag
      * avoids hitting the store on every request after the first.
      *
-     * The persistent `search_assistant_collection_verified` flag is only set when
-     * the bootstrap succeeds, so transient failures (vector store not yet
-     * reachable, settings not configured) don't permanently disable the
-     * auto-create behaviour.
+     * CollectionCheckGate skips the check until the module is configured and
+     * spaces out retries after a failure, so an unreachable vector store
+     * does not slow down every page; a success sets the persistent
+     * `search_assistant_collection_verified` flag.
      */
     private function ensureVectorStoreCollectionExists(): void
     {
@@ -126,12 +127,14 @@ class Module extends AbstractModule
 
         try {
             $services = $this->getServiceLocator();
-            $settings = $services->get('Omeka\Settings');
-            if ($settings->get('search_assistant_collection_verified', false)) {
+            $gate = new CollectionCheckGate($services->get('Omeka\Settings'));
+            if (!$gate->shouldCheck()) {
                 return;
             }
             if ($this->initializeVectorStoreCollection($services)) {
-                $settings->set('search_assistant_collection_verified', true);
+                $gate->recordSuccess();
+            } else {
+                $gate->recordFailure();
             }
         } catch (\Exception $e) {
             error_log('Warning: Could not verify vector store collection: ' . $e->getMessage());

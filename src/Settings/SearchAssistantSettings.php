@@ -46,6 +46,7 @@ final class SearchAssistantSettings
     public const KEY_ES_API_KEY = 'search_assistant_es_api_key';
     public const KEY_ES_VERIFY_SSL = 'search_assistant_es_verify_ssl';
     public const KEY_COLLECTION_VERIFIED = 'search_assistant_collection_verified';
+    public const KEY_COLLECTION_RETRY_AT = 'search_assistant_collection_retry_at';
 
     // ─── Embeddings ──────────────────────────────────────────────────
 

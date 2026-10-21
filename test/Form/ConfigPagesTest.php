@@ -128,4 +128,16 @@ class ConfigPagesTest extends TestCase
             $secrets
         );
     }
+
+    public function testReindexWatchListsConfigureFieldsWithTheirFormDefaults(): void
+    {
+        $config = require dirname(__DIR__, 2) . '/config/module.config.php';
+        $form = new ConfigForm();
+        $form->init();
+        foreach ($config['search_assistant']['config_form']['reindex_watch'] as $key => $default) {
+            self::assertContains($key, self::CONFIGURE, $key);
+            // A default that differs from the form value would warn on every first save.
+            self::assertSame((string) $default, (string) $form->get($key)->getValue(), $key);
+        }
+    }
 }

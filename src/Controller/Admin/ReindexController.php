@@ -3,6 +3,7 @@ declare(strict_types=1);
 namespace SearchAssistantAI\Controller\Admin;
 
 use SearchAssistantAI\Form\DashboardActionForm;
+use SearchAssistantAI\Service\VectorStore\VectorStoreRegistry;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\JsonModel;
 use Laminas\View\Model\ViewModel;
@@ -22,6 +23,13 @@ class ReindexController extends AbstractActionController
     /** Log lines returned by progressAction (the job log grows with every batch). */
     private const MAX_LOG_LINES = 200;
 
+    private VectorStoreRegistry $vectorStoreRegistry;
+
+    public function __construct(VectorStoreRegistry $vectorStoreRegistry)
+    {
+        $this->vectorStoreRegistry = $vectorStoreRegistry;
+    }
+
     /**
      * Display the reindex interface
      *
@@ -36,43 +44,43 @@ class ReindexController extends AbstractActionController
 
         // Prepare resource type options for the form
         $resourceTypes = [
-            'items' => 'Items',
-            'media' => 'Media',
-            'item_sets' => 'Item Sets (Collections)',
-            'all' => 'All Resource Types'
+            'items' => 'Items', // @translate
+            'media' => 'Media', // @translate
+            'item_sets' => 'Item Sets (Collections)', // @translate
+            'all' => 'All Resource Types' // @translate
         ];
 
         // Prepare scope options for the form
         $scopes = [
             'complete' => [
-                'label' => 'Complete Reindex',
-                'description' => 'Delete existing index entries and recreate from scratch'
+                'label' => 'Complete Reindex', // @translate
+                'description' => 'Delete existing index entries and recreate from scratch' // @translate
             ],
             'incremental' => [
-                'label' => 'Incremental Reindex',
-                'description' => 'Only index new resources not yet in vector database'
+                'label' => 'Incremental Reindex', // @translate
+                'description' => 'Only index new resources not yet in vector database' // @translate
             ],
             'specific' => [
-                'label' => 'Specific Resources',
-                'description' => 'Target specific resource IDs (comma-separated)'
+                'label' => 'Specific Resources', // @translate
+                'description' => 'Target specific resource IDs (comma-separated)' // @translate
             ]
         ];
 
         // Prepare execution mode options
         $executionModes = [
             'async' => [
-                'label' => 'Asynchronous (Background)',
-                'description' => 'Run as background job (recommended for large datasets)'
+                'label' => 'Asynchronous (Background)', // @translate
+                'description' => 'Run as background job (recommended for large datasets)' // @translate
             ],
             'sync' => [
-                'label' => 'Synchronous (Wait)',
-                'description' => 'Wait for completion (only for small datasets)'
+                'label' => 'Synchronous (Wait)', // @translate
+                'description' => 'Wait for completion (only for small datasets)' // @translate
             ]
         ];
 
         // Get current indexation status
         $qdrantUrl = $settings->get('search_assistant_qdrant_url', '');
-        $collectionName = $settings->get('search_assistant_collection_name', 'omeka_items');
+        $collectionName = $this->vectorStoreRegistry->getCollectionName();
         $lastIndexation = $settings->get('search_assistant_last_indexation', null);
 
         // Same CSRF form as the dashboard actions; the AJAX endpoints below validate it.
@@ -173,9 +181,9 @@ class ReindexController extends AbstractActionController
                 // Count resources by type
                 if ($type === 'all') {
                     // Count all resource types
-                    $itemsCount = $this->api()->search('items', [], ['returnScalar' => 'totalResults'])->getTotalResults();
-                    $mediaCount = $this->api()->search('media', [], ['returnScalar' => 'totalResults'])->getTotalResults();
-                    $itemSetsCount = $this->api()->search('item_sets', [], ['returnScalar' => 'totalResults'])->getTotalResults();
+                    $itemsCount = $this->countResources('items');
+                    $mediaCount = $this->countResources('media');
+                    $itemSetsCount = $this->countResources('item_sets');
 
                     $count = $itemsCount + $mediaCount + $itemSetsCount;
                     $details['breakdown'] = [
@@ -185,7 +193,7 @@ class ReindexController extends AbstractActionController
                     ];
                 } else {
                     // Count single resource type
-                    $count = $this->api()->search($type, [], ['returnScalar' => 'totalResults'])->getTotalResults();
+                    $count = $this->countResources($type);
                 }
 
                 // For incremental scope, note that count represents maximum possible
@@ -594,5 +602,11 @@ class ReindexController extends AbstractActionController
                 'message' => 'Failed to cancel job: ' . $e->getMessage()
             ]);
         }
+    }
+
+    /** Number of resources of an API type; the total ignores the limit. */
+    private function countResources(string $type): int
+    {
+        return (int) $this->api()->search($type, ['limit' => 1])->getTotalResults();
     }
 }

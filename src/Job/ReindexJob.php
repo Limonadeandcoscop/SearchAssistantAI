@@ -2,8 +2,11 @@
 declare(strict_types=1);
 namespace SearchAssistantAI\Job;
 
+use Omeka\Entity\Job;
 use Omeka\Job\AbstractJob;
 use SearchAssistantAI\Service\FileLogger;
+use SearchAssistantAI\Service\VectorStore\VectorStoreBootstrap;
+use SearchAssistantAI\Service\VectorStore\VectorStoreInterface;
 
 /**
  * Background job for manual reindexing of Omeka S resources with advanced options.
@@ -33,6 +36,13 @@ use SearchAssistantAI\Service\FileLogger;
 class ReindexJob extends AbstractJob
 {
     /**
+     * The job entity Omeka's dispatcher holds. Batches clear the entity
+     * manager and re-fetch $this->job, but the dispatcher sets the final
+     * status from, and saves, this original object.
+     */
+    private ?Job $dispatchedJob = null;
+
+    /**
      * Perform the reindexing job.
      *
      * This method is called by Omeka S job runner. It orchestrates the reindexing
@@ -50,6 +60,8 @@ class ReindexJob extends AbstractJob
      */
     public function perform(): void
     {
+        $this->dispatchedJob = $this->job;
+
         // Set memory limit for large operations
         ini_set('memory_limit', '500M');
 
@@ -142,6 +154,16 @@ class ReindexJob extends AbstractJob
             $vectorIndexService->refreshConfiguration();
             $logger->info('[ReindexJob] Refreshed VectorIndexService configuration from database');
 
+            // The configured collection may not exist yet (new name, first
+            // reindex before any page view created it): every upsert would fail.
+            $bootstrap = $services->get(VectorStoreBootstrap::class);
+            if (!$bootstrap->ensureCollection($services->get(VectorStoreInterface::class))) {
+                throw new \RuntimeException(sprintf(
+                    'Could not create the vector store collection "%s"',
+                    $bootstrap->getCollectionName()
+                ));
+            }
+
             // Execute reindexing based on scope
             $reindexResult = ['global_processed' => 0, 'global_errors' => 0, 'global_skipped' => 0];
             switch ($scope) {
@@ -186,6 +208,17 @@ class ReindexJob extends AbstractJob
             $totalSkipped = $reindexResult['global_skipped'];
             $totalIndexed = $totalProcessed - $totalErrors - $totalSkipped;
 
+            if ($this->shouldStop()) {
+                // Omeka marks the job "stopped" only when the object it
+                // dispatched says so; shouldStop() updates $this->job only.
+                $this->dispatchedJob->setStatus(Job::STATUS_STOPPING);
+                $cancelMessage = sprintf('Reindexing cancelled: %d indexed, %d errors, %d skipped', $totalIndexed, $totalErrors, $totalSkipped);
+                $this->updateProgress($this->job->getArgs()['progress']['percentage'] ?? 0, $cancelMessage, $totalProcessed, null, $totalErrors);
+                $logger->info('[ReindexJob] ' . $cancelMessage);
+                // The pending sync queue is kept: the reindex did not cover it.
+                return;
+            }
+
             // Mark complete with actual error/skip counts
             $completionMessage = sprintf(
                 'Reindexing completed: %d indexed, %d errors, %d skipped',
@@ -215,7 +248,7 @@ class ReindexJob extends AbstractJob
             // Warn if nothing was indexed
             if ($totalIndexed === 0 && $totalProcessed > 0) {
                 $warnMsg = sprintf(
-                    'ReindexJob: WARNING - No items were successfully indexed! Processed: %d, Errors: %d, Skipped: %d. Check Elasticsearch connectivity and collection filter settings.',
+                    'ReindexJob: WARNING - No items were successfully indexed! Processed: %d, Errors: %d, Skipped: %d. Check the vector store and embeddings connectivity and the indexing filters.',
                     $totalProcessed,
                     $totalErrors,
                     $totalSkipped
@@ -778,6 +811,9 @@ class ReindexJob extends AbstractJob
         $this->job->setArgs([
             'progress' => $progressData
         ] + $this->job->getArgs());
+        if ($this->dispatchedJob !== null && $this->dispatchedJob !== $this->job) {
+            $this->dispatchedJob->setArgs($this->job->getArgs());
+        }
 
         // Persist progress to database
         $services = $this->getServiceLocator();

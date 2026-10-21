@@ -910,3 +910,90 @@ msgstr "e.g., sess_abc123xyz"
 
 msgid "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
 msgstr "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
+
+msgid "Manual Reindex"
+msgstr "Manual Reindex"
+
+msgid "Complete Reindex"
+msgstr "Complete Reindex"
+
+msgid "Delete existing index entries and recreate from scratch"
+msgstr "Delete existing index entries and recreate from scratch"
+
+msgid "Incremental Reindex"
+msgstr "Incremental Reindex"
+
+msgid "Only index new resources not yet in vector database"
+msgstr "Only index new resources not yet in vector database"
+
+msgid "Specific Resources"
+msgstr "Specific Resources"
+
+msgid "Target specific resource IDs (comma-separated)"
+msgstr "Target specific resource IDs (comma-separated)"
+
+msgid "Asynchronous (Background)"
+msgstr "Asynchronous (Background)"
+
+msgid "Run as background job (recommended for large datasets)"
+msgstr "Run as background job (recommended for large datasets)"
+
+msgid "Synchronous (Wait)"
+msgstr "Synchronous (Wait)"
+
+msgid "Wait for completion (only for small datasets)"
+msgstr "Wait for completion (only for small datasets)"
+
+msgid "Item Sets (Collections)"
+msgstr "Item Sets (Collections)"
+
+msgid "All Resource Types"
+msgstr "All Resource Types"
+
+msgid "Vector store settings changed. Run a full reindex so that search uses the new settings."
+msgstr "Vector store settings changed. Run a full reindex so that search uses the new settings."
+
+msgid "Hello! How can I help you?"
+msgstr "Hello! How can I help you?"
+
+msgid "Greeting shown when the widget opens. Leave empty for the default greeting in the visitor's language (max 500 characters)."
+msgstr "Greeting shown when the widget opens. Leave empty for the default greeting in the visitor's language (max 500 characters)."
+
+msgid "Method not allowed. Use POST."
+msgstr "Method not allowed. Use POST."
+
+msgid "Content-Type must be application/json"
+msgstr "Content-Type must be application/json"
+
+msgid "Too many requests. Please try again in %d seconds."
+msgstr "Too many requests. Please try again in %d seconds."
+
+msgid "Invalid JSON: %s"
+msgstr "Invalid JSON: %s"
+
+msgid "Validation failed"
+msgstr "Validation failed"
+
+msgid "The service is temporarily overloaded. Please try again in a few moments."
+msgstr "The service is temporarily overloaded. Please try again in a few moments."
+
+msgid "The service is temporarily unavailable. Please try again later."
+msgstr "The service is temporarily unavailable. Please try again later."
+
+msgid "The \"query\" field is required"
+msgstr "The \"query\" field is required"
+
+msgid "The query must contain at least 1 character"
+msgstr "The query must contain at least 1 character"
+
+msgid "The query cannot exceed 1000 characters"
+msgstr "The query cannot exceed 1000 characters"
+
+msgid "The sessionId must contain at least 1 character"
+msgstr "The sessionId must contain at least 1 character"
+
+msgid "The sessionId cannot exceed 255 characters"
+msgstr "The sessionId cannot exceed 255 characters"
+
+msgid "Configuration saved successfully."
+msgstr "Configuration saved successfully."

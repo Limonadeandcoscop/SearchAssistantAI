@@ -212,12 +212,12 @@ class QueryProcessorService implements QueryProcessorInterface
             throw $e;
         } catch (RuntimeException $e) {
             if ($e->getCode() === 429) {
-                $this->logger->warn('QueryProcessorService: Claude API rate limit exceeded', [
+                $this->logger->warn('QueryProcessorService: LLM rate limit exceeded', [
                     'error' => $e->getMessage(),
                     'query' => $userQuery,
                 ]);
                 throw new RuntimeException(
-                    'Service temporairement surchargé. Veuillez réessayer dans quelques instants.',
+                    'The service is temporarily overloaded. Please try again in a few moments.',
                     429,
                     $e
                 );
@@ -336,7 +336,7 @@ class QueryProcessorService implements QueryProcessorInterface
         $contextResults = array_slice($searchResults, 0, self::MAX_CONTEXT_RESULTS);
         $metrics = $this->formatter->payloadMetrics($contextResults);
 
-        $this->logger->info('QueryProcessorService: Preparing context for Claude response generation', [
+        $this->logger->info('QueryProcessorService: Preparing context for LLM response generation', [
             'result_count' => count($searchResults),
             'context_result_count' => count($contextResults),
             'context_payload_size_bytes' => $metrics['total_size_bytes'],
@@ -346,7 +346,7 @@ class QueryProcessorService implements QueryProcessorInterface
         ]);
 
         if ($metrics['estimated_tokens'] > self::LARGE_PAYLOAD_TOKEN_THRESHOLD) {
-            $this->logger->warn('QueryProcessorService: Large payload detected before Claude call', [
+            $this->logger->warn('QueryProcessorService: Large payload detected before the LLM call', [
                 'result_sizes' => $metrics['individual_sizes'],
                 'total_estimated_tokens' => $metrics['estimated_tokens'],
                 'max_result_size_bytes' => $metrics['max_result_size_bytes'],

@@ -332,9 +332,11 @@ class QdrantService implements VectorStoreInterface
 
             return null;
         } catch (ClientException $e) {
-            // 4xx errors - collection not found
-            $errorMessage = $this->extractClientErrorMessage($e);
-            FileLogger::getInstance()->error("Qdrant getCollectionInfo failed: {$errorMessage}");
+            // 404 = collection not created yet, an expected answer (null)
+            if ($e->getResponse()->getStatusCode() !== 404) {
+                $errorMessage = $this->extractClientErrorMessage($e);
+                FileLogger::getInstance()->error("Qdrant getCollectionInfo failed: {$errorMessage}");
+            }
             return null;
         } catch (ServerException $e) {
             // 5xx errors - Qdrant server issues

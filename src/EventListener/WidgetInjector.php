@@ -31,7 +31,7 @@ use Omeka\Settings\Settings;
  */
 class WidgetInjector
 {
-    private const DEFAULT_WELCOME = 'Bonjour ! Comment puis-je vous aider ?';
+    private const DEFAULT_WELCOME = 'Hello! How can I help you?'; // @translate
 
     /**
      * Bump this when shipping new widget CSS/JS so browsers pull the
@@ -248,7 +248,8 @@ class WidgetInjector
             'position' => $settings->get('search_assistant_widget_position', 'bottom-right'),
             'color' => $settings->get('search_assistant_primary_color', '#b74420'),
             'apiUrl' => $settings->get('search_assistant_api_url', '/search-assistant/api/query'),
-            'welcomeMessage' => $settings->get('search_assistant_welcome_message', $translate(self::DEFAULT_WELCOME)),
+            // Empty or unset: the default greeting, in the visitor's language.
+            'welcomeMessage' => (string) $settings->get('search_assistant_welcome_message', '') ?: $translate(self::DEFAULT_WELCOME),
         ]);
 
         // Inject the widget HTML via inline script appending to body. This

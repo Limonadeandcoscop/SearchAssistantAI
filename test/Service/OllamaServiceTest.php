@@ -845,4 +845,55 @@ class OllamaServiceTest extends TestCase
 
         $this->service->extractCriteria('');
     }
+
+    // ==================================================
+    // Token budgets
+    // ==================================================
+
+    public function testLongRecordFieldsAreCutAndPropertiesLimited(): void
+    {
+        $this->service->setMaxFieldChars(100);
+        $this->service->setMaxProperties(2);
+        $properties = [];
+        foreach (['bibo:content', 'dcterms:extent', 'dcterms:language', 'dcterms:format'] as $term) {
+            $properties[$term] = str_repeat('mot ', 50000);
+        }
+
+        $system = $this->systemPromptFor([[
+            'payload' => ['title' => 'Full text', 'description' => str_repeat('mot ', 50000), 'properties' => $properties],
+        ]]);
+
+        $this->assertLessThan(5000, strlen($system), 'a 1 MB record must not reach the LLM whole');
+        $this->assertStringContainsString('Content: ', $system);
+        $this->assertStringContainsString('Extent: ', $system);
+        $this->assertStringNotContainsString('Language: ', $system);
+    }
+
+    public function testResultsBeyondTheContextBudgetAreLeftOut(): void
+    {
+        $this->service->setMaxContextTokens(2000);
+        $results = [];
+        for ($i = 1; $i <= 10; $i++) {
+            $results[] = ['payload' => ['title' => "Record {$i}", 'description' => str_repeat('x', 4000)]];
+        }
+
+        $system = $this->systemPromptFor($results);
+
+        $this->assertStringContainsString('Record 1', $system);
+        $this->assertStringNotContainsString('Record 10', $system);
+    }
+
+    /**
+     * @param list<array<string, mixed>> $results
+     */
+    private function systemPromptFor(array $results): string
+    {
+        $this->mockHandler->append(new Response(200, [], json_encode([
+            'message' => ['role' => 'assistant', 'content' => 'ok'],
+            'done' => true,
+        ])));
+        $this->service->query('question', $results);
+        $body = json_decode((string) $this->mockHandler->getLastRequest()->getBody(), true);
+        return $body['messages'][0]['content'];
+    }
 }

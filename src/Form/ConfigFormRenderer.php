@@ -7,6 +7,7 @@ use Interop\Container\ContainerInterface;
 use Laminas\Mvc\Controller\AbstractController;
 use Laminas\View\Renderer\PhpRenderer;
 use Omeka\Settings\Settings;
+use SearchAssistantAI\Settings\SearchAssistantSettings;
 
 /**
  * Render + submission-handler glue for the module configure page
@@ -73,6 +74,9 @@ class ConfigFormRenderer
         // masks them); checkboxes are saved as booleans.
         ConfigPageHelper::persist($settings, $form, $data);
 
+        // Probe the vector store on the next request, even right after a failure.
+        $settings->delete(SearchAssistantSettings::KEY_COLLECTION_RETRY_AT);
+
         return true;
     }
 
@@ -82,10 +86,11 @@ class ConfigFormRenderer
 
     /**
      * Flip the `search_assistant_collection_verified` flag and flash a warning when
-     * the admin changes where vectors are stored — the vector-store
-     * backend, the connection mode (direct vs hosted gateway), or the
-     * gateway URL. The flag triggers a collection-existence probe +
-     * create on the next request.
+     * the admin changes a setting of the `reindex_watch` registry: where
+     * vectors are stored (backend, URL, collection) or how they are computed
+     * (embedding model, dimension). The flag triggers a collection-existence
+     * probe + create on the next request. The first configuration only
+     * flips the flag: there is no index yet to rebuild.
      *
      * @param array<string, mixed> $data
      */
@@ -94,7 +99,8 @@ class ConfigFormRenderer
         $watched = $this->formConfig()['reindex_watch'] ?? [];
         $changed = false;
         foreach ($watched as $key => $default) {
-            if (isset($data[$key]) && $data[$key] !== $settings->get($key, $default)) {
+            // Compared as strings: the form gives "768" or 768 where settings hold 768.
+            if (isset($data[$key]) && (string) $data[$key] !== (string) $settings->get($key, $default)) {
                 $changed = true;
                 break;
             }
@@ -102,10 +108,14 @@ class ConfigFormRenderer
         if (!$changed) {
             return;
         }
+        $firstConfiguration = $settings->get(SearchAssistantSettings::KEY_BACKEND) === null;
         $settings->set('search_assistant_collection_verified', false);
+        if ($firstConfiguration) {
+            return;
+        }
         $translator = $this->services->get('MvcTranslator');
         $controller->messenger()->addWarning(
-            $translator->translate('Vector store backend changed. A full reindex is required for the new backend.')
+            $translator->translate('Vector store settings changed. Run a full reindex so that search uses the new settings.')
         );
     }
 

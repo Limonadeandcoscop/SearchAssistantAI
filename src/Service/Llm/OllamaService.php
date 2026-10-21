@@ -4,6 +4,7 @@ namespace SearchAssistantAI\Service\Llm;
 
 use SearchAssistantAI\Service\Prompt\FilePromptProvider;
 use SearchAssistantAI\Service\FileLogger;
+use SearchAssistantAI\Settings\SearchAssistantSettings;
 
 use RuntimeException;
 use InvalidArgumentException;
@@ -23,7 +24,7 @@ use GuzzleHttp\Exception\ServerException;
  * OpenAI-compatible API (/v1/chat/completions, /v1/models) exposed by vLLM,
  * TGI, LiteLLM and Ollama itself.
  */
-class OllamaService implements LlmInterface
+class OllamaService implements LlmInterface, TokenBudgetAwareInterface
 {
     public const API_FORMAT_OLLAMA = 'ollama';
     public const API_FORMAT_OPENAI = 'openai';
@@ -62,6 +63,15 @@ class OllamaService implements LlmInterface
      * @var string|null Admin-provided system prompt; null → fall back to on-disk file.
      */
     private $systemInstructionsOverride = null;
+
+    /** Token budget of the system prompt (instructions + results), about 4 characters per token. */
+    private int $maxContextTokens = SearchAssistantSettings::DEFAULT_MAX_CONTEXT_TOKENS;
+
+    /** Characters kept per record field: full texts can run to hundreds of kilobytes. */
+    private int $maxFieldChars = SearchAssistantSettings::DEFAULT_MAX_PAYLOAD_CHARS;
+
+    /** Properties kept per record, besides title, creator, date, type, description and subject. */
+    private int $maxProperties = SearchAssistantSettings::DEFAULT_MAX_PROPERTIES;
 
     /**
      * Constructor.
@@ -514,8 +524,13 @@ class OllamaService implements LlmInterface
         // Append search results context if provided
         if (!empty($searchResults)) {
             $prompt .= "\n\n**Données de contexte:**\n";
+            $maxChars = $this->maxContextTokens * 4;
             foreach ($searchResults as $index => $result) {
                 $resultNum = $index + 1;
+                if (strlen($prompt) >= $maxChars) {
+                    FileLogger::getInstance()->debug("OllamaService: context budget reached, results after {$index} left out");
+                    break;
+                }
                 $prompt .= "\nRésultat {$resultNum}:\n";
 
                 // Extract payload from Qdrant result structure
@@ -534,10 +549,10 @@ class OllamaService implements LlmInterface
                     $prompt .= "Type: {$payload['type']}\n";
                 }
                 if (isset($payload['description'])) {
-                    $prompt .= "Description: {$payload['description']}\n";
+                    $prompt .= "Description: " . $this->truncateField((string) $payload['description']) . "\n";
                 }
                 if (isset($payload['subject'])) {
-                    $prompt .= "Sujet: {$payload['subject']}\n";
+                    $prompt .= "Sujet: " . $this->truncateField((string) $payload['subject']) . "\n";
                 }
                 if (isset($payload['url']) && !empty($payload['url'])) {
                     $prompt .= "URL: {$payload['url']}\n";
@@ -546,12 +561,17 @@ class OllamaService implements LlmInterface
                 // Dynamically include all vocabulary properties
                 if (!empty($payload['properties'])) {
                     $skip = ['dcterms:creator', 'dcterms:date', 'dcterms:subject'];
+                    $propertiesCount = 0;
                     foreach ($payload['properties'] as $term => $value) {
+                        if ($propertiesCount >= $this->maxProperties) {
+                            break;
+                        }
                         if (in_array($term, $skip, true) || empty($value)) {
                             continue;
                         }
                         $label = ucfirst(preg_replace('/.*:/', '', $term));
-                        $prompt .= "{$label}: {$value}\n";
+                        $prompt .= "{$label}: " . $this->truncateField((string) $value) . "\n";
+                        $propertiesCount++;
                     }
                 }
             }
@@ -560,6 +580,44 @@ class OllamaService implements LlmInterface
         }
 
         return $prompt;
+    }
+
+    public function setMaxContextTokens(int $maxTokens): void
+    {
+        if ($maxTokens <= 0) {
+            throw new InvalidArgumentException('Maximum context tokens must be positive');
+        }
+        $this->maxContextTokens = $maxTokens;
+    }
+
+    public function setMaxFieldChars(int $maxChars): void
+    {
+        if ($maxChars <= 0) {
+            throw new InvalidArgumentException('Maximum field characters must be positive');
+        }
+        $this->maxFieldChars = $maxChars;
+    }
+
+    public function setMaxProperties(int $maxProps): void
+    {
+        if ($maxProps <= 0) {
+            throw new InvalidArgumentException('Maximum properties must be positive');
+        }
+        $this->maxProperties = $maxProps;
+    }
+
+    /** Cut a field to maxFieldChars, at a word boundary when one is close. */
+    private function truncateField(string $text): string
+    {
+        if (mb_strlen($text) <= $this->maxFieldChars) {
+            return $text;
+        }
+        $truncated = mb_substr($text, 0, max(1, $this->maxFieldChars - 3));
+        $lastSpace = mb_strrpos($truncated, ' ');
+        if ($lastSpace !== false && $lastSpace > $this->maxFieldChars - 53) {
+            $truncated = mb_substr($truncated, 0, $lastSpace);
+        }
+        return $truncated . '...';
     }
 
     /**
