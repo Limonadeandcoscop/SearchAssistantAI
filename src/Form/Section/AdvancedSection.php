@@ -22,7 +22,7 @@ class AdvancedSection implements ConfigFormSection
                 'label' => 'Enable Verbose Logging',
                 'info' => 'Log detailed debugging information (useful for troubleshooting)',
             ],
-            'attributes' => ['id' => 'search_assistant_verbose_logging', 'value' => '1'],
+            'attributes' => ['id' => 'search_assistant_verbose_logging'],
         ]);
     }
 

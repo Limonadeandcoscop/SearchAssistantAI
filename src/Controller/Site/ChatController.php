@@ -122,7 +122,7 @@ class ChatController extends AbstractActionController
         if (!$this->getRequest()->isPost()) {
             return $this->jsonResponse([
                 'success' => false,
-                'error' => $this->translate('Méthode non autorisée. Utilisez POST.')
+                'error' => $this->translate('Method not allowed. Use POST.')
             ], 405);
         }
 
@@ -140,7 +140,7 @@ class ChatController extends AbstractActionController
         if (!$contentType || strpos($contentType->getFieldValue(), 'application/json') === false) {
             return $this->jsonResponse([
                 'success' => false,
-                'error' => $this->translate('Content-Type doit être application/json')
+                'error' => $this->translate('Content-Type must be application/json')
             ], 400);
         }
 
@@ -168,7 +168,7 @@ class ChatController extends AbstractActionController
             return $this->jsonResponse([
                 'success' => false,
                 'error' => sprintf(
-                    $this->translate('Limite de requêtes dépassée. Veuillez réessayer dans %d secondes.'),
+                    $this->translate('Too many requests. Please try again in %d seconds.'),
                     $resetTime
                 ),
                 'retryAfter' => $resetTime
@@ -183,7 +183,7 @@ class ChatController extends AbstractActionController
         if (json_last_error() !== JSON_ERROR_NONE) {
             return $this->jsonResponse([
                 'success' => false,
-                'error' => sprintf($this->translate('JSON invalide : %s'), json_last_error_msg())
+                'error' => sprintf($this->translate('Invalid JSON: %s'), json_last_error_msg())
             ], 400);
         }
 
@@ -195,7 +195,7 @@ class ChatController extends AbstractActionController
             $errors = $inputFilter->getMessages();
             return $this->jsonResponse([
                 'success' => false,
-                'error' => $this->translate('Validation échouée'),
+                'error' => $this->translate('Validation failed'),
                 'details' => $errors
             ], 400);
         }
@@ -291,7 +291,7 @@ class ChatController extends AbstractActionController
             // Check if this is a rate limit error from Claude API (code 429)
             if ($e->getCode() === 429) {
                 // Handle Claude API rate limit errors
-                $this->logger->warn('Search Assistant AI API Claude rate limit exceeded', [
+                $this->logger->warn('Search Assistant AI: LLM rate limit exceeded', [
                     'query' => $query,
                     'session_id' => $sessionId,
                     'error' => $e->getMessage()
@@ -299,7 +299,7 @@ class ChatController extends AbstractActionController
 
                 return $this->jsonResponse([
                     'success' => false,
-                    'error' => $this->translate('Service temporairement surchargé. Veuillez réessayer dans quelques instants.'),
+                    'error' => $this->translate('The service is temporarily overloaded. Please try again in a few moments.'),
                     'retryAfter' => 30
                 ], 429, ['Retry-After' => '30']);
             }
@@ -312,7 +312,7 @@ class ChatController extends AbstractActionController
 
             return $this->jsonResponse([
                 'success' => false,
-                'error' => $this->translate('Service temporairement indisponible. Veuillez réessayer plus tard.')
+                'error' => $this->translate('The service is temporarily unavailable. Please try again later.')
             ], 503);
 
         } catch (\Exception $e) {
@@ -424,13 +424,13 @@ class ChatController extends AbstractActionController
             ]);
         } catch (\RuntimeException $e) {
             if ($e->getCode() === 429) {
-                $this->logger->warn('Search Assistant AI API Claude rate limit exceeded', [
+                $this->logger->warn('Search Assistant AI: LLM rate limit exceeded', [
                     'query' => $query,
                     'session_id' => $sessionId,
                     'error' => $e->getMessage(),
                 ]);
                 $emit('error', [
-                    'error' => $this->translate('Service temporairement surchargé. Veuillez réessayer dans quelques instants.'),
+                    'error' => $this->translate('The service is temporarily overloaded. Please try again in a few moments.'),
                     'retryAfter' => 30,
                 ]);
             } else {
@@ -439,7 +439,7 @@ class ChatController extends AbstractActionController
                     'error' => $e->getMessage(),
                 ]);
                 $emit('error', [
-                    'error' => $this->translate('Service temporairement indisponible. Veuillez réessayer plus tard.'),
+                    'error' => $this->translate('The service is temporarily unavailable. Please try again later.'),
                 ]);
             }
         } catch (\Exception $e) {
@@ -579,15 +579,15 @@ class ChatController extends AbstractActionController
         $query->getValidatorChain()
             ->attach(new Validator\NotEmpty([
                 'messages' => [
-                    Validator\NotEmpty::IS_EMPTY => $this->translate('Le champ "query" est requis')
+                    Validator\NotEmpty::IS_EMPTY => $this->translate('The "query" field is required')
                 ]
             ]))
             ->attach(new Validator\StringLength([
                 'min' => 1,
                 'max' => 1000,
                 'messages' => [
-                    Validator\StringLength::TOO_SHORT => $this->translate('La requête doit contenir au moins 1 caractère'),
-                    Validator\StringLength::TOO_LONG => $this->translate('La requête ne peut pas dépasser 1000 caractères')
+                    Validator\StringLength::TOO_SHORT => $this->translate('The query must contain at least 1 character'),
+                    Validator\StringLength::TOO_LONG => $this->translate('The query cannot exceed 1000 characters')
                 ]
             ]));
         $inputFilter->add($query);
@@ -601,8 +601,8 @@ class ChatController extends AbstractActionController
                 'min' => 1,
                 'max' => 255,
                 'messages' => [
-                    Validator\StringLength::TOO_SHORT => $this->translate('Le sessionId doit contenir au moins 1 caractère'),
-                    Validator\StringLength::TOO_LONG => $this->translate('Le sessionId ne peut pas dépasser 255 caractères')
+                    Validator\StringLength::TOO_SHORT => $this->translate('The sessionId must contain at least 1 character'),
+                    Validator\StringLength::TOO_LONG => $this->translate('The sessionId cannot exceed 255 characters')
                 ]
             ]));
         $inputFilter->add($sessionId);

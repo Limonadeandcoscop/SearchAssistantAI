@@ -1187,8 +1187,8 @@ msgid "Instruction appended to the response generation prompt sent to the LLM. T
 msgstr "Instruction ajoutée au prompt de génération de réponse envoyé au LLM. Indique au modèle comment utiliser les résultats de recherche pour répondre à l'utilisateur."
 
 # ConfigFormRenderer messenger warning
-msgid "Vector store backend changed. A full reindex is required for the new backend."
-msgstr "Le backend du magasin vectoriel a été modifié. Une réindexation complète est requise pour le nouveau backend."
+msgid "Vector store settings changed. Run a full reindex so that search uses the new settings."
+msgstr "Les réglages du magasin vectoriel ont changé. Lancez une réindexation complète pour que la recherche utilise les nouveaux réglages."
 
 # /admin/search-assistant/prompts — PromptsController / view / form / nav
 msgid "Prompts"
@@ -1265,3 +1265,87 @@ msgstr "Authentification requise."
 
 msgid "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
 msgstr "Désactivez d'abord le module %s : Search Assistant AI le remplace et importe ses réglages et ses données."
+
+msgid "Manual Reindex"
+msgstr "Réindexation manuelle"
+
+msgid "Complete Reindex"
+msgstr "Réindexation complète"
+
+msgid "Delete existing index entries and recreate from scratch"
+msgstr "Supprime les entrées existantes de l'index et le reconstruit entièrement"
+
+msgid "Incremental Reindex"
+msgstr "Réindexation incrémentale"
+
+msgid "Only index new resources not yet in vector database"
+msgstr "Indexe seulement les nouvelles ressources absentes de la base vectorielle"
+
+msgid "Specific Resources"
+msgstr "Ressources précises"
+
+msgid "Target specific resource IDs (comma-separated)"
+msgstr "Cible des identifiants de ressources précis (séparés par des virgules)"
+
+msgid "Asynchronous (Background)"
+msgstr "Asynchrone (arrière-plan)"
+
+msgid "Run as background job (recommended for large datasets)"
+msgstr "Exécute une tâche en arrière-plan (recommandé pour les gros volumes)"
+
+msgid "Synchronous (Wait)"
+msgstr "Synchrone (attente)"
+
+msgid "Wait for completion (only for small datasets)"
+msgstr "Attend la fin du traitement (seulement pour les petits volumes)"
+
+msgid "Item Sets (Collections)"
+msgstr "Collections"
+
+msgid "All Resource Types"
+msgstr "Tous les types de ressources"
+
+msgid "Hello! How can I help you?"
+msgstr "Bonjour ! Comment puis-je vous aider ?"
+
+msgid "Greeting shown when the widget opens. Leave empty for the default greeting in the visitor's language (max 500 characters)."
+msgstr "Message affiché à l'ouverture du widget. Laissez vide pour le message par défaut, dans la langue du visiteur (500 caractères maximum)."
+
+msgid "Method not allowed. Use POST."
+msgstr "Méthode non autorisée. Utilisez POST."
+
+msgid "Content-Type must be application/json"
+msgstr "Content-Type doit être application/json"
+
+msgid "Too many requests. Please try again in %d seconds."
+msgstr "Limite de requêtes dépassée. Veuillez réessayer dans %d secondes."
+
+msgid "Invalid JSON: %s"
+msgstr "JSON invalide : %s"
+
+msgid "Validation failed"
+msgstr "Validation échouée"
+
+msgid "The service is temporarily overloaded. Please try again in a few moments."
+msgstr "Service temporairement surchargé. Veuillez réessayer dans quelques instants."
+
+msgid "The service is temporarily unavailable. Please try again later."
+msgstr "Service temporairement indisponible. Veuillez réessayer plus tard."
+
+msgid "The \"query\" field is required"
+msgstr "Le champ \"query\" est requis"
+
+msgid "The query must contain at least 1 character"
+msgstr "La requête doit contenir au moins 1 caractère"
+
+msgid "The query cannot exceed 1000 characters"
+msgstr "La requête ne peut pas dépasser 1000 caractères"
+
+msgid "The sessionId must contain at least 1 character"
+msgstr "Le sessionId doit contenir au moins 1 caractère"
+
+msgid "The sessionId cannot exceed 255 characters"
+msgstr "Le sessionId ne peut pas dépasser 255 caractères"
+
+msgid "Configuration saved successfully."
+msgstr "Configuration enregistrée."

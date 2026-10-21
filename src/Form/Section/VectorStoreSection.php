@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace SearchAssistantAI\Form\Section;
 
 use SearchAssistantAI\Form\ConfigPageHelper;
+use SearchAssistantAI\Settings\SearchAssistantSettings;
 use Laminas\Form\Element;
 use Laminas\Form\Form;
 
@@ -58,9 +59,9 @@ class VectorStoreSection implements ConfigFormSection
             ],
             'attributes' => [
                 'id' => 'search_assistant_qdrant_collection',
-                'value' => 'omeka_chatbot',
+                'value' => SearchAssistantSettings::DEFAULT_COLLECTION,
                 'required' => true,
-                'placeholder' => 'omeka_chatbot',
+                'placeholder' => SearchAssistantSettings::DEFAULT_COLLECTION,
             ],
         ]);
 

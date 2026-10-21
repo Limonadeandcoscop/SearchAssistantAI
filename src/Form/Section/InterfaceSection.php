@@ -26,7 +26,6 @@ class InterfaceSection implements ConfigFormSection
             ],
             'attributes' => [
                 'id' => 'search_assistant_widget_enabled',
-                'value' => '1',
             ],
         ]);
 
@@ -82,14 +81,12 @@ class InterfaceSection implements ConfigFormSection
             'type' => Element\Textarea::class,
             'options' => [
                 'label' => 'Welcome Message',
-                'info' => 'Initial greeting message displayed to users (max 500 characters)',
+                'info' => 'Greeting shown when the widget opens. Leave empty for the default greeting in the visitor\'s language (max 500 characters).',
             ],
             'attributes' => [
                 'id' => 'search_assistant_welcome_message',
-                'value' => 'Hello! How can I help you?',
                 'rows' => 3,
                 'maxlength' => 500,
-                'placeholder' => 'Enter a friendly welcome message...',
             ],
         ]);
 
