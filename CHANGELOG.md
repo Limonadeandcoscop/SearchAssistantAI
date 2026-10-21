@@ -7,6 +7,8 @@ aims to adhere to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.1] - 2026-10-22
+
 ### Fixed
 - Before the module was configured, every request (public pages
   included) tried to reach Qdrant three times and logged a warning. The
