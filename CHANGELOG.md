@@ -7,6 +7,18 @@ aims to adhere to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.0.2] - 2026-11-07
+
+### Removed
+- The install step no longer looks for a previous module to import
+  settings and a sync queue from: there was none. Installing only
+  creates `search_assistant_sync_queue`.
+
+### Fixed
+- `language/generate_pot.php` did not parse (unescaped apostrophes in
+  three French strings).
+- Stale entries removed from the translation template.
+
 ## [1.0.1] - 2026-10-22
 
 ### Fixed

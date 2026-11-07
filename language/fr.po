@@ -1263,9 +1263,6 @@ msgstr "Lorsque cette option est activée, le widget et l'API de chat ne sont di
 msgid "Authentication required."
 msgstr "Authentification requise."
 
-msgid "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
-msgstr "Désactivez d'abord le module %s : Search Assistant AI le remplace et importe ses réglages et ses données."
-
 msgid "Manual Reindex"
 msgstr "Réindexation manuelle"
 

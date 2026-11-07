@@ -1,10 +1,10 @@
-# Chatbot Module for Omeka S
+# Search Assistant AI Module for Omeka S
 # Copyright (C) 2024 LimonadeAndCo
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Chatbot\n"
+"Project-Id-Version: SearchAssistantAI\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2026-03-27 00:00+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -111,12 +111,6 @@ msgstr ""
 msgid "Chat messages"
 msgstr ""
 
-msgid "Chatbot"
-msgstr ""
-
-msgid "Chatbot usage statistics and performance analytics."
-msgstr ""
-
 msgid "Checking..."
 msgstr ""
 
@@ -199,9 +193,6 @@ msgid "Conversations Over Time"
 msgstr ""
 
 msgid "Current Indexation Status"
-msgstr ""
-
-msgid "Customize the appearance and behavior of the chatbot widget on your site."
 msgstr ""
 
 msgid "Date"
@@ -394,9 +385,6 @@ msgid "Launching..."
 msgstr ""
 
 msgid "Le musée est ouvert du mardi au dimanche de 10h00 à 18h00. Nous sommes fermés le lundi et les jours fériés. Puis-je vous aider avec autre chose ?"
-msgstr ""
-
-msgid "Line chart showing chatbot question volume over time"
 msgstr ""
 
 msgid "Line chart showing conversation volume over time"
@@ -622,9 +610,6 @@ msgid "Results Per Page"
 msgstr ""
 
 msgid "Results controls"
-msgstr ""
-
-msgid "Retour au chatbot"
 msgstr ""
 
 msgid "Returning Users"

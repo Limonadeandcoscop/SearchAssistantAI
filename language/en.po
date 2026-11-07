@@ -908,9 +908,6 @@ msgstr "e.g., 123"
 msgid "e.g., sess_abc123xyz"
 msgstr "e.g., sess_abc123xyz"
 
-msgid "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
-msgstr "Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data."
-
 msgid "Manual Reindex"
 msgstr "Manual Reindex"
 
