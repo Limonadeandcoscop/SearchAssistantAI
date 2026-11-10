@@ -9,6 +9,7 @@ use SearchAssistantAI\Service\VectorStore\VectorStoreInterface;
 use SearchAssistantAI\Service\VectorStore\VectorStoreRegistry;
 use SearchAssistantAI\Settings\SearchAssistantSettings;
 use SearchAssistantAI\Service\Analytics\StatsService;
+use SearchAssistantAI\Service\Llm\LlmProviders;
 use SearchAssistantAI\Service\Indexing\SyncService;
 use Laminas\Http\Response;
 use Laminas\Log\LoggerInterface;
@@ -152,13 +153,13 @@ class DashboardController extends AbstractActionController
         $vectorStoreDisplayName = $this->vectorStoreRegistry->getLabel();
         $collectionName = $this->vectorStoreRegistry->getCollectionName();
 
-        $llmProvider = (new SearchAssistantSettings($settings))->getLlmProvider();
+        $llmProvider = LlmProviders::effective($this->llmProviders, (new SearchAssistantSettings($settings))->getLlmProvider());
 
         // Prepare dashboard data
         $dashboardData = [
             'vectorStoreBackend' => $vectorStoreBackend,
             'vectorStoreDisplayName' => $vectorStoreDisplayName,
-            'qdrantUrl' => $settings->get('search_assistant_qdrant_url', ''),
+            'qdrantUrl' => $this->vectorStoreRegistry->getServerUrl(),
             'collectionName' => $collectionName,
             'lastSync' => $settings->get('search_assistant_last_sync', null),
             'llmProvider' => $llmProvider,

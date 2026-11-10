@@ -142,9 +142,8 @@ class Module extends AbstractModule
     }
 
     /**
-     * Install: create the module's table and import the data of the former
-     * Search Assistant AI module, if any (see Install\ChatbotImport). Prompts are seeded
-     * on the first request (see seedPromptsFromExamples()).
+     * Install: create the module's table. Prompts are seeded on the first
+     * request (see seedPromptsFromExamples()).
      *
      * Vector-store collection creation is intentionally NOT done here.
      * The admin has not yet configured the backend, URL, credentials, or
@@ -157,27 +156,8 @@ class Module extends AbstractModule
      */
     public function install($serviceLocator): void
     {
-        /** @var \Omeka\Module\Manager $modules */
-        $modules = $serviceLocator->get('Omeka\ModuleManager');
-        $active = Install\ChatbotImport::activeOldModules(function (string $id) use ($modules): bool {
-            $module = $modules->getModule($id);
-            // getModule() returns false for a module that is not on disk.
-            return $module instanceof \Omeka\Module\Module && $module->getState() === \Omeka\Module\Manager::STATE_ACTIVE;
-        });
-        if ($active !== []) {
-            $translator = $serviceLocator->get('MvcTranslator');
-            throw new \Omeka\Module\Exception\ModuleCannotInstallException(sprintf(
-                $translator->translate('Deactivate the %s module first: Search Assistant AI replaces it and imports its settings and data.'), // @translate
-                implode(', ', $active)
-            ));
-        }
-
         $connection = $serviceLocator->get('Omeka\Connection');
         $connection->executeStatement(file_get_contents(__DIR__ . '/data/install/schema.sql'));
-
-        $import = new Install\ChatbotImport($connection);
-        $import->importSettings();
-        $import->copyTable('chatbot_sync_queue', 'search_assistant_sync_queue');
     }
 
     /**

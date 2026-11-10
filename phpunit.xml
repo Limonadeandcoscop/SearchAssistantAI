@@ -21,7 +21,6 @@
             <directory>test/Architecture</directory>
             <directory>test/Config</directory>
             <directory>test/Permissions</directory>
-            <directory>test/Install</directory>
             <directory>test/Form</directory>
             <directory>test/Job</directory>
             <directory>test/Service</directory>

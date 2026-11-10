@@ -29,6 +29,7 @@ return [
             \SearchAssistantAI\Service\VectorStore\VectorStoreRegistry::class => \SearchAssistantAI\Service\VectorStore\VectorStoreRegistryFactory::class,
             \SearchAssistantAI\Service\VectorStore\VectorStoreBootstrap::class => \SearchAssistantAI\Service\VectorStore\VectorStoreBootstrapFactory::class,
             \SearchAssistantAI\Service\VectorStore\QdrantService::class => \SearchAssistantAI\Service\VectorStore\QdrantServiceFactory::class,
+            \SearchAssistantAI\Service\VectorStore\ElasticsearchService::class => \SearchAssistantAI\Service\VectorStore\ElasticsearchServiceFactory::class,
             \SearchAssistantAI\Service\Search\QueryProcessorService::class => \SearchAssistantAI\Service\Search\QueryProcessorServiceFactory::class,
             \SearchAssistantAI\Service\RateLimit\RateLimitService::class => \SearchAssistantAI\Service\RateLimit\RateLimitServiceFactory::class,
             \SearchAssistantAI\Service\Prompt\FilePromptProvider::class => \SearchAssistantAI\Service\Prompt\FilePromptProviderFactory::class,
@@ -195,6 +196,15 @@ return [
                                             ],
                                         ],
                                     ],
+                                    'test-elasticsearch' => [
+                                        'type' => 'Literal',
+                                        'options' => [
+                                            'route' => '/test-elasticsearch',
+                                            'defaults' => [
+                                                'action' => 'test-elasticsearch',
+                                            ],
+                                        ],
+                                    ],
                                 ],
                             ],
                             'reindex' => [
@@ -302,6 +312,13 @@ return [
                 'label' => 'Qdrant',
                 'service' => \SearchAssistantAI\Service\VectorStore\QdrantService::class,
                 'collection_setting' => 'search_assistant_qdrant_collection',
+                'url_setting' => 'search_assistant_qdrant_url',
+            ],
+            'elasticsearch' => [
+                'label' => 'Elasticsearch 8.x',
+                'service' => \SearchAssistantAI\Service\VectorStore\ElasticsearchService::class,
+                'collection_setting' => 'search_assistant_es_index',
+                'url_setting' => 'search_assistant_es_url',
             ],
         ],
         // Module configure page: form sections (add fields), layout (fieldsets
@@ -326,6 +343,11 @@ return [
                             'id' => 'search-assistant-subgroup-qdrant',
                             'title' => 'Qdrant',
                             'fields' => ['search_assistant_qdrant_url', 'search_assistant_qdrant_collection', 'search_assistant_qdrant_api_key'],
+                        ],
+                        'elasticsearch' => [
+                            'id' => 'search-assistant-subgroup-elasticsearch',
+                            'title' => 'Elasticsearch',
+                            'fields' => ['search_assistant_es_url', 'search_assistant_es_index', 'search_assistant_es_api_key', 'search_assistant_es_verify_ssl'],
                         ],
                     ],
                 ],
@@ -367,6 +389,8 @@ return [
                 'search_assistant_vector_store_backend' => 'qdrant',
                 'search_assistant_qdrant_url' => 'http://localhost:6333',
                 'search_assistant_qdrant_collection' => \SearchAssistantAI\Settings\SearchAssistantSettings::DEFAULT_COLLECTION,
+                'search_assistant_es_url' => \SearchAssistantAI\Settings\SearchAssistantSettings::DEFAULT_ES_URL,
+                'search_assistant_es_index' => \SearchAssistantAI\Settings\SearchAssistantSettings::DEFAULT_COLLECTION,
                 'search_assistant_embeddings_model' => '',
                 'search_assistant_embedding_dimension' => 1024,
             ],

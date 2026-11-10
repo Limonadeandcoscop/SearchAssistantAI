@@ -19,7 +19,8 @@ class ConfigPagesTest extends TestCase
 
     private const CONFIGURE = [
         'search_assistant_vector_store_backend', 'search_assistant_qdrant_url', 'search_assistant_qdrant_collection',
-        'search_assistant_qdrant_api_key', 'search_assistant_embeddings_url', 'search_assistant_embeddings_api_format',
+        'search_assistant_qdrant_api_key', 'search_assistant_es_url', 'search_assistant_es_index', 'search_assistant_es_api_key',
+        'search_assistant_es_verify_ssl', 'search_assistant_embeddings_url', 'search_assistant_embeddings_api_format',
         'search_assistant_embeddings_model', 'search_assistant_embedding_dimension', 'search_assistant_llm_provider',
         'search_assistant_llm_api_format', 'search_assistant_ollama_url', 'search_assistant_ollama_model',
         'search_assistant_verbose_logging',
@@ -82,6 +83,29 @@ class ConfigPagesTest extends TestCase
         self::assertTrue($form->isValid(), json_encode($form->getMessages()) ?: '');
     }
 
+    /**
+     * Values left by a module that is no longer active (a backend or provider
+     * this build does not register) load as the shipped choice, so the page
+     * shows its subgroup and saves a valid value.
+     */
+    public function testUnknownRegistryValuesLoadAsTheShippedChoice(): void
+    {
+        $form = new ConfigForm();
+        $form->init();
+        ConfigPageHelper::filterForPage($form, ConfigPageHelper::PAGE_CONFIGURE);
+        $settings = $this->arraySettings([
+            'search_assistant_vector_store_backend' => 'pinecone',
+            'search_assistant_llm_provider' => 'claude',
+            'search_assistant_llm_api_format' => 'openai',
+        ]);
+
+        $data = ConfigPageHelper::load($settings, $form);
+
+        self::assertSame('qdrant', $data['search_assistant_vector_store_backend']);
+        self::assertSame('ollama', $data['search_assistant_llm_provider']);
+        self::assertSame('openai', $data['search_assistant_llm_api_format'], 'plain selects keep their stored value');
+    }
+
     public function testPersistKeepsSecretsOnEmptyAndCastsCheckboxes(): void
     {
         $form = new ConfigForm();
@@ -124,7 +148,7 @@ class ConfigPagesTest extends TestCase
         }
         sort($secrets);
         self::assertSame(
-            ['search_assistant_qdrant_api_key'],
+            ['search_assistant_es_api_key', 'search_assistant_qdrant_api_key'],
             $secrets
         );
     }

@@ -45,7 +45,7 @@ $frTranslations = [
     'Warning:' => 'Attention :',
     'Some items have been pending indexation for an extended period.' => 'Certains items sont en attente d\'indexation depuis longtemps.',
     'Usage Metrics' => 'Métriques d\'utilisation',
-    'Search Assistant AI usage statistics and performance analytics.' => 'Statistiques d\'utilisation de l'assistant et analyses de performance.',
+    'Search Assistant AI usage statistics and performance analytics.' => 'Statistiques d\'utilisation de l\'assistant et analyses de performance.',
     'Total Questions' => 'Total des questions',
     'Today' => 'Aujourd\'hui',
     'This Week' => 'Cette semaine',
@@ -53,7 +53,7 @@ $frTranslations = [
     'Avg Response Time' => 'Temps de réponse moyen',
     'Satisfaction Rate' => 'Taux de satisfaction',
     'Questions Over Time' => 'Questions au fil du temps',
-    'Line chart showing search assistant question volume over time' => 'Graphique montrant le volume de questions de l'assistant au fil du temps',
+    'Line chart showing search assistant question volume over time' => 'Graphique montrant le volume de questions de l\'assistant au fil du temps',
     'Technical Health' => 'État technique',
     'Connection status and health monitoring for all integrated services.' => 'État de connexion et surveillance de tous les services intégrés.',
     'Vector Database' => 'Base de données vectorielle',
@@ -70,7 +70,7 @@ $frTranslations = [
 
     // Admin config
     'Interface Customization' => 'Personnalisation de l\'interface',
-    'Customize the appearance and behavior of the search assistant widget on your site.' => 'Personnalisez l\'apparence et le comportement du widget de l'assistant sur votre site.',
+    'Customize the appearance and behavior of the search assistant widget on your site.' => 'Personnalisez l\'apparence et le comportement du widget de l\'assistant sur votre site.',
     'characters' => 'caractères',
     'Indexing Field Selection' => 'Sélection des champs d\'indexation',
     'Select which properties to include in vector indexing. If no properties are selected, all properties will be indexed (default behavior).' => 'Sélectionnez les propriétés à inclure dans l\'indexation vectorielle. Si aucune propriété n\'est sélectionnée, toutes les propriétés seront indexées (comportement par défaut).',

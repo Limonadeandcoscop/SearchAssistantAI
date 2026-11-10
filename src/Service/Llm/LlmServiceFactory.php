@@ -32,8 +32,8 @@ class LlmServiceFactory implements FactoryInterface
     {
         $conf = new SearchAssistantSettings($services->get('Omeka\Settings'));
 
-        $provider = $conf->getLlmProvider();
         $registry = $services->get('Config')['search_assistant']['llm_providers'] ?? [];
+        $provider = LlmProviders::effective($registry, $conf->getLlmProvider());
         if (!isset($registry[$provider]['service'])) {
             throw new RuntimeException(sprintf(
                 'LLM provider "%s" is not available. Known providers: %s',

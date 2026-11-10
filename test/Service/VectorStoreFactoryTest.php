@@ -7,6 +7,7 @@ use PHPUnit\Framework\TestCase;
 use SearchAssistantAI\Service\VectorStore\VectorStoreFactory;
 use SearchAssistantAI\Service\VectorStore\VectorStoreInterface;
 use SearchAssistantAI\Service\VectorStore\QdrantService;
+use SearchAssistantAI\Service\VectorStore\ElasticsearchService;
 use Interop\Container\ContainerInterface;
 
 /**
@@ -81,18 +82,30 @@ class VectorStoreFactoryTest extends TestCase
         $this->assertInstanceOf(QdrantService::class, $service);
     }
 
+    public function testElasticsearchBackend(): void
+    {
+        $container = $this->createMockContainer([
+            'search_assistant_vector_store_backend' => 'elasticsearch',
+            'search_assistant_es_url' => 'https://custom-es:9200',
+            'search_assistant_es_api_key' => 'test-api-key',
+            'search_assistant_es_verify_ssl' => false,
+        ]);
+
+        $service = $this->factory->__invoke($container, VectorStoreInterface::class);
+
+        $this->assertInstanceOf(ElasticsearchService::class, $service);
+    }
+
     /**
-     * An unknown backend fails explicitly instead of silently using Qdrant
-     * (it can only come from a removed module or a hand-edited setting).
+     * An unknown backend (left by a removed module or a hand-edited setting)
+     * resolves to the shipped backend instead of taking the site down.
      */
-    public function testUnknownBackendFailsExplicitly(): void
+    public function testUnknownBackendFallsBackToQdrant(): void
     {
         $container = $this->createMockContainer([
             'search_assistant_vector_store_backend' => 'unknown_backend',
         ]);
 
-        $this->expectException(\RuntimeException::class);
-        $this->expectExceptionMessage('Vector store backend "unknown_backend" is not available');
-        $this->factory->__invoke($container, VectorStoreInterface::class);
+        self::assertInstanceOf(QdrantService::class, $this->factory->__invoke($container, VectorStoreInterface::class));
     }
 }
