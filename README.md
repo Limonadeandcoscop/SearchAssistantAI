@@ -108,7 +108,7 @@ The prompts are the files shipped under `config/prompts/`.
 ## Search Assistant AI Pro
 
 Search Assistant AI Pro is a separate module installed next to this one (it requires
-Search Assistant AI 1.0.0 or later). It adds:
+Search Assistant AI 1.1.0 or later). It adds:
 
 - Claude (Anthropic) as LLM, and a hosted gateway connection that needs
   no local vector store, embeddings service or LLM;
