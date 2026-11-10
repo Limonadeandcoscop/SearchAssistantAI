@@ -48,6 +48,7 @@ class ConfigForm extends Form implements InputFilterProviderInterface
             if (!$element instanceof Select) {
                 continue;
             }
+            $element->setOption(ConfigPageHelper::OPTION_CHOICES, array_map('strval', array_keys($labels)));
             if (count($labels) === 1) {
                 // Nothing to choose: keep the value, hide the field.
                 $this->remove($field);

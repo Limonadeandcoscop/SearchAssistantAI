@@ -4,6 +4,7 @@ namespace SearchAssistantAI\Controller\Admin;
 
 use SearchAssistantAI\Form\ConfigPageHelper;
 use SearchAssistantAI\Form\ConfigForm;
+use SearchAssistantAI\Service\VectorStore\ElasticsearchService;
 use SearchAssistantAI\Service\VectorStore\QdrantService;
 use Laminas\Http\Response;
 use Laminas\Mvc\Controller\AbstractActionController;
@@ -14,7 +15,7 @@ use Laminas\View\Model\ViewModel;
  * Admin configuration controller for Search Assistant AI module
  *
  * Handles the configuration form for setting up:
- * - Qdrant vector database connection
+ * - Qdrant or Elasticsearch vector database connection
  * - Embeddings service connection
  * - Claude API settings
  * - Interface customization options
@@ -152,6 +153,68 @@ class ConfigController extends AbstractActionController
             return new JsonModel([
                 'success' => false,
                 'message' => 'Unexpected error: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * AJAX endpoint to test an Elasticsearch connection
+     *
+     * POST (url, api_key, verify_ssl): asks the server for its info document.
+     * Returns JSON: {success: bool, message: string}
+     *
+     * @return JsonModel
+     */
+    public function testElasticsearchAction()
+    {
+        $this->layout(false);
+
+        if (!$this->getRequest()->isXmlHttpRequest()) {
+            return new JsonModel([
+                'success' => false,
+                'message' => 'This endpoint only accepts AJAX requests'
+            ]);
+        }
+        if (!$this->getRequest()->isPost()) {
+            return new JsonModel([
+                'success' => false,
+                'message' => 'Only POST requests are allowed'
+            ]);
+        }
+
+        $url = (string) $this->params()->fromPost('url', '');
+        $apiKey = (string) $this->params()->fromPost('api_key', '');
+        $verifySsl = (bool) $this->params()->fromPost('verify_ssl', true);
+
+        if ($url === '') {
+            return new JsonModel([
+                'success' => false,
+                'message' => 'Elasticsearch URL is required'
+            ]);
+        }
+        if (!filter_var($url, FILTER_VALIDATE_URL)) {
+            return new JsonModel([
+                'success' => false,
+                'message' => 'Invalid URL format'
+            ]);
+        }
+
+        try {
+            $service = new ElasticsearchService($url, $apiKey !== '' ? $apiKey : null, 5.0, $verifySsl);
+            if (!$service->isHealthy()) {
+                return new JsonModel([
+                    'success' => false,
+                    'message' => 'Elasticsearch did not answer with its cluster information (check the URL, API key and SSL settings)'
+                ]);
+            }
+            return new JsonModel([
+                'success' => true,
+                'message' => 'Successfully connected to Elasticsearch server'
+            ]);
+        } catch (\Exception $e) {
+            return new JsonModel([
+                'success' => false,
+                'message' => 'Failed to connect to Elasticsearch server: ' . $e->getMessage()
             ]);
         }
     }

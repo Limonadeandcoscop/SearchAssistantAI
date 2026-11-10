@@ -17,7 +17,10 @@ use Omeka\Settings\Settings;
  *   - `search_assistant_page`: PAGE_CONFIGURE (default), PAGE_INTERFACE,
  *     PAGE_INDEXING or PAGE_HIDDEN (kept in settings, shown nowhere);
  *   - `search_assistant_secret`: true for API keys (an empty submission keeps the
- *     stored value, since the UI masks them).
+ *     stored value, since the UI masks them);
+ *   - `search_assistant_choices`: the keys a registry-driven select accepts; a
+ *     stored value outside them (left by a module no longer active) loads
+ *     as the element default so the form shows, and saves, a valid choice.
  * Checkboxes are saved as booleans.
  */
 final class ConfigPageHelper
@@ -33,6 +36,8 @@ final class ConfigPageHelper
 
     public const OPTION_PAGE = 'search_assistant_page';
     public const OPTION_SECRET = 'search_assistant_secret';
+    /** Valid keys of a registry-driven field (set by ConfigForm); other stored values load as the default. */
+    public const OPTION_CHOICES = 'search_assistant_choices';
 
     /**
      * @param list<string> $fields
@@ -98,7 +103,12 @@ final class ConfigPageHelper
                 continue;
             }
             $name = $element->getName();
-            $data[$name] = $settings->get($name, $element->getValue());
+            $value = $settings->get($name, $element->getValue());
+            $choices = $element->getOption(self::OPTION_CHOICES);
+            if (is_array($choices) && !in_array((string) $value, $choices, true)) {
+                $value = $element->getValue();
+            }
+            $data[$name] = $value;
         }
         return $data;
     }

@@ -71,27 +71,41 @@ class ConfigFormTest extends TestCase
 
     // ─── validation: vector-store section ────────────────────────
 
-    public function testSingleChoiceSelectsAreHidden(): void
+    public function testRegistrySelectsOfferTheRegisteredChoices(): void
     {
-        foreach (['search_assistant_vector_store_backend' => 'qdrant', 'search_assistant_llm_provider' => 'ollama'] as $field => $only) {
-            $element = $this->form->get($field);
-            self::assertInstanceOf(\Laminas\Form\Element\Hidden::class, $element, $field);
-            self::assertSame($only, $element->getValue(), $field);
-            self::assertSame($field, $element->getAttribute('id'), $field);
-        }
+        // Two backends ship with the module: a real select.
+        $backend = $this->form->get('search_assistant_vector_store_backend');
+        self::assertInstanceOf(\Laminas\Form\Element\Select::class, $backend);
+        self::assertSame(['qdrant', 'elasticsearch'], array_keys($backend->getValueOptions()));
+        self::assertSame('qdrant', $backend->getValue());
+
+        // One provider: nothing to choose, the field is hidden.
+        $provider = $this->form->get('search_assistant_llm_provider');
+        self::assertInstanceOf(\Laminas\Form\Element\Hidden::class, $provider);
+        self::assertSame('ollama', $provider->getValue());
+        self::assertSame('search_assistant_llm_provider', $provider->getAttribute('id'));
     }
 
     public function testHiddenSingleChoiceAlwaysSavesThatChoice(): void
     {
         // e.g. a provider stored by a module that is no longer active
-        $this->form->setData($this->validData([
-            'search_assistant_vector_store_backend' => 'pinecone',
-            'search_assistant_llm_provider' => 'claude',
-        ]));
+        $this->form->setData($this->validData(['search_assistant_llm_provider' => 'claude']));
 
         self::assertTrue($this->form->isValid(), $this->formatMessages());
-        self::assertSame('qdrant', $this->form->getData()['search_assistant_vector_store_backend']);
         self::assertSame('ollama', $this->form->getData()['search_assistant_llm_provider']);
+    }
+
+    public function testElasticsearchIsAValidBackendChoice(): void
+    {
+        $this->form->setData($this->validData(['search_assistant_vector_store_backend' => 'elasticsearch']));
+        self::assertTrue($this->form->isValid(), $this->formatMessages());
+        self::assertSame('elasticsearch', $this->form->getData()['search_assistant_vector_store_backend']);
+    }
+
+    public function testRejectsUnknownBackend(): void
+    {
+        $this->form->setData($this->validData(['search_assistant_vector_store_backend' => 'pinecone']));
+        self::assertFalse($this->form->isValid());
     }
 
     public function testRejectsInvalidQdrantUrl(): void
@@ -104,6 +118,18 @@ class ConfigFormTest extends TestCase
     {
         $this->form->setData($this->validData(['search_assistant_qdrant_collection' => 'bad name!']));
         self::assertFalse($this->form->isValid());
+    }
+
+    public function testRejectsElasticsearchIndexWithUppercase(): void
+    {
+        $this->form->setData($this->validData(['search_assistant_es_index' => 'BadIndex']));
+        self::assertFalse($this->form->isValid());
+    }
+
+    public function testElasticsearchFieldsAreOptional(): void
+    {
+        $this->form->setData($this->validData(['search_assistant_es_url' => '', 'search_assistant_es_index' => '', 'search_assistant_es_api_key' => '']));
+        self::assertTrue($this->form->isValid(), json_encode($this->form->getMessages()) ?: '');
     }
 
     // ─── validation: advanced section numeric bounds ─────────────
@@ -164,6 +190,7 @@ class ConfigFormTest extends TestCase
         return [
             'search_assistant_vector_store_backend',
             'search_assistant_qdrant_url', 'search_assistant_qdrant_collection', 'search_assistant_qdrant_api_key',
+            'search_assistant_es_url', 'search_assistant_es_index', 'search_assistant_es_api_key', 'search_assistant_es_verify_ssl',
             'search_assistant_embeddings_url', 'search_assistant_embeddings_api_format', 'search_assistant_embeddings_model',
             'search_assistant_embedding_dimension',
             'search_assistant_llm_provider', 'search_assistant_llm_api_format',

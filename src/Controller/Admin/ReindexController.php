@@ -79,7 +79,7 @@ class ReindexController extends AbstractActionController
         ];
 
         // Get current indexation status
-        $qdrantUrl = $settings->get('search_assistant_qdrant_url', '');
+        $qdrantUrl = $this->vectorStoreRegistry->getServerUrl();
         $collectionName = $this->vectorStoreRegistry->getCollectionName();
         $lastIndexation = $settings->get('search_assistant_last_indexation', null);
 

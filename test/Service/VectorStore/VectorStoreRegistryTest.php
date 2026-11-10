@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SearchAssistantAITest\Service\VectorStore;
 
+use SearchAssistantAI\Service\VectorStore\ElasticsearchService;
 use SearchAssistantAI\Service\VectorStore\QdrantService;
 use SearchAssistantAI\Service\VectorStore\VectorStoreRegistry;
 use SearchAssistantAI\Settings\SearchAssistantSettings;
@@ -39,6 +40,32 @@ class VectorStoreRegistryTest extends TestCase
         self::assertSame('Qdrant', $registry->getLabel());
     }
 
+    public function testElasticsearchUsesItsIndexAndUrlSettings(): void
+    {
+        $registry = $this->registry([
+            'search_assistant_vector_store_backend' => 'elasticsearch',
+            'search_assistant_qdrant_collection' => 'qdrant_name',
+            'search_assistant_qdrant_url' => 'http://qdrant:6333',
+            'search_assistant_es_index' => 'es_name',
+            'search_assistant_es_url' => 'https://es:9200',
+        ]);
+
+        self::assertSame('elasticsearch', $registry->getBackend());
+        self::assertSame(ElasticsearchService::class, $registry->getServiceName());
+        self::assertSame('es_name', $registry->getCollectionName());
+        self::assertSame('https://es:9200', $registry->getServerUrl());
+        self::assertSame('Elasticsearch 8.x', $registry->getLabel());
+    }
+
+    public function testServerUrlComesFromTheBackendEntry(): void
+    {
+        self::assertSame('http://q:6333', $this->registry(['search_assistant_qdrant_url' => 'http://q:6333'])->getServerUrl());
+        self::assertSame('', $this->registry(
+            ['search_assistant_vector_store_backend' => 'custom'],
+            ['custom' => ['label' => 'Custom', 'service' => 'Custom\\Store']]
+        )->getServerUrl());
+    }
+
     public function testCollectionFallsBackToDefault(): void
     {
         self::assertSame(VectorStoreRegistry::DEFAULT_COLLECTION, $this->registry([])->getCollectionName());
@@ -56,11 +83,30 @@ class VectorStoreRegistryTest extends TestCase
         self::assertArrayHasKey('custom', $registry->getLabels());
     }
 
-    public function testUnknownBackendIsReported(): void
+    /**
+     * A backend another module used to register (e.g. after that module was
+     * deactivated) must not take the dashboard or the chat down.
+     */
+    public function testUnknownBackendFallsBackToTheFirstRegisteredOne(): void
     {
-        $registry = $this->registry(['search_assistant_vector_store_backend' => 'gone']);
+        $registry = $this->registry([
+            'search_assistant_vector_store_backend' => 'gone',
+            'search_assistant_qdrant_collection' => 'c1',
+        ]);
 
         self::assertFalse($registry->isAvailable('gone'));
+        self::assertSame('qdrant', $registry->getBackend());
+        self::assertSame(QdrantService::class, $registry->getServiceName());
+        self::assertSame('Qdrant', $registry->getLabel());
+        self::assertSame('c1', $registry->getCollectionName());
+    }
+
+    public function testNoRegisteredBackendIsReported(): void
+    {
+        $settings = $this->createMock(Settings::class);
+        $settings->method('get')->willReturn('qdrant');
+        $registry = new VectorStoreRegistry([], new SearchAssistantSettings($settings));
+
         $this->expectException(\RuntimeException::class);
         $registry->getServiceName();
     }
