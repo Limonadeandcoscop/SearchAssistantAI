@@ -1346,3 +1346,24 @@ msgstr "Le sessionId ne peut pas dépasser 255 caractères"
 
 msgid "Configuration saved successfully."
 msgstr "Configuration enregistrée."
+
+msgid "Elasticsearch 8.x"
+msgstr "Elasticsearch 8.x"
+
+msgid "Enter API key for Elasticsearch"
+msgstr "Saisissez la clé API Elasticsearch"
+
+msgid "Index name must contain only lowercase alphanumeric characters, hyphens, and underscores"
+msgstr "Le nom de l'index ne doit contenir que des caractères alphanumériques minuscules, des tirets et des underscores"
+
+msgid "Elasticsearch URL is required"
+msgstr "L'URL Elasticsearch est requise"
+
+msgid "Successfully connected to Elasticsearch server"
+msgstr "Connexion au serveur Elasticsearch réussie"
+
+msgid "Failed to connect to Elasticsearch server: "
+msgstr "Échec de la connexion au serveur Elasticsearch : "
+
+msgid "Elasticsearch did not answer with its cluster information (check the URL, API key and SSL settings)"
+msgstr "Elasticsearch n'a pas renvoyé les informations de son cluster (vérifiez l'URL, la clé API et les réglages SSL)"

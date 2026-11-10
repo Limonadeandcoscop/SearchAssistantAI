@@ -994,3 +994,51 @@ msgstr "The sessionId cannot exceed 255 characters"
 
 msgid "Configuration saved successfully."
 msgstr "Configuration saved successfully."
+
+msgid "Elasticsearch"
+msgstr "Elasticsearch"
+
+msgid "Elasticsearch 8.x"
+msgstr "Elasticsearch 8.x"
+
+msgid "Elasticsearch URL"
+msgstr "Elasticsearch URL"
+
+msgid "URL of the Elasticsearch server. Use http://elasticsearch:9200 for Docker deployments or https://localhost:9200 for local development with security enabled."
+msgstr "URL of the Elasticsearch server. Use http://elasticsearch:9200 for Docker deployments or https://localhost:9200 for local development with security enabled."
+
+msgid "Elasticsearch Index Name"
+msgstr "Elasticsearch Index Name"
+
+msgid "Name of the Elasticsearch index for storing embeddings (lowercase, alphanumeric, hyphens, and underscores only)"
+msgstr "Name of the Elasticsearch index for storing embeddings (lowercase, alphanumeric, hyphens, and underscores only)"
+
+msgid "Elasticsearch API Key (Optional)"
+msgstr "Elasticsearch API Key (Optional)"
+
+msgid "API key for Elasticsearch authentication (leave empty if security is disabled)"
+msgstr "API key for Elasticsearch authentication (leave empty if security is disabled)"
+
+msgid "Enter API key for Elasticsearch"
+msgstr "Enter API key for Elasticsearch"
+
+msgid "Verify SSL Certificate"
+msgstr "Verify SSL Certificate"
+
+msgid "Whether to verify SSL certificates for Elasticsearch connections. Disable for Docker deployments with xpack.security.enabled=false or self-signed certificates."
+msgstr "Whether to verify SSL certificates for Elasticsearch connections. Disable for Docker deployments with xpack.security.enabled=false or self-signed certificates."
+
+msgid "Index name must contain only lowercase alphanumeric characters, hyphens, and underscores"
+msgstr "Index name must contain only lowercase alphanumeric characters, hyphens, and underscores"
+
+msgid "Elasticsearch URL is required"
+msgstr "Elasticsearch URL is required"
+
+msgid "Successfully connected to Elasticsearch server"
+msgstr "Successfully connected to Elasticsearch server"
+
+msgid "Failed to connect to Elasticsearch server: "
+msgstr "Failed to connect to Elasticsearch server: "
+
+msgid "Elasticsearch did not answer with its cluster information (check the URL, API key and SSL settings)"
+msgstr "Elasticsearch did not answer with its cluster information (check the URL, API key and SSL settings)"

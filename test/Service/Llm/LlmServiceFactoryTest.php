@@ -77,12 +77,28 @@ class LlmServiceFactoryTest extends TestCase
         ), LlmInterface::class);
     }
 
-    public function testUnknownProviderFailsExplicitly(): void
+    /**
+     * A provider another module used to register (e.g. after that module was
+     * deactivated) resolves to the first registered provider instead of
+     * taking the chat and the admin pages down.
+     */
+    public function testUnknownProviderFallsBackToTheFirstRegisteredOne(): void
+    {
+        $service = (new LlmServiceFactory())($this->container(['search_assistant_llm_provider' => 'nope']), LlmInterface::class);
+
+        self::assertInstanceOf(OllamaService::class, $service);
+    }
+
+    public function testProviderWithoutServiceFailsExplicitly(): void
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('LLM provider "nope" is not available');
 
-        (new LlmServiceFactory())($this->container(['search_assistant_llm_provider' => 'nope']), LlmInterface::class);
+        (new LlmServiceFactory())($this->container(
+            ['search_assistant_llm_provider' => 'nope'],
+            [],
+            ['search_assistant' => ['llm_providers' => ['nope' => ['label' => 'No service']]]]
+        ), LlmInterface::class);
     }
 
     public function testDefaultProviderIsSelfHosted(): void

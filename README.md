@@ -1,21 +1,21 @@
 # Search Assistant AI module for Omeka S
 
 Natural-language search and conversational answers for Omeka S digital
-collections. The module indexes Items, Media and Item Sets into a Qdrant
-vector store, retrieves records by semantic similarity, and has a
-self-hosted LLM (Ollama or any OpenAI-compatible server) write an answer
-that cites them.
+collections. The module indexes Items, Media and Item Sets into a vector
+store (Qdrant or Elasticsearch), retrieves records by semantic
+similarity, and has a self-hosted LLM (Ollama or any OpenAI-compatible
+server) write an answer that cites them.
 
 **Author:** Limonade & Co · **License:** GPL-3.0-or-later
 
-The **Search Assistant AI Pro** add-on module adds Claude, Elasticsearch, a hosted
+The **Search Assistant AI Pro** add-on module adds Claude, a hosted
 gateway, smarter search, editable prompts, stored conversations and
 analytics; see [Search Assistant AI Pro](#search-assistant-ai-pro) below.
 
 ## Features
 
 - **Semantic search.** Every resource is embedded (one vector per
-  resource) and stored in Qdrant. A question such as "documents sur la
+  resource) and stored in Qdrant or Elasticsearch. A question such as "documents sur la
   marine corse du XIXᵉ siècle" finds relevant records even when none of
   those words appear in them.
 - **Answers with citations.** The top records are sent to the LLM, which
@@ -40,7 +40,8 @@ analytics; see [Search Assistant AI Pro](#search-assistant-ai-pro) below.
 - **Omeka S** 3.2 or later (tested on 4.1)
 - **PHP** 7.4 or later
 - **MySQL** 5.7.9+ or MariaDB 10.2.6+
-- **Qdrant** 1.x
+- A vector store: **Qdrant** 1.x or **Elasticsearch** 8.x (dense
+  vectors and kNN search; talked to over its REST API, no client library)
 - An **embeddings service** returning vectors of the configured
   dimension, through either:
   - a native `POST /embed` endpoint taking `{"text": ["..."]}` and
@@ -64,8 +65,9 @@ The dashboard works without an LLM; answers need one.
 
 ### First-time setup
 
-1. **Module configuration** (`/admin/module/configure?id=SearchAssistantAI`): enter
-   the Qdrant URL and collection, the embeddings service URL, format and
+1. **Module configuration** (`/admin/module/configure?id=SearchAssistantAI`): pick
+   the vector store backend and enter its URL and collection or index
+   (plus the API key and SSL verification for Elasticsearch), the embeddings service URL, format and
    vector dimension (1024 for `bge-m3`), then the LLM API format, URL
    (`http://ollama:11434` for an Ollama container on the same Docker
    network) and model name. Save; the dashboard creates the collection.
@@ -80,7 +82,7 @@ The dashboard works without an LLM; answers need one.
 
 | Page | Content |
 |---|---|
-| `/admin/module/configure?id=SearchAssistantAI` | Vector store, embeddings, LLM, verbose logging. |
+| `/admin/module/configure?id=SearchAssistantAI` | Vector store (Qdrant or Elasticsearch), embeddings, LLM, verbose logging. `config/test-qdrant` and `config/test-elasticsearch` are JSON helpers that test a connection. |
 | `/admin/search-assistant/dashboard` | Health checks, index statistics, sync queue, actions. |
 | `/admin/search-assistant/config` (Interface) | Widget on/off, where it shows, position, colour, welcome message. |
 | `/admin/search-assistant/reindex` | Preview, launch, follow and cancel a full reindex. |
@@ -95,7 +97,7 @@ All Search Assistant AI admin pages are restricted to global administrators.
 ChatController
  └─ QueryProcessorService
      ├─ 1. search query      = the question as typed
-     ├─ 2. SemanticSearchService: embeddings + Qdrant search (10 results)
+     ├─ 2. SemanticSearchService: embeddings + vector search (10 results)
      └─ 3. LLM answer
           ├─ system ← config/prompts/search_assistant_instructions_fr.example.txt
           └─ user   ← response_generation system_prompt + question + records
@@ -108,9 +110,8 @@ The prompts are the files shipped under `config/prompts/`.
 Search Assistant AI Pro is a separate module installed next to this one (it requires
 Search Assistant AI 1.0.0 or later). It adds:
 
-- Claude (Anthropic) as LLM, Elasticsearch as vector store, and a hosted
-  gateway connection that needs no local vector store, embeddings
-  service or LLM;
+- Claude (Anthropic) as LLM, and a hosted gateway connection that needs
+  no local vector store, embeddings service or LLM;
 - criteria extraction and contextual re-ranking for better search;
 - editable prompts, stored conversations with a browser, analytics and
   usage tiles on the dashboard;

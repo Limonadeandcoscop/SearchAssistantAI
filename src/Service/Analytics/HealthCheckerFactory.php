@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace SearchAssistantAI\Service\Analytics;
 
+use SearchAssistantAI\Service\Llm\LlmProviders;
 use SearchAssistantAI\Settings\SearchAssistantSettings;
 use Interop\Container\ContainerInterface;
 use Laminas\ServiceManager\Factory\FactoryInterface;
@@ -18,7 +19,7 @@ class HealthCheckerFactory implements FactoryInterface
         $conf = new SearchAssistantSettings($services->get('Omeka\Settings'));
 
         $providers = $services->get('Config')['search_assistant']['llm_providers'] ?? [];
-        $healthService = $providers[$conf->getLlmProvider()]['health'] ?? null;
+        $healthService = $providers[LlmProviders::effective($providers, $conf->getLlmProvider())]['health'] ?? null;
         $llmCheck = $healthService !== null ? $services->get($healthService) : null;
 
         return new HealthChecker(

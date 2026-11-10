@@ -7,7 +7,16 @@ aims to adhere to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
-## [1.0.2] - 2026-11-07
+## [1.1.0] - 2026-11-10
+
+### Added
+- Elasticsearch 8.x as a second vector store backend (`dense_vector`
+  field and kNN search over the REST API, no client library). The Vector
+  Store section offers it next to Qdrant, with URL, index name, API key
+  and SSL verification; `/admin/search-assistant/config/test-elasticsearch`
+  tests a connection. It was previously part of the Pro add-on.
+- The dashboard and the Reindex page show the URL of the configured
+  backend; registry entries name it through `url_setting`.
 
 ### Removed
 - The install step no longer looks for a previous module to import
@@ -15,6 +24,12 @@ aims to adhere to [Semantic Versioning](https://semver.org/).
   creates `search_assistant_sync_queue`.
 
 ### Fixed
+- A stored vector store backend or LLM provider that no active module
+  registers (left by a deactivated add-on module) broke the dashboard
+  with an error page and emptied the Vector Store and LLM Provider
+  sections of the configure page. The shipped backend and provider are
+  used instead, a warning is logged, and the configure page shows and
+  saves them.
 - `language/generate_pot.php` did not parse (unescaped apostrophes in
   three French strings).
 - Stale entries removed from the translation template.
