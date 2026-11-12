@@ -10,7 +10,9 @@ server) write an answer that cites them.
 
 The **Search Assistant AI Pro** add-on module adds Claude, a hosted
 gateway, smarter search, editable prompts, stored conversations and
-analytics; see [Search Assistant AI Pro](#search-assistant-ai-pro) below.
+analytics. It is part of **LimonadIA**, the hosted solution by
+Limonade & Co: <https://limonadia.histolab.fr/>. See
+[Search Assistant AI Pro](#search-assistant-ai-pro) below.
 
 ## Features
 
@@ -108,7 +110,10 @@ The prompts are the files shipped under `config/prompts/`.
 ## Search Assistant AI Pro
 
 Search Assistant AI Pro is a separate module installed next to this one (it requires
-Search Assistant AI 1.1.0 or later). It adds:
+Search Assistant AI 1.1.0 or later). It comes with **LimonadIA**, the
+hosted solution by Limonade & Co: subscribe at
+<https://limonadia.histolab.fr/> to get the module and a hosted gateway,
+so nothing but Omeka S runs on your side. It adds:
 
 - Claude (Anthropic) as LLM, and a hosted gateway connection that needs
   no local vector store, embeddings service or LLM;
