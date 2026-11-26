@@ -83,6 +83,21 @@
         return match ? match[1] : '';
     })();
 
+    /**
+     * Resolve a resource URL against the current site
+     * Indexed URLs are site-agnostic ("/item/12"); public pages live under "/s/:site-slug"
+     *
+     * @param {string} rawUrl - URL from the API results or from a link in the answer
+     * @returns {string} The URL with the site prefix when it is a site-agnostic path
+     */
+    function resolveResourceUrl(rawUrl) {
+        // Only root-relative paths need the prefix (not "//host", "http:", "#anchor", "mailto:")
+        if (rawUrl.charAt(0) !== '/' || rawUrl.charAt(1) === '/' || rawUrl.startsWith('/s/')) {
+            return rawUrl;
+        }
+        return SITE_PREFIX + rawUrl;
+    }
+
     // ==================== Global State ====================
 
     let isSending = false;                       // Flag to prevent duplicate sends
@@ -489,6 +504,11 @@
             // Set content (innerHTML only if sanitized, otherwise textContent is already set)
             if (htmlContent !== null) {
                 messageBubble.innerHTML = htmlContent;
+
+                // Links cited in the answer carry the same site-agnostic URLs as the result links
+                messageBubble.querySelectorAll('a[href]').forEach(function(link) {
+                    link.setAttribute('href', resolveResourceUrl(link.getAttribute('href').trim()));
+                });
             }
         } catch (parseError) {
             Logger.error('Error parsing Markdown or sanitizing content:', parseError);
@@ -1854,7 +1874,7 @@
                 // Create link element with site prefix for proper routing
                 const link = document.createElement('a');
                 const rawUrl = result.url.trim();
-                link.href = rawUrl.startsWith('/s/') ? rawUrl : SITE_PREFIX + rawUrl;
+                link.href = resolveResourceUrl(rawUrl);
                 link.className = 'search-assistant-collection-link';
                 link.textContent = result.title.trim();
                 link.setAttribute('role', 'listitem');
