@@ -7,6 +7,15 @@ aims to adhere to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-11-26
+
+### Fixed
+- Links inside a chat answer pointed outside the site: the LLM cites
+  resources with the site-agnostic URLs stored in the index (`/item/12`)
+  and only the result buttons got the `/s/<site-slug>` prefix. Links
+  rendered from the answer now get it too; absolute URLs, anchors and
+  `/s/` paths are left untouched.
+
 ## [1.1.0] - 2026-11-10
 
 ### Added
